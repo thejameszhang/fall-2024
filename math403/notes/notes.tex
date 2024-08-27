@@ -1,0 +1,169 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength {\marginparwidth}{2cm}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{MATH403: Abstract Algebra}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+\maketitle
+These are my notes for UMD's MATH403: Abstract Algebra. These notes are taken live in class 
+(``live-\TeX``-ed). This course is taught by Professor Qendrim Gashi. The textbook for the class is 
+\textit{Contemporary Abstract Algebra} by Joseph A. Gallian. \textit{$10$th Edition}.
+\tableofcontents
+
+\newpage
+
+\section{Preliminaries}
+
+\begin{definition}[Well-Ordering Principle]
+  If $\emptyset \neq S \subseteq \NN \implies S$ has a smallest element, 
+\end{definition}
+
+\begin{theorem}[Division Algorithm]
+  Suppose $a, b \in \ZZ, \text{ s.t. } a < b \implies \exists! \  q, r \in \ZZ, 0 \leq r < b$ 
+  such that $a = bq + r$.
+
+  \begin{proof}
+
+    \hfill
+
+    Define a set $\{a - bk \ | \ k \in \ZZ, a - bk \geq 0\} \neq \emptyset$. By the Well-Ordering Principle, 
+    it has a smallest element which we will denote by $r$, and $r = a - bq \ \forall \ q \in \ZZ$.
+
+    Assume $r \geq b$. Therefore, 
+    \[0 \leq r - b = a * bq - b = a - b(q+1) \in S\]
+    which is a contradiction since $r$ is the smallest element. If there exists $q!, r!$ of the same 
+    type of $q, r$ then 
+    \[bq + r = bq! + r! \implies b(q - q!) = r! - r\]
+    We can assume that $r! > r$, so $b \ | \ r! - r$, therefore $r! = r!$ and $q! = q!$.
+  \end{proof}
+\end{theorem}
+
+\begin{lemma}[Bezout's Lemma]
+  Let $a, b \in \ZZ \backslash \{0\}$ then $\exists \ s, t \in \ZZ$ such that $GCD(a, b) = as + bt$
+  and $GCD(a, b)$ is the least (positive) integer expressed in such a linear combination.
+
+  \begin{proof}
+    
+    \hfill
+
+    Define the set $S = \{am + bn \ | \ m, n \in \ZZ, am + bn > 0\} \neq \emptyset$. By the 
+    Well-Ordering Principle, let $d = \min S$, which by definition of the set, must have a form 
+    $d = as + bt$ for some $s, t \in \ZZ$. Now we have to prove that $d$ is a divisior of $a, b$ and that 
+    it is the greatest divisior.
+
+    Claim $1$: $d$ is a divisor of $a, b$. By the Division Algorithm, $a = qd + r$ for some $q, r \in \ZZ, 0 \leq r < d$.
+    If $r > 0$, then
+    \[r = a - qd = a - q(as + bt) = a(1-qs) + b(-qt) \in S\]
+    which is a contradiction because $r \in S$ but $r < d$ and $d$ is the smallest element in the set, so $r$ cannot be in the set. 
+    
+    Claim $2$: Any common divisor of $a$ and $b$ divides $d$. Assume $d$ is such a divisor. Therefore, 
+    we write $a = d' h, b = d'k$. Therefore, 
+    \[d = as + bt = s(d'h) + t(d'k) = d'(hs + kt)\]
+    and so we get that $d' \leq d$ and so $d = GCD(a, b)$. 
+
+  \end{proof}
+\end{lemma}
+
+\begin{corollary}
+  If $a, b$ are relatively prime $\Longleftrightarrow \exists \ s, t \in \ZZ \text{ s.t. } as + bt = 1$
+\end{corollary}
+
+\begin{note}
+  Define the GCD operator $GCD(a, b) = (a, b)$ for two integers $a, b \in \ZZ$.
+\end{note}
+
+\begin{example}
+  Let $n \in \NN$ and consider $(n^2 + n + 1, n + 1)$. Note that 
+  \[(n^2 + n + 1) + (n + 1)(-n) = 1 \overset{\text{Corollary}}{\Longrightarrow} (n^2 + n + 1, n + 1) = 1\]
+\end{example}
+
+\begin{theorem}[Fundamental Theorem of Mathematics]
+  Given $a \in \NN, \ \exists! \ p_i$ prime, $ i \in 1, \ldots, b$ and $t_i \in \ZZ$
+  such that 
+  \[a = \prod_{i=1}^b p_i^{t_i}\]
+\end{theorem}
+
+\section{Groups}
+
+\end{document}
+

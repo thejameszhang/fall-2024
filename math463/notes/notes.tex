@@ -1,0 +1,294 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength {\marginparwidth}{2cm}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{MATH463: Complex Variables}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+\maketitle
+These are my notes for UMD's MATH463: Complex Variables. These notes are taken live in class 
+(``live-\TeX``-ed). This course is taught by Professor Antoine Mellet.
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+\begin{definition}[Complex numbers]
+    A \vocab{complex number} takes the form $z = x + iy$ where $x, y \in \RR$ and the $"x"$ is the 
+    real part $= Re(z)$ and the $"y"$ is the imaginary part = $Im(z)$. We denote $\C$ to be the set of 
+    complex numbers.
+\end{definition}
+
+\begin{note}
+  Note that $i^2 = -1$. 
+\end{note}
+
+\begin{note}
+  \[z_1 = z_2 \in \C \Longleftrightarrow \begin{cases}
+    Re(z_1) = Re(z_2) \\ 
+    Im(z_1) = Im(z_2)
+  \end{cases}\]
+\end{note}
+
+\begin{definition}[Pure Imaginary Number]
+  $Im(z) = 0 \implies z$ is real and $Re(z) = 0 \implies z$ is a \vocab{pure imaginary number}.
+\end{definition}
+
+\begin{note}
+  $z = x + iy \in \C \Longleftrightarrow (x, y) \in \RR^2$
+  and we draw this as the \vocab{complex plane}. We call the 
+  x-axis the "real axis" and the y-axis the "imaginary axis."
+\end{note}
+
+\begin{example}
+  Denote the set $S$ to be
+  \[S = \{z \in \C \ | \ Re(z) = 2\} = \{z = 2 + iy \ | \ y \in \RR\}\]
+  which graphically is a vertical line at $x = 2$. 
+\end{example}
+
+\subsection{Algebra}
+
+\begin{definition}[Sum, Product of Complex Numbers]
+  Let $z_1 = x_1 + iy_1, z_2 = x_2 + iy_2 \in \C$ then we can define the sum 
+  \[z_1 \pm z_2 = (x_1 \pm x_2) + i(y_1 \pm y_2)\]
+  \[z_1z_2 = (x_1 + iy_1)(x_2 + iy_2) = x_1x_2 + ix_1y_2 + ix_2y_1 - y_1y_2\]
+  \[\implies z_1z_2 = (x_1x_2 - y_1y_2) + i(y_1x_2 + x_1y_2)\]
+  \[z_1^2 = z_1z_1 = x_1^2 - y_1^2 + 2ix_1y_1\]
+  We can continue to get more powers.
+\end{definition}
+
+\begin{definition}[Inverse]
+  Given $z = x + iy$, we want to find $w = u + iv$ such that $zw = 1$, so $w = \frac{1}{z}$.
+  \[zw = xu - yv + i(xv + yu) = 1 + i0 \implies \begin{cases}
+    xu - yv = 1\\
+    yu + xv = 0
+  \end{cases}\]
+  If you know $x$ and $y$, then this is just a linear system with $2$ unknowns. We can rewrite this as 
+  \[\begin{bmatrix}
+    x & -y \\ y & x
+  \end{bmatrix} \begin{bmatrix}
+    u \\ v
+  \end{bmatrix} = \begin{bmatrix}
+    1 \\ 0
+  \end{bmatrix}\]
+  Therefore, this system has a unique soltion if and only if the determinant of this matrix $= x^2 + y^2 \neq 0 \implies x \neq 0 \ \& y \ \neq 0$. 
+
+  Thus, $z$ has a unique inverse if and only if $z \neq 0 + i0$ and 
+  \begin{align*}
+    u = \frac{x}{x+2 + y^2} & v = -\frac{y}{x^2 + y^2}
+  \end{align*}
+  So, 
+  \[\frac{1}{z} = \frac{x}{x^2 + y^2} - i\frac{y}{x^2 + y^2}\]
+\end{definition}
+
+\begin{definition}[Fraction]
+  Following inverses, fractions naturally follow. For example, $\frac{z_1}{z_2} = z_1 \cdot \frac{1}{z_2}$
+\end{definition}
+
+\begin{definition}[Projection] $(z_1z_2)^{-1} = z_1^{-1}z_2^{-1}$
+\end{definition}
+
+\subsection{Vectors and Modulus}
+
+\begin{definition}[Vector Representations]
+  For example, if $z_1 = 3 - 2i$ then in vector representation this appears as the vector 
+  $\begin{bmatrix}
+    3 & -2
+  \end{bmatrix}' \in \RR^2$
+\end{definition}
+
+\begin{definition}[Modulus]
+  The modulus of $z = x + iy$ is the norm of the vector $\begin{bmatrix}
+    x & y
+  \end{bmatrix}' \implies |z| = \sqrt{x^2 + y^2} \in \RR, |z| \geq 0$
+\end{definition}
+
+\begin{note}
+  $|z| = 0$ if and only if $z = 0 + i0$
+\end{note}
+
+\begin{note}
+  If $y = 0 \implies z = x \implies |x| = \sqrt{x^2} = |x|$. Thus, when $y=0$, the modulus of $z$ is the absolute value of $x$
+\end{note}
+
+\begin{example}
+  $|3-2i| = \sqrt{3^2 + 2^2} = \sqrt{13}$
+\end{example}
+
+\begin{example}
+  $|i| = \sqrt{0^2 + i^2} = 1$
+\end{example}
+
+\begin{remark}
+  Observe that 
+  \[|z| = \sqrt{x^2 + y^2} \geq \sqrt{x^2} = |Re(z)|\]
+  \[|z| = \sqrt{x^2 + y^2} \geq \sqrt{y^2} = |Im(z)|\]
+\end{remark}
+
+\begin{definition}[Distance]
+  The distance between $z_1 = x_1 + iy_1$ and $z_2 = x_2 + iy_2$ is 
+  \[d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2} = |(x_2 - x_1) + i(y_2 - y_1)| = |z_2 - z_1|\]
+\end{definition}
+
+\begin{definition}[Circles]
+  A cricle centered at $z_0 = x_0 + iy_0$ with radius $R$ can be expressed as the set 
+  \[C = \{z \in \C \ | \ |z - z_0| = R\} = \{z \in \C \ | \ (x-x_0)^2 + (y-y_0)^2 = R^2\}\]
+  and so we recover the classical definition of a circle.
+\end{definition}
+
+\begin{example}
+  Define the set $S_1 = \{z \in \C \ | \ |z| = 2\}$ which is a circle of radius $2$ centered at 
+  $z_0 = 0$. Now define $S_2 = \{z \in \C \ | \ |z - (-2+ 3i)| = 2\}$ which is a circle of radius $2$ 
+  centered at $-2 + 3i$.
+\end{example}
+
+\begin{definition}[Disk]
+  Consider $D = \{z \in \C \ | \ |z-1| \leq 3\}$ which is a disk centered at $z_0 = 1, R=3$.
+\end{definition}
+
+\begin{theorem}[Triangle Inequality]
+  Consider two complex numbers $z_1, z_2$ then 
+  \[|z_1 + z_2| \leq |z_1| + |z_2| \ \forall \ z_1, z_2 \in \C\]
+
+  \begin{proof}
+    Proof ommitted.
+  \end{proof}
+\end{theorem}
+
+\begin{corollary}[Consequences of Triangle Inequality]
+  \hfill
+  \begin{itemize}
+    \item $|z_1 + z_2 + \cdots + z_n| \leq |z_1| + |z_2| + \cdots + |z_n|$
+    \item $|z_1 + z_2| \geq \left| |z_1| - |z_2|\right|$
+  \end{itemize}
+
+  \begin{proof}
+    Note that $z_1 = z_1 + z_2 +(-z_2)$ and so 
+    \[|z_1| = |(z_1 + z_2) + (-z_2) \leq |z_1 + z_2| + |-z_2| = |z_1 + z_2| + |z_2|\]a
+    and so we have showed that $|z_1| - |z_2| \leq |z_1 + z_2|$. The absolute value is necessary 
+    in case $|z_2| > |z_1|$, in which case we can perform a similar proof by switching the order of $z_1$ and $z_2$.
+  \end{proof}
+\end{corollary}
+
+\begin{example}
+  Consider the unit circle $\{z \in \C \ | \ |z| = 1\}$ and the point $z_0 = 2$. The smallest this distance can be is $1$, 
+  and the largest is $3$.
+  \[|z - z_0| \leq |z| + |-z_0| = 1 + 2 = 3 \text{ by Triangle Inequality}\]
+  \[|z-z_0| \geq \left| |z| - |z_0| \right| = |1 - 2| = 1 \text{ by Corollary}\]
+\end{example}
+
+\subsection{Conjugate of a Complex Number}
+
+\begin{definition}[Conjugate of a Complex Number]
+    If $z = x + iy$ then the \vocab{conjugate of $z$} is denoted $\bar{z} = x - iy$.
+\end{definition}
+
+\begin{note}[Properties of Conjugates]
+  
+  \hfill
+
+  \begin{itemize}
+    \item $\overline{z_1 + z_2} = \bar{z_1} + \bar{z_2}$
+    \item $\overline{z_1z_2} = \bar{z_1} * \bar{z_2}$
+    \item $\bar{(\frac{1}{z_1})} = \frac{1}{\bar{z_1}}$
+    \item $\overline{\bar{z}} = z$
+  \end{itemize}
+
+\end{note}
+
+\begin{remark}
+  
+  \hfill
+
+  \begin{itemize}
+    \item $z + \overline{z} = x + iy + x - iy = 2x$
+    \item $z - \overline{z} = 2iy$
+    \item $Im(z) = \frac{1}{2i}(z - \bar{z})$
+    \item $z * \bar{z} = (x + iy)(x - iy) = x^2 + y^2 = |z|^2 \geq 0$
+  \end{itemize}
+
+\end{remark}
+
+\end{document}
+
