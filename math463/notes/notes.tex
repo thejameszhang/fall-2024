@@ -92,7 +92,9 @@ These are my notes for UMD's MATH463: Complex Variables. These notes are taken l
 
 \newpage
 
-\section{Introduction}
+\section{Preliminaries}
+
+\subsection{Definition of Complex Numbers}
 
 \begin{definition}[Complex numbers]
     A \vocab{complex number} takes the form $z = x + iy$ where $x, y \in \RR$ and the $"x"$ is the 
@@ -287,8 +289,162 @@ These are my notes for UMD's MATH463: Complex Variables. These notes are taken l
     \item $Im(z) = \frac{1}{2i}(z - \bar{z})$
     \item $z * \bar{z} = (x + iy)(x - iy) = x^2 + y^2 = |z|^2 \geq 0$
   \end{itemize}
-
 \end{remark}
+
+\begin{note}[Applications of the Product of a Complex Number and its Conjugate]
+
+  \hfill
+
+  \begin{enumerate}
+    \item $\frac{z_1}{z_2} = \frac{z_1 \overline{z_2}}{z_2 \overline{z_2}} = \frac{z_1\overline{z_2}}{|z_2|^2}$
+    \item $|z_1 z_2|^2 = z_1z_2 (\overline{z_1z_2}) = z_1z_2\overline{z_1}\overline{z_2} = (z_1\overline{z_1})(z_2 \overline{z_2}) = |z_1|^2 |z_2|^2 \implies |z_1z_2| = |z_1||z_2|$
+    \item $|\frac{z_1}{z_2}| = \frac{|z_1|}{|z_2|}$
+    \item $|z^2| = |z|^2$ and $|z^n| = |z|^n \ \forall \ n = \pm 1, \pm 2, \cdots$
+  \end{enumerate}
+\end{note}
+
+\subsection{Exponential Form of Complex Numbers}
+
+\begin{definition}
+  Complex numbers $z \neq 0$ also have polar coordinates $(r, \theta)$ and the results 
+  $x = r\cos\theta \implies \cos\theta = \frac{x}{r}$, $y = r\sin\theta \implies \sin\theta = \frac{y}{r}$, $r = \sqrt{x^2 + y^2}$ still holds. 
+  Note that $r \RR^+$ and $\theta \in \RR$ and is the angle in radians.
+\end{definition}
+
+\begin{note}
+  Note that $r = \sqrt{x^2 + y^2} = |z|$ is the modulus of $z$. 
+\end{note}
+
+\begin{definition}[Argument of a Complex Number]
+  $\theta$ is called the \vocab{argument of $z$} and is denoted as $\arg(z)$, which is a multivalued function because $\theta$ is not uniquely defined. You can think of it as 
+  the $z$ here being a set. Note that if 
+  $\theta$ is an argument, then $\theta + 2k\pi, k = \pm 1, \pm 2, \cdots$ is also still an argument.
+\end{definition}
+
+\begin{definition}[Principal Argument]
+  $\text{Arg}(z)$ is the \vocab{principal argument}, and it is the only argument of $z$ in the interval $[-\pi, \pi]$.
+\end{definition}
+
+\begin{example}
+  $\text{Arg}(1) = 0$, $\text{Arg}(-1) = \pi$, $\text{Arg}(i) = \frac{\pi}{2}$, $\text{Arg}(-5i) = -\frac{\pi}{2}$
+\end{example}
+
+\begin{example}
+  $\text{Arg}(\sqrt{3} + i) = \frac{\pi}{6}$
+  \begin{proof}[Solution]
+    $z = \sqrt{3} + i$. Note that $r = |z| = \sqrt{\sqrt{3}^2 + 1^2} = 2$. Since $\cos\theta = \frac{x}{r} \implies \cos\theta = \frac{\sqrt{3}}{2} = \frac{\pi}{6}$.
+  \end{proof}
+\end{example}
+
+\begin{definition}[Euler's Formula]
+  \[e^{i\theta} = \cos\theta + i\sin\theta\]
+  If $z$ has modulus $r$, argument $\theta$ then 
+  \begin{align*}
+    z = Re(z) + iIm(z) = r\cos\theta + ir\sin\theta = r(\cos\theta + i\sin\theta) = re^{i\theta}
+  \end{align*}
+\end{definition}
+
+\begin{example} Some cases of the above formula
+
+  \begin{itemize}
+    \item $\sqrt{3} + i = 2e^{i\pi / 6}$
+    \item $1 + i = \sqrt{e^{i\pi / 4}}$
+    \item $3 = 3e^{i0}$
+    \item $-5 = 5e^{i\pi} \implies -1 = e^{i\pi}$
+    \item $i = e^{i \pi / 2}$
+  \end{itemize}
+\end{example}
+
+\begin{example}
+  Given the form of a complex number in this form $z = re^{i\theta}$ we can rewrite it using Euler's Formula.
+  \[z = e^{i\pi / 3} = 3\cos\frac{\pi}{3} + i3\sin\frac{\pi}{3} = \frac{3}{2} + i\frac{3 \cdot \sqrt{3}}{2}\]
+\end{example}
+
+\begin{note}
+  We can define circles using this form $\{re^{i\theta} \ | \ \theta \in \RR\} = \{r^{i\theta} \ | \ \theta \in [0, 2\pi]\}$ and this is just a circle centered at the 
+  origin with radius $r$. 
+\end{note}
+
+\begin{note}
+  For circles not centered at the origin, say $z_0$ with radius $R$, recall that conventionally
+  \begin{align*}
+    |z-z_0| = R \implies z-z_0 = Re^{i\theta} \implies z = z_0 + Re^{i\theta}\\ 
+    c = \{z_0 + Re^{i\theta} \ | \ \theta \in [-\pi, \pi]\}
+  \end{align*}
+\end{note}
+
+\begin{note}[Products in Exponential Form]
+  \begin{align*}
+    e^{i\theta_i} \cdot e^{i\theta_2} = (cos\theta_1 + i\sin\theta_1)(\cos\theta_2 + i\sin\theta_2)\\
+    = (\cos\theta_1 \cos\theta_2 - \sin\theta_1 \sin\theta_2) + i(\cos\theta_1 \sin\theta_2 + \cos\theta_2\sin\theta_1)\\
+     = \cos(\theta_1 + \theta_2) + i\sin(\theta_1 + \theta_2) = e^{i(\theta_1 + \theta_2)}
+  \end{align*}
+\end{note}
+
+\begin{note}
+  If $z_1 = r_1e^{i\theta_1}, z_2 = r_2e^{\theta_2}$ not zero, then 
+  \[z_1z_2 = r_1r_2e^{i(\theta_1 + \theta_2)}\]
+  This shows us the following 
+  \begin{align*}
+    |z_1z_2| = |z_1||z_2| && \arg(z_1z_2) = \arg(z_1) + \arg(z_2)
+  \end{align*}
+  Note that this is lowercase $\arg$, and we present the following counterexample. Let $z_1 = -1, z_2 = i, z_1z_2 = -i$
+  \begin{align*}
+    \text{Arg}(z_1) = \pi && \text{Arg}(z_2) = \frac{\pi}{2} && \text{Arg}(z_1z_2) = -\frac{\pi}{2}
+  \end{align*}
+\end{note}
+
+\begin{example}
+  $(1 + i)^4 = (\sqrt{2}e^{i\pi/4}) = (\sqrt{2})^4 e^{i4\pi / 4} = 4e^{i\pi} = -4$
+\end{example}
+
+\begin{theorem}[De Moivre's Formula]
+  \[(\cos\theta + i\sin\theta)^n = \cos(n\theta) + i\sin(n\theta)\]
+\end{theorem}
+
+\begin{definition}[Inverse of $z$ in Exponential Form]
+  Let $z = re^{i\theta}$ and so $z^{-1} = r^{-1}e^{-i\theta}$. We can verify this because 
+  \[(re^{i\theta})(r^{-1}e^{-i\theta}) = (r \cdot r^{-1})e^{i(\theta - \theta)} = 1\]
+\end{definition}
+
+\begin{example}
+  $(\sqrt{3} + i)^{-1} = \frac{1}{\sqrt{3} + i} = \frac{1}{2e^{i\pi / 6}} = \frac{1}{2}e^{-i\pi / 6}$
+\end{example}
+
+\begin{definition}[Fractions]
+  $\frac{z_1}{z_2} = z_1 \cdot \frac{1}{z_2} \implies \frac{r_1e^{i\theta_1}}{r_2e^{i\theta_2}} = \frac{r_1}{r_2}e^{i(\theta_1 - \theta_2)}$
+  This tells us that 
+  \begin{align*}
+    |\frac{z_1}{z_2}| = \frac{|z_1|}{|z_2|} && \arg(\frac{z_1}{z_2}) = \arg(z_1) - \arg(z_2)
+  \end{align*}
+\end{definition}
+
+\begin{example}
+  Find the $\text{Arg}(\frac{-5}{\sqrt{3} + i}) = \frac{5\pi}{6}$
+
+  \begin{proof}[Solution]
+    Recall that 
+    \[\arg(\frac{-5}{\sqrt{3} + i}) = \arg(-5) - \arg(\sqrt{3} + i) = \pi - \frac{\pi}{6} + 2k\pi = \frac{5\pi}{6} + 2k\pi\]
+    and so the Principal Argument is $\frac{5\pi}{6}$.
+  \end{proof}
+\end{example}
+
+\begin{note}
+  Note that for all $n \in \NN$, 
+  \begin{align*}
+    z^n = r^n e^{in\theta} && z^{-n} = r^{-n}e^{-in\theta}
+  \end{align*}
+  and so therefore 
+  \begin{align*}
+    |z^n| = |z|^n && \arg(z^n) = n\arg(z) + 2k\pi \text{ for } n = \pm 1, \pm 2, \cdots
+  \end{align*}
+\end{note}
+
+\begin{definition}[Conjugate in Exponential Form]
+  Recall that $|z| = |\overline{z}|$ and $\arg(\overline{z}) = -\arg(\overline{z})$ and so therefore if $z = re^{i\theta}$
+  \[\overline{z} = re^{-i\theta}\]
+  and $z^{-1} = r^{-1}e^{-i\theta}$
+\end{definition}
 
 \end{document}
 

@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1724775168 "/Users/jameszhang/Desktop/fall2024/math463/notes/notes.tex" "notes.pdf" "notes" 1724775171 0
-  "/Users/jameszhang/Desktop/fall2024/math463/notes/notes.tex" 1724775168 9311 61c1e728ddb8f53f6f2a49eabbf5decb ""
+["pdflatex"] 1724947842 "/Users/jameszhang/Desktop/fall2024/math463/notes/notes.tex" "notes.pdf" "notes" 1724947845 0
+  "/Users/jameszhang/Desktop/fall2024/math463/notes/notes.tex" 1724947842 15488 540ea0b870fa901e3691f5e712e0ae06 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/tcrm0700.tfm" 1136768653 1536 73da8e8f1d2a4c957d51ca133585586b ""
@@ -42,6 +42,7 @@
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb" 1248133631 32001 6aeea3afe875097b1eb0da29acd61e28 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1248133631 30251 6afa5cb1d0204815a708a080681d4674 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb" 1248133631 36741 fa121aac0049305630cf160b86157ee4 ""
+  "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb" 1248133631 37166 8ab3487cbe3ab49ebce74c29ea2418db ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1248133631 35469 70d41d2b9ea31d5d813066df7c99281c ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
@@ -300,12 +301,12 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1702173918 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1702173909 7883458 829c97168fbe24456a885d8999eb2adf ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "james.sty" 1724267324 18101 de65a1703aa4c3a0572012f797b051a8 ""
-  "notes.aux" 1724775171 7731 39b3c03921158395dc608f62addce262 "pdflatex"
-  "notes.out" 1724775170 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "notes.pre" 1724775169 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "notes.tex" 1724775168 9311 61c1e728ddb8f53f6f2a49eabbf5decb ""
-  "notes.toc" 1724775171 386 31bdb71ec73aa3f9a748db6e029aa192 "pdflatex"
+  "james.sty" 1724778707 18101 de65a1703aa4c3a0572012f797b051a8 ""
+  "notes.aux" 1724947845 13275 32fa4ee6e3e56019f7053b6653e2769f "pdflatex"
+  "notes.out" 1724947844 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "notes.pre" 1724947843 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "notes.tex" 1724947842 15488 540ea0b870fa901e3691f5e712e0ae06 ""
+  "notes.toc" 1724947845 583 8ba200f9b288346d87150423cf9af840 "pdflatex"
   (generated)
   "notes.aux"
   "notes.log"
