@@ -86,7 +86,7 @@
 
 \maketitle
 These are my notes for UMD's MATH403: Abstract Algebra. These notes are taken live in class 
-(``live-\TeX``-ed). This course is taught by Professor Qendrim Gashi. The textbook for the class is 
+(``live-\TeX``-ed). This course is taught by Professor Qendrim Gashi, qgashi@umd.edu. The textbook for the class is 
 \textit{Contemporary Abstract Algebra} by Joseph A. Gallian. \textit{$10$th Edition}.
 \tableofcontents
 
@@ -157,11 +157,101 @@ These are my notes for UMD's MATH403: Abstract Algebra. These notes are taken li
   \[(n^2 + n + 1) + (n + 1)(-n) = 1 \overset{\text{Corollary}}{\Longrightarrow} (n^2 + n + 1, n + 1) = 1\]
 \end{example}
 
-\begin{theorem}[Fundamental Theorem of Mathematics]
-  Given $a \in \NN, \ \exists! \ p_i$ prime, $ i \in 1, \ldots, b$ and $t_i \in \ZZ$
-  such that 
-  \[a = \prod_{i=1}^b p_i^{t_i}\]
+\begin{theorem}[Fundamental Theorem of Arithmetic]
+  Given $n \in \NN, \ \exists! \ p_i$ primes and $t_i \in \NN, i, \ldots, k$ such that 
+  \[n = \prod_{i=1}^k p_i^{t_i}\]
+  where $p_i \neq p_j$ and uniqueness is up to reordering.
+
+  \begin{proof}
+    Base case: for $n = 2$ this is true. Inductive hypothesis: assume this is true for $n \leq m$. 
+    Inductive case: now consider $n = m +1$. If this number is prime, then we are done. If it is not a prime, 
+    then by definition of not prime, then $m + 1 = m_1 \cdot m_n, m_1, m_2 \in \NN$ such that 
+    $1 < m_1, m_2 < m + 1$. By assumption in our inductive hypothesis,
+    \begin{align*}
+      m_1 = \prod_{i=1}^{k_1} p_i^{t_i} && m_2 = \prod_{i=1}^{k_2} (p_i')^{k_i'} \implies m_1m_2 = \left(\prod_{i=1}^{k_1} p_i^{t_i}\right)\left(\prod_{i=1}^{k_2} (p_i')^{k_i'}\right)
+    \end{align*}
+    and thus we have proved existence. To prove uniqueness, we will use Euclid's Lemma
+
+    \begin{lemma}[Euclid's Lemma]
+      If you $p$ prime, $a, b \in \NN$ then $p | (ab) \implies p|a \lor p|b$
+
+      \begin{proof}
+        
+      \end{proof}
+    \end{lemma}
+
+    Suppose there are two expressions where $p_i, q_j$ are prime and distinct 
+    \[n = p_1^{t_1}p_2^{t_2} \cdots p_k^{t_k} = q_1^{s_1}q_2^{s_2}\cdots q_c^{s_c}\]
+    Since $p_1 \ | \ (q_1^{s_1}, \ldots, q_c^{s_c}) \implies \ \exists \ j, p_i \ | \ q_j \implies p_i = q_j$. 
+    By repeating this process, $k=c$, and $p_i$'s are just reordering of $q_j$'s and the 
+    powers agree.
+  \end{proof}
 \end{theorem}
+
+\subsection{Relations}
+
+\begin{definition}[Relation]
+  Suppose $A, B \neq \emptyset$, define $R \subset A \times B$, so $R$ is a \vocab{relation} between
+  $A$ and $B$. If $A = B$, they say $R$ is a relation on $A \implies R \subset A \times A$. 
+\end{definition}
+
+\begin{note}[Functions are Relations]
+  Suppose $f: A \times B$, then $f \subset A \times B = \{(fa, f(a)): a \in A\}$. Similarly, for a $m \times n$ matrix 
+  that is a linear transformation, then $f: [m] \times [n] \to \RR, m = \{1, 2, \ldots, m\}$ and $n = \{1, 2, \ldots, n\}$.
+\end{note}
+
+\begin{definition}[Equivalence Relations]
+  Suppose $R \subset A \times A$ then it must satisfy three properties
+  \begin{enumerate}
+    \item $R$ is reflexive, which means that $(a,a) \in \RR \ \forall \ a \in A$.
+    \item $R$ is symmetric, which means $(a,b) \in \RR \implies (b, a) \in \RR \ \forall \ a, b \in \RR$
+    \item $R$ is transitive, which means $(a, b) \in R \ \land \ (a, c) \in R \implies (a,c) \in R$
+  \end{enumerate}
+\end{definition}
+
+\begin{note}
+  Instead of writing $(a, b) \in R$, let us write $aRb$. 
+\end{note}
+
+\begin{example}
+  Let $R \subset \RR \times \RR$, and so $a=a \ \forall \ a \in \RR$ and $a = b \implies b = a \ \forall \ a, b \in \RR$ and 
+  $(a = b \ \land \ b = c) \implies a = c \ \forall \ a, b \in \RR$ 
+\end{example}
+
+\begin{definition}[Equivalence Class]
+  Let $R \subset A \times A$ be an equivalence relation, then for any $x \in A$ we call 
+  $C_x := \{a \in A \ | \ xRa\}$ 
+\end{definition}
+  
+\begin{note}
+  Note that $x \in C_x$ by reflexivity and so $C_x \neq \emptyset$
+\end{note}
+
+\begin{note}
+  If $x, y \in A$ then $C_x = C_y$ or $C_x \cap C_y = \emptyset$ and this naturally leads to the 
+  ideas of partitions, since $A = \cup_{x \in A} C_x$ where all of the $C_x$'s are disjoint of equal.
+\end{note}
+
+\begin{definition}[Modular Arithmetic]
+  Fix $m \in N$, usually $ m > 1$. Consider residues when dividing any integer by $m = 3$. 
+  \[\begin{pmatrix}
+    6 & 7 & 8\\
+    3 & 4 & 5\\
+    0 & 1 & 2\\
+    -3 & -2 & -1\\
+    \vdots & \vdots & \vdots
+  \end{pmatrix}\]
+  where the columns of this matrix are equivalence classes $C_0, C_1, C_2$. Denote 
+  $\{\overline{0}, \overline{1}, \ldots, \overline{n-1}\} = \{0, 1, \ldots, n-1\}$ where each of these are the equivalence classes corresponding to these 
+  integers. In this way (lol), $1 + 2 = 0$ where addition does not depend on the equivalence class; this just means we don't have 
+  to stay in the same row when performing the addition.
+\end{definition}
+
+\begin{note}
+  Let $[n] = \{1, 2, \ldots, n\}$ and denote by $S_n$ the set of all bijective maps $[n] \to [n]$. If $f, g \in S_n$
+  then $f \circ g \in S_n$, and so $(S_n, \circ)$ is known as the \vocab{permutation group}. This composition of maps is the first algebraic operation that gives way to groups.
+\end{note}
+
 
 \section{Groups}
 
