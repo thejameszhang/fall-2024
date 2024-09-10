@@ -1,0 +1,243 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength {\marginparwidth}{2cm}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{MATH403: Homework 1}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\maketitle
+
+$1.$ Suppose $a$ and $b$ are integers that divide the integer $c$. If $a$ and 
+$b$ are relatively prime, show that $ab$ divides $c$. Show, by example, that if $a$ and 
+$b$ are not relatively prime, then $ab$ need not divide $c$.
+
+\begin{proof}
+  We're given that $(a | c) \land (b | c)$, and that $(a, b) = 1$, where $(\circ, \circ') = GCD(\circ, \circ')$. 
+  By definition of relatively prime and Bezout's Lemma, $\exists \ s, t \in \ZZ$ such that $as + bt = 1$. Multiply both sides 
+  of this equation to get 
+  \[c(as + bt) = c \implies cas + cbt = c\]
+  We want to show that $\exists \ k \in \ZZ$ such that $c = k(ab)$. Since $(a | c) \land (b | c)$, 
+  there exists $m, n \in \ZZ$ such that $c = am$ and $c = bn$. Substituting above $bn$ into the first $c$ 
+  and $am$ into the second $c$, we obtain 
+  \[asbn + btam = c \implies ab(sn + tm) = c\]
+  Let $k = sn + tm$, which must be in $\ZZ$ because $s, n, t, m \in \ZZ$, too. Therefore, 
+  $ab | c$, as desired.
+
+  \hfill
+
+  If $a$ and $b$ are not relatively prime, then $ab$ neeed not divide $c$. As a counterexample, consider 
+  $a = 4$, $b=6$, and $c=12$. $4$ divides $12$ and $6$ divides $12$ but their product, $24$ does not 
+  divide $12$.
+\end{proof}
+
+\newpage
+
+$2.$ Prove that there are infinitely many prime numbers.
+
+\begin{proof}
+  On the contrary, assume there are a finite number of prime numbers, denoted as 
+  $p_1, \ldots, p_k, k \in \NN$. Note that $p_1 = 2$. Importantly, also note that 
+  $p_i > 1 \ \forall \ i$. Now consider the integer 
+  \[x = 1 + \prod_{i=1}^k p_i\]
+  By the division algorithm, 
+  \[x = p_i \left(\prod_{j=1, j \neq i}^k \right) + 1 \ \forall \ i\]
+  and so dividing $x$ by all $p_i$'s yields a remainder of $1$. Therefore, given our finite set of primes and since 
+  all primes do not divide $x$ (and therefore there cannot exist a non-prime number that divides $x$ because all non-prime numbers
+  can be rewritten as a product of primes by the Fundamental Theorem of Arithmetic), and so $x$ itself must be prime, 
+  or by the Fundamental Theorem of Arithmetic, since $x$ must also omit a prime factorization decomposition, we must add a new prime 
+  to our list of primes. In either case, we have found a new prime, and so therefore, there are infinitely many prime numbers,
+  as desired.
+\end{proof}
+
+\newpage
+
+$3.$ If $p$ is a prime and $p$ divides $a_1a_2 \cdots a_n$, where each $a_i$ is an integer, prove that 
+$p$ divides $a_i$ for some $i$. 
+
+
+\begin{proof} 
+  First let us prove Euclid's Lemma, which states that if $p$ is a prime and $p | (ab)$, then 
+  $(p | a) \lor (p | b)$.
+
+  \begin{proof}[Euclid's Lemma]
+    Suppose $p$ is a prime, $p | (ab)$, and without loss of generality, $p$ does not divide $a$. We want to 
+    show that $p | b$. By Bezout's Lemma, $\exists \ x, y \in \ZZ$ such that $px + ay = 1$. Therefore, 
+    multiplying $b$ on both sides, 
+    \[pbx + aby = b\]
+    Note that
+    \begin{align*}
+      p | p \implies p | pbx \implies mp = pbx\\
+      p | ab \implies p | aby \implies np = aby
+    \end{align*}
+    where $m, n \in \ZZ$ and $p | (ab)$ by assumption. Therefore, we have $p(m + n) = b$ where 
+    $m + n \in \ZZ$,
+    and so $p | b$, as desired.
+  \end{proof}
+
+  Equipped with the proof of Euclid's Lemma, we are ready to prove the original problem. Suppose $p$ is prime and $p | a_1a_2\cdots a_n$.
+  Let $b_1 = a_2\cdots a_n$. Therefore, by direct substitution, $p | a_1 b_1$. By Euclid's Lemma, 
+  $(p | a_1) \lor (p | b_1)$. If $p | a_1$, then we are done. Otherwise, $p | b_1$, but $b_1 \neq a_i \ \forall \ i$. However, since 
+  $p | b_1$, this implies that $p | a_2a_3\cdots a_n$. Follow a similar procedure as above. 
+
+  \hfill
+
+  Let $b_2 = a_3a_4 \cdots a_n$. Thus, $p | a_2 b_2$ and so by Euclid's Lemma, $(p | a_2) \lor (p | b_2)$. 
+  If $p | a_2$ then we are done. Continue following this nested, recursive pattern to find the $i$ such that 
+  $p | a_i$. 
+
+
+\end{proof}
+
+\newpage
+
+$4.$ Define a relation in $R$ as follows: 
+\[a \sim b \text{ iff } a - b \in \ZZ\]
+Show that $\sim$ is an equivalence relation and describe its equivalence classes.
+What happens if we replace $\ZZ$ by $\NN \cup \{0\}$ in the definition of our relation?
+
+\begin{proof}
+  Let $R \subset \RR \times \RR$. First, let us show that this relation $\sim$ is an equivalence relation. 
+  For any $a \in \RR$, $a - a = 0 \in \ZZ$, so $a \sim a$ for all $a \in \RR$ and reflexivity 
+  is satisfied. For symmetry, note that if $a \sim b$, then $a - b \in \ZZ$ but also 
+  $b -a = -(a-b) \in \ZZ$ and so $b \sim a$, so symmetry is satisfied. Finally, suppose $a\sim b$
+  such that $a - b = m \in \ZZ$ and $b \sim c = n \in \ZZ$. Since $(a-c) = (a-b) + (b-c) = m + n \in ZZ$ then 
+  $a-c\in \ZZ$ and so $a \sim c$. In this original relation, the equivalence class for a number $a \in \RR$ is 
+  \[[a] = \{x \in \RR \ | \ x \sim a\} = \{x \in \RR \ | \ x - a \in \ZZ\}\] 
+  Here are some example equivalence classes. 
+  
+  $[0] = [\ldots, -1, 0, 1, \ldots]$
+  
+  $[\pi] = [\ldots, -\pi, 0, \pi, \ldots]$
+
+
+  $[1.2] = [\ldots, -2.2, -1.2, -0.2, 0.8, 1.8, 2.8, \ldots]$.
+
+  \hfill
+
+  If we replace $\ZZ$ by $\NN \cup \{0\}$ in the definition of our relation, then reflexivity is still satisfied; however, 
+  symmetry would no longer be satisfied. As a counter example, let $a = 3, b = 2$, then $a \sim b = a - b = 1$. However, 
+  $b - a = -1 \not\in \NN \cup \{0\}$. Therefore, this new $\sim$ is not an equivalence relation.
+\end{proof}
+
+\newpage
+
+$5.$ Suppose $n_1$ and $n_2$ are two natural numbers that are relatively prime. Let 
+$a_1$ and $a_2$ be any two integers. Prove that the system 
+\[\begin{cases}
+  x \equiv a_1(\text{mod} \ n_1)\\
+  x \equiv a_2(\text{mod} \ n_2)
+\end{cases}\]
+has a unique solution in $\ZZ_N$, where $N = n_1n_2$. 
+
+\begin{proof}
+  Let $N = n_1, n_2$ and let
+  \begin{align*}
+    y_1 = \frac{N}{n_1} = n_2 && y_2 = \frac{N}{n_2} = n_1
+  \end{align*}
+  Now let
+  \begin{align*}
+    z_1 = y_1^{-1} (\text{mod } n_1) && z_2 = y_2^{-1} (\text{mod } n_2)
+  \end{align*}
+  Importantly, these exist because $n_1, n_2$ are relatively prime. Note that the inverse $y_i^{-1}$ is a number that when multiplied by $y_1$ gives $1 (\text{mod } n_1)$. 
+  Numerically, $y_i y_i^{-1} \text{ mod } n_i = 1 \implies y_iy_i^{-1} = n_ik + 1, k \in \ZZ$.
+  The integer sum $x = a_1y_1z_1 + a_2y_2z_2$ is a solution to this equation. 
+  \begin{align*}
+    x \equiv (a_1y_1z_1 + a_2y_2z_2) \text{ mod } n_1
+  \end{align*}
+  Note that $y_2 \text{ mod } n_1 = 0$ and so the above is equivalent to
+  \begin{align*}
+    x \equiv (a_1 y_1 z_1) \text{ mod } n_1\\
+    x \equiv a_1 \text{ mod } n_1
+  \end{align*}
+  as desired. The opposite direction is similar to show that $x \equiv a_2 \text{ mod } n_2$. To show that this solution 
+  $x$ is unique in $\ZZ_N$, assume there 
+  were two solutions, $u$ and $v$. By construction, the difference $u - v$ must divide $n_1$ and $n_2$. 
+  Since $u$ and $v$ are relatively prime, $u - v$ must also divide $N = n_1n_2$.
+  \begin{align*}
+    u - v \ | \ n_1n_2\\
+    u \equiv v \text{ mod } N
+  \end{align*}
+  Therefore, the solution to this system is indeed unique in $\ZZ_N$. 
+  
+\end{proof}
+
+\end{document}
+

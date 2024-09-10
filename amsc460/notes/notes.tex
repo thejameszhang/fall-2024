@@ -202,7 +202,7 @@ Some good assessments of the quality of an algorithm are accuracy, efficiency, a
   \[\text{Total error } \leq |e_1| + \cdots + |e_n|\]
 \end{definition}
 
-\section{Binary Representation, Rounding Errors, Truncation Errors}
+\subsection{Binary Representation, Rounding Errors, Truncation Errors}
 
 \begin{remark}
   Math claim: Any real number $x \in \RR$ is accurately representable by an infinite sequence of digits, eg. $x \approx \pm 1$
@@ -222,9 +222,275 @@ Some good assessments of the quality of an algorithm are accuracy, efficiency, a
   and so the error is $\O(\frac{1}{2^{te}}) = \O(\frac{1}{s^t})$
 \end{definition}
 
-\begin{definition}[Rounding]
-  
+\section{Roundoff Errors}
+
+\begin{definition}[Binary Floating Point Representations]
+  Infinite sequence representing $x \in \RR$
+  \[x = \pm C(1.d_1 d_2 d_3 \cdots) \times 2^e\]
+  where $e$ is an integer chosen to make $d_0$ not $0$. The $1.d_1d_2\cdots$ is known as the 
+  \vocab{mantissa}.
+
+  For example: $x = 2^{12} \implies e = 12, x = (1.00\cdots) \times e^{12}$
 \end{definition}
+
+\begin{note}
+  Note that $d_0 = 1$ always in binary representations because we have restrictions that $d_0 \neq 1$, which we will see later.
+\end{note}
+
+\begin{note}[Geometric Understanding]
+  A real number $\implies$ infinite sequence. For binary, if $x \in (1, 1.5)$ then choose 
+  $d_1 = 0$. If $x \in (1.25, 1.5)$, choose $d_1 = 1$. For all $x \in \RR,$ you can always find 
+  $2^e$ such that $\frac{x}{2^e} \in [1, 2]$. 
+
+  For example: $x = 1 + 2^{12} \implies 2^e = 2^{12} \implies \frac{1 + 2^{12}}{2^{12}} \in [1, 2]$ and 
+  $x = 2^{-5} + 2^{-4} \implies 2^e = 2^{-4} \implies \frac{2^{-5} + 2^{-4}}{2^{-4}} \in [1, 2]$
+\end{note}
+
+\begin{note}
+  To get a real number from the infinite sequence, use the equation 
+  \[(1.d_1d_2\cdots) \times 2^e = (1 + \frac{d_1}{2} + \frac{d_2}{4} + \cdots) \times 2^e\]
+\end{note}
+
+\begin{note}
+  A general floating point representation is denoted as 
+  \[fl(x) = \text{sign}(x) \times (1.\hat{d}_1 \hat{d}_2 \cdots) \times 2^e\]
+  where $\hat{d}_i$ is determined by $d_i$. Because of truncation, we have errors and this is called 
+  rounding errors or machine accuracy.
+\end{note}
+
+\subsection{Floating Point Systems}
+
+\begin{definition}
+  A floating point system can be characterized by a 4-tuple $(\beta, t, L, U)$ where 
+  \begin{itemize}
+    \item $\beta$ is the base of the number system 
+    \item $t = $ precision, or the number of digits
+    \item $L$ is the lower bound on the exponent $e$
+    \item $U$ is the upper bound on the exponent $e$ 
+  \end{itemize}
+  This definition leads to a generalization of floating point representations 
+  \[fl(x) = \sign{x} \left( \frac{\overset{\sim}{d}_0}{\beta_0} + \frac{\overset{\sim}{d}_1}{\beta_1} + \cdots\right) \times \beta^e\]
+  where $0 \leq \overset{\sim}{d}_i < \beta - 1$ and $e$ is chosen such that $\overset{\sim}{d}_0 \neq 0$.
+\end{definition}
+
+\begin{definition}[Chopping]
+  Ignore $d_t, \cdots$ yielding $\overset{\sim}{d}_i = d_i$ and 
+  
+  $fl(x) = \pm (d_0.d_1d_2\cdots d_{t-1}) \times \beta^e$
+\end{definition}
+
+\begin{definition}[Rounding]
+  Consult $d_t$ to determine the approximation 
+  \[fl(x) = \begin{cases}
+    \pm (d_0.d_1d_2d_3\cdots d_{t-1}) \times \beta^1 \text{ if } d_t < \frac{\beta}{2}\\
+    \pm (d_0.d_1d_2d_3\cdots d_{t-1} + \beta^{1-t}) \times \beta^e \text{ otherwise }
+  \end{cases}\]
+  Essentially, we consider what we want to keep and discard. Note that the next term would be $\frac{d_t}{\beta_t} \times \beta^e$
+\end{definition}
+
+\begin{example}
+  Consider $x = \frac{8}{3} = 2.66\cdots \in \RR$
+  \[x = (\frac{2}{10^0} + \frac{6}{10^1} + \cdots) \times 10^0\]
+  $\beta = 10, e = 0$ so that $d_0 \neq 0$
+
+  \begin{itemize}
+    \item We can chop this so that $t = 4$ in which case 
+    \[fl(x) = (\frac{2}{10^0} + \frac{6}{10^1} + \frac{2}{10^2} + \frac{6}{10^3}) \times 10^0 = 2.666\]
+    \item Or we can round this so that $t = 4$ in which case since $d_t = 6 > \frac{\beta}{2} = 5$ we have 
+    \[fl(x) = (\frac{2}{10^0} + \frac{6}{10^1} + \frac{2}{10^2} + \frac{6}{10^3} + 10^{1-4}) \times 10^0 = 2.667\]
+  \end{itemize}
+\end{example}
+
+\begin{theorem}[Floating Point Representation Error]
+  Absolute error 
+  \[|x - fl(x)| \leq \begin{cases}
+    \beta^{1-t} \ \cdot \ \beta^1 \text{ for chopping } \\
+    \frac{1}{2}\beta^{1-t} \ \ cdot \ \beta^1 \text{ for rounding }
+  \end{cases}\]
+  and relative error 
+  \[\frac{|x - fl(x)|}{|x|} \leq \begin{cases}
+    \beta^{1-t} \text{ for chopping } \\
+    \frac{1}{2}\beta^{1-t} \text{ for rounding }
+  \end{cases}\]
+\end{theorem}
+
+\subsection{Errors in Computation}
+
+
+\begin{note}
+
+\hfill
+
+\begin{enumerate}
+  \item $x + y$ may have large absolute error if $x >> y$
+  \item If $|y| << 1$, then $\frac{x}{y}$ may have large relative and 
+  absolute error 
+  \item $xy$ is dangerous if $y$ is large
+  \item If $x \approx y$ then $x - y$ has large relative error 
+  \[\text{relative error} = \frac{|v - (x-y)|}{|x-y|}\]
+  due to the denominator being small
+\end{enumerate}
+\end{note}
+
+\begin{definition}[Overflow and underflow]
+  An \vocab{overflow} means a number is too large too fit into the floating point system $\implies e > U$. 
+  an \vocab{underflow} means a number has $e < L$, where $L$ is a large negative number. 
+
+  Example: $L = -14, e = -15, \beta = 10$, $\beta^e = 10^{-15}$ is what you want, but
+  $\beta^L = 10^{-14}$ is the smallest case the computer can compute. So, the computer will round it at zero. 
+\end{definition}
+
+\section{Nonlinear Equations in One Variable}
+
+\begin{definition}[Question 1 in this Section]
+  Given a nonlinear function $f(x)$ and an interval $[a,b]$, find a root 
+  denoted as $x^*$ if it exists on $[a,b] \implies$ find $f(x^*) = 0$. On Matlab, you can use the 
+  \vocab{\textit{fzero}} function
+\end{definition}
+
+\begin{note}
+  Discontinuous functions may not have a root. Similarly, $e^x > 0 \ \forall \ x$, even though this 
+  function is continuous.
+\end{note}
+
+\begin{note}[Intermediate Value Theorem]
+  If $f(u)$ and $f(v)$ change signs, then by the Intermediate Value Theorem, we have least one root on $[a,b]$ if 
+  $f(x)$ is continuous. 
+\end{note}
+
+\begin{definition}[Question 2 in this Section]
+  Do we have a unique root? 
+
+  Example: Linear equations in most cases have one root, whereas nonlinear equations may have multiple roots.
+  If we have multiple roots, how can we design an algorithm to find the desired root?
+\end{definition}
+
+\subsection{Iterative Methods to Find Roots}
+
+\begin{definition}
+  We have a sequential decision-making process to produce
+  \[X_0 \to X_1 \to X_2 \to X_3 \to \cdots \to X_n \cdots\]
+  until we have found a sufficiently good $X_n$. Some things we need to think about. 
+  \begin{itemize}
+    \item How do we initialize $X_0$?
+    
+    Changing signs to find $[a,b]$, if $a=b$ then any point in $[a,b]$ is good?
+    You can also draw the function to get some good $x_0$
+
+    \item How to move from $X_n$ to $X_{n+1}$
+
+      
+    \item When do we stop?
+
+    \begin{enumerate}
+      \item If $|f(X_n)| < \text{ftol}$
+      \item If $|X_n - X_{n-1}| < \text{atol} \approx 0$
+      \item If $X_n - X_{n-1}| < \text{rtol} \approx 0$
+      \item If $n > $ max iterations then quit.
+    \end{enumerate}
+
+  \end{itemize}
+\end{definition}
+
+\begin{note}[Desired Properties of an Algorithm]
+
+  \hfill
+
+  \begin{enumerate}
+    \item Efficiency (small number of iterations, cheap computation per iteration, cheap memory per iteration)
+    \item Robustness
+    \item Minimum requirement of $f(x)$
+    \item Generalizable to other questions
+  \end{enumerate}
+  
+\end{note}
+
+\subsection{Bisection Method}
+
+\begin{definition}[Bisection Method]
+  Suppose $f(x)$ changes sign on an interval $[a,b]$. By the Intermediate Value Theorem, 
+  we know there exists a root $x^* \in [a,b]$. Now evaluate $p = \frac{a+b}{2}$, or the midpoint.
+  and check the sign of $f(a) \cdot f(p)$. If this product is negative, then the root is in $[a, p]$ and so set $b \leftarrow p$. Else, the 
+  root is in $[p, b]$ and so set $a \leftarrow p$. Repeat. 
+\end{definition}
+
+\begin{note}
+  If we repeat this computation, we will have $[a_0, b_0] \supset [a_1, b_1] \supset \cdots \supset [a_n, b_n] \supset \cdots$
+  then 
+  \[\lim_{n\to\infty} a_n = \lim_{n\to\infty} = x^*\]
+  the root of $f(x)$.
+\end{note}
+
+\subsection{Fixed Point Iteration}
+
+\begin{definition}[Fixed Point Iteration]
+  A fixed point denoted as $x^*$ of a function $g(x)$ is the point that satisfies 
+  \begin{align*}
+    g(x^*) = x^*
+  \end{align*}
+  Problem reformulation: Identifying a root of $f(x)$ is reformulated into a problem of identifying a fixed point of $g(x)$
+\end{definition}
+
+\begin{example}
+    Ex 1: $g(x) = x - f(x)$ then $g(x^*) = x^* \implies x^* = x^* - f(x^*) \implies f(x^*) = 0$
+
+    Ex 2: $g(x) = \frac{x - f(x)}{f'(x)} \implies x^* = x^* - \frac{f(x^*)}{f'(x^*)} \implies \frac{f(x^*)}{f'(x^*)} = 0 \implies f(x^*) = 0$
+
+    We want to look at our problem and choose $g$ such that it is easy to find $x^*$ such that $f(x^*) = 0$
+\end{example}
+
+\begin{note}[How do we find a fixed point?]
+  Let's try to obtain a geoemtric understanding of the problem.
+
+  \begin{center}
+    \includegraphics[width=7cm]{geo.png}
+    \includegraphics[width=7cm]{gconstant.png}
+  \end{center}
+
+  Start at an initial guess $x_0$, then evaluate $g(x_0)$ and set up an improved guess 
+  \[x_1 = g(x_0) = c\]
+  then surprisingly $x_1$ is the fixed point $x^*$.
+  \[g(x_1) = g(c) = c = x_1 \implies g(x_1) = x_1\]
+  and therefore $x_1$ is a fixed point. So, in the special case, $g(x)$ is a constant, 
+  the iteration rule $x_{k+1} = g(x_k)$ gives a fixed point after one iteration. 
+\end{note}
+
+\begin{note}
+  Conjecture: we use $x_{k+1} = g(x_k)$ as an updating rule to generate a sequence $\{x_k\}$ for a general 
+  $g(x)$. We have $\underset{k\to\infty}{x_k} \to x^*$ under certain conditions.
+\end{note}
+
+\begin{definition}[Fixed Point Algorithm]
+  Given $f(x)$, select a function $g(x)$ after an appropriate reformulation.
+
+  \begin{enumerate}
+    \item Start from an initial guess $x_0$
+    \item For $k = 0, 1, 2, \cdots$ set $x_{k+1} = g(x_k)$ until $x_{k+1}$ satisfies a termination criteria.
+  \end{enumerate}
+\end{definition}
+
+\begin{note}[Questions for Fixed Point Iteration]
+  Some important things to note about fixed point iteration
+
+  \begin{enumerate}
+    \item Is there a fixed point $x^*$ on $[a,b]$?
+    
+    \begin{proof}
+      The proof for this is very similar to the proof of the existence of a root, it follows 
+      naturally from the Intermediate Value Theorem. 
+    \end{proof}
+    \item If yes, what about convergence?
+    
+    The fixed point is not necessarily unique ie. imagine a curve that oscillates repeatedly around $g(x)$. 
+    So $g'(x)$ is a good property to use to study the fixed point iteration. If $g(x) = c \longleftrightarrow g'(x) = 0$, 
+    $x_1 = g(x_0)$ gives a fixed point $x^* = x_1$ with only one step.
+    
+    \item Does $x_k \to x^*$?
+    \item If yes, how fast does $x_k \to x^*$?
+  \end{enumerate}
+\end{note}
+
+
 
 \end{document}
 

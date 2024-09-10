@@ -1,10 +1,10 @@
 \documentclass[12pt]{scrartcl}
 \usepackage[sexy]{james}
 \usepackage[noend]{algpseudocode}
-\setlength {\marginparwidth}{2cm}
 \usepackage{answers}
 \usepackage{array}
 \usepackage{tikz}
+\setlength {\marginparwidth}{2cm}
 \newenvironment{allintypewriter}{\ttfamily}{\par}
 \usepackage{listings}
 \usepackage{xcolor}
@@ -28,15 +28,6 @@
 \usetikzlibrary{positioning}  %                 ...positioning nodes
 \usetikzlibrary{arrows}       %                 ...customizing arrows
 \newcommand{\eqdef}{=\vcentcolon}
-\newcommand{\tr}{{\rm tr\ }}
-\newcommand{\im}{{\rm Im\ }}
-\newcommand{\spann}{{\rm span\ }}
-\newcommand{\Col}{{\rm Col\ }}
-\newcommand{\Row}{{\rm Row\ }}
-\newcommand{\dint}{\displaystyle\int}
-\newcommand{\dt}{\ {\rm d }t}
-\newcommand{\PP}{\mathbb{P}}
-\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
 \usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
 \newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
 
@@ -55,7 +46,6 @@
 
 % Start of document.
 \newcommand{\sep}{\hspace*{.5em}}
-
 \pgfplotsset{compat=1.18}
 \begin{document}
 \title{MATH403: Abstract Algebra}
@@ -83,177 +73,386 @@
   tabsize=3
 }
 
-
 \maketitle
-These are my notes for UMD's MATH403: Abstract Algebra. These notes are taken live in class 
-(``live-\TeX``-ed). This course is taught by Professor Qendrim Gashi, qgashi@umd.edu. The textbook for the class is 
-\textit{Contemporary Abstract Algebra} by Joseph A. Gallian. \textit{$10$th Edition}.
+These are my notes for UMD's MATH 403: \textit{Abstract Algebra}. They are taken live during class. This course is taught by Dr. Jonathan Rosenberg.
 \tableofcontents
-
 \newpage
 
-\section{Preliminaries}
+\section{August 26, 2024}
+We start today by reviewing the syllabus, what this course covers, the textbook (\textit{Contemporary Abstract Algebra} by Jonathan Gallian).
 
-\begin{definition}[Well-Ordering Principle]
-  If $\emptyset \neq S \subseteq \NN \implies S$ has a smallest element, 
+\subsection{Structures in Abstract Algebra}
+There are two main algebraic objects: \vocab{groups} and \vocab{rings}. Within groups are \vocab{semigroups}; one more axiom gives a \vocab{monoid}, one more on top of that gives \vocab{groups}. We will primarily discuss groups.
+
+\begin{definition}
+    A \vocab{semigroup} is a set $S$ with a multiplication operation $x : S \times S \to S$, or $(x, y) \mapsto x \times y$.
 \end{definition}
 
-\begin{theorem}[Division Algorithm]
-  Suppose $a, b \in \ZZ, \text{ s.t. } a < b \implies \exists! \  q, r \in \ZZ, 0 \leq r < b$ 
-  such that $a = bq + r$.
+\begin{remark}
+    The associative law holds for the semigroup multiplication operator, e.g. $(x \times y) \times z = x \times (y \times z)$. Also, the $xyz$ for the triple product is unambiguous.
+\end{remark}
 
-  \begin{proof}
+\begin{definition}
+    A \vocab{monoid} is a semigroup with a special element $1$ (sometimes denoted by $0$, or $e$) such that for every $x \in S$, $1 \cdot x = x \cdot 1 = x$.
+\end{definition}
 
-    \hfill
+\begin{definition}
+    A \vocab{group} is a monoid with an inversion operator $x \mapsto x^{-1}$ such that for every $x \in S$, $x \cdot x^{-1} = x^{-1} \cdot x = 1$.
+\end{definition}
 
-    Define a set $\{a - bk \ | \ k \in \ZZ, a - bk \geq 0\} \neq \emptyset$. By the Well-Ordering Principle, 
-    it has a smallest element which we will denote by $r$, and $r = a - bq \ \forall \ q \in \ZZ$.
+\begin{remark}
+    The inversion operator in groups makes it possible to do cancellation, so if $x \times y = x \times z$, then $x^{-1}(xy) = x^{-1}(xz)$ leads to $(x^{-1}x)y = (x^{-1}x)z \to y = z$.
+\end{remark}
 
-    Assume $r \geq b$. Therefore, 
-    \[0 \leq r - b = a * bq - b = a - b(q+1) \in S\]
-    which is a contradiction since $r$ is the smallest element. If there exists $q!, r!$ of the same 
-    type of $q, r$ then 
-    \[bq + r = bq! + r! \implies b(q - q!) = r! - r\]
-    We can assume that $r! > r$, so $b \ | \ r! - r$, therefore $r! = r!$ and $q! = q!$.
-  \end{proof}
+Groups arise in practice from \vocab{symmetries}. The usual symbol of the ordinary integers if $\ZZ$. A subset of the integers are the natural numbers $\NN$.
+
+\begin{remark}
+    $\ZZ$ has an \vocab{order}, i.e. for any $a, b \in \ZZ$, one of the following holds:
+        \begin{align*}
+            \begin{cases}
+                a < b \\
+                a > b \\
+                a = b
+            \end{cases}
+        \end{align*}
+    $\ZZ$ also has the \vocab{well-ordering property}: and nonempty subset of $\NN$ has a unique smallest element. This is what makes it possible to do mathematical induction.
+\end{remark}
+
+\begin{definition}
+    A \vocab{ring} is an algebraic system with two associative operations: addition and multiplication.
+\end{definition}
+
+\begin{remark}
+    The distributive law holds for rings, e.g. $a(b+c) = ab + ac$. 
+\end{remark}
+
+\begin{proposition}
+    Suppose $a, b \in \ZZ$ with $b > 0$. Then there is a unique way to divide $a$ by $b$ and get a remainder $r$, e.g. $a = qb + r$, where $ 0 \leq r \leq b-1$.
+\end{proposition}
+
+\begin{definition}
+    We say $a$ \vocab{divides} $b$ if $r = 0$.
+\end{definition}
+
+\section{August 28, 2024}
+Recall last class, where we introduced Proposition 1.9. We will now introduce the \vocab{Division algorithm}:
+
+\begin{theorem}[Division algorithm]
+    If $a, b \in \ZZ$, where $b > 0$, one can write $a = qb + r$, where $q, r$ are unique integers and $0 \leq r < b$. Here, $r$ is called the \vocab{remainder} and $q$ is called the \vocab{quotient}.
 \end{theorem}
 
-\begin{lemma}[Bezout's Lemma]
-  Let $a, b \in \ZZ \backslash \{0\}$ then $\exists \ s, t \in \ZZ$ such that $GCD(a, b) = as + bt$
-  and $GCD(a, b)$ is the least (positive) integer expressed in such a linear combination.
+\begin{definition}
+    We say (for $b \neq 0$) that $b|a$ (said $b$ divides $a$) if $a = qb$ for some $q \in \ZZ$.
+\end{definition}
 
-  \begin{proof}
-    
-    \hfill
+\begin{remark}
+    If $a > 0$, all (positive) divisors of $a$ are $\geq 1$, $\leq a$.
+\end{remark}
 
-    Define the set $S = \{am + bn \ | \ m, n \in \ZZ, am + bn > 0\} \neq \emptyset$. By the 
-    Well-Ordering Principle, let $d = \min S$, which by definition of the set, must have a form 
-    $d = as + bt$ for some $s, t \in \ZZ$. Now we have to prove that $d$ is a divisior of $a, b$ and that 
-    it is the greatest divisior.
+\begin{definition}
+    We say that $a > 0$ is \vocab{prime} if $a \neq 1$ and its only positive divisors are $1$ and $a$.
+\end{definition}
 
-    Claim $1$: $d$ is a divisor of $a, b$. By the Division Algorithm, $a = qd + r$ for some $q, r \in \ZZ, 0 \leq r < d$.
-    If $r > 0$, then
-    \[r = a - qd = a - q(as + bt) = a(1-qs) + b(-qt) \in S\]
-    which is a contradiction because $r \in S$ but $r < d$ and $d$ is the smallest element in the set, so $r$ cannot be in the set. 
-    
-    Claim $2$: Any common divisor of $a$ and $b$ divides $d$. Assume $d$ is such a divisor. Therefore, 
-    we write $a = d' h, b = d'k$. Therefore, 
-    \[d = as + bt = s(d'h) + t(d'k) = d'(hs + kt)\]
-    and so we get that $d' \leq d$ and so $d = GCD(a, b)$. 
+\begin{theorem}
+    Let $a, b \in \ZZ - \{a\}$. Then,
+        \begin{enumerate}
+            \item There exists a unique largest positive number that divides both $a$ and $b$. This is called the \vocab{greatest common divisor} of $a$ and $b$, denoted by gcd($a$, $b$).
 
-  \end{proof}
-\end{lemma}
+            \item gcd$(a, b) = \min\{t = ma + nb > 0 \ | \ m, n \in \ZZ\}$
+
+            \item Any common divisor of $a$ and $b$ divides $\text{gcd}(a, b)$.
+        \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    We will prove each part separately:
+        \begin{enumerate}
+            \item Note that the set of positive common divisors is nonempty (e.g. it contains $1$) but lies in $\{1, 2, \ldots, |a|\}$. So this set is finite and has a maximum, proving the existence of the greatest common divisor.
+
+            \item We will prove 2. and 3. together. Let $S = \{t = ma + nb > 0 \ | \ m, n \in \ZZ\}$; note that $S$ is a subset of $\NN^+$. By the well-ordering principle, $S$ has a unique smallest element $t_0$. By the division algorithm, $a = qb + r$ with $0 \leq r < t_0$. Since $t_0 = ma + nb$ for some $m, n$, we see that $r = a-qt_0 = a-qma-qnb = (1-qm)a + (-qn)b$. Thus, either $r = 0$ or else $r \in S$; since $r < t_0$, we have $r \notin S$. By the same argument, $t_0 | b$, so $t_0$ is a common divisor of $a$ and $b$. Let $d$ be any common divisor of $a, b$. So, $a = du$, $b = dv$ for some $u, v \in \ZZ$. But $t_0 = ma + nb$ for some $m, n$, so $t_0 = mdu + ndr = d(mu + nv)$ is a multiple of $d$, i.e. $d|t_0$. So if $ d \leq t_0$, we have $t_0 = \text{gcd}(a, d)$ and any common divisor of $a, b$ divides $\text{gcd}(a, b)$, as desired.
+        \end{enumerate}
+\end{proof}
 
 \begin{corollary}
-  If $a, b$ are relatively prime $\Longleftrightarrow \exists \ s, t \in \ZZ \text{ s.t. } as + bt = 1$
+    If $a, b$ have no common divisors except $\pm 1$, then $1 = ma + nb$ for some $m, n \in \ZZ$.
 \end{corollary}
 
-\begin{note}
-  Define the GCD operator $GCD(a, b) = (a, b)$ for two integers $a, b \in \ZZ$.
-\end{note}
+There is an algorithm for finding teh $m, n$, called the \vocab{Euclidean algorithm}. We present an example below:
 
 \begin{example}
-  Let $n \in \NN$ and consider $(n^2 + n + 1, n + 1)$. Note that 
-  \[(n^2 + n + 1) + (n + 1)(-n) = 1 \overset{\text{Corollary}}{\Longrightarrow} (n^2 + n + 1, n + 1) = 1\]
+    Find $m$, $n$ for $a = 13$ $b = 54$.
 \end{example}
+\begin{soln}
+    By the division algorithm, we have the following:
+            \begin{align*}
+                54 &= 4 \cdot 13 + 2 \\
+                13 &= 6 \cdot 2 + 1 \\
+            \end{align*}
+        Working backwards, we obtain the following:
+            \begin{align*}
+                1 &= 13 - 6 \cdot 2 \\
+                  &= 13 - 6 \cdot (54 - 4 \cdot 13) \\
+                  &= 25 \cdot 13 - 6 \cdot 54
+            \end{align*}
+        Thus, $m = 25$, $n = -6$.
+\end{soln}
 
-\begin{theorem}[Fundamental Theorem of Arithmetic]
-  Given $n \in \NN, \ \exists! \ p_i$ primes and $t_i \in \NN, i, \ldots, k$ such that 
-  \[n = \prod_{i=1}^k p_i^{t_i}\]
-  where $p_i \neq p_j$ and uniqueness is up to reordering.
-
-  \begin{proof}
-    Base case: for $n = 2$ this is true. Inductive hypothesis: assume this is true for $n \leq m$. 
-    Inductive case: now consider $n = m +1$. If this number is prime, then we are done. If it is not a prime, 
-    then by definition of not prime, then $m + 1 = m_1 \cdot m_n, m_1, m_2 \in \NN$ such that 
-    $1 < m_1, m_2 < m + 1$. By assumption in our inductive hypothesis,
-    \begin{align*}
-      m_1 = \prod_{i=1}^{k_1} p_i^{t_i} && m_2 = \prod_{i=1}^{k_2} (p_i')^{k_i'} \implies m_1m_2 = \left(\prod_{i=1}^{k_1} p_i^{t_i}\right)\left(\prod_{i=1}^{k_2} (p_i')^{k_i'}\right)
-    \end{align*}
-    and thus we have proved existence. To prove uniqueness, we will use Euclid's Lemma
-
-    \begin{lemma}[Euclid's Lemma]
-      If you $p$ prime, $a, b \in \NN$ then $p | (ab) \implies p|a \lor p|b$
-
-      \begin{proof}
-        
-      \end{proof}
-    \end{lemma}
-
-    Suppose there are two expressions where $p_i, q_j$ are prime and distinct 
-    \[n = p_1^{t_1}p_2^{t_2} \cdots p_k^{t_k} = q_1^{s_1}q_2^{s_2}\cdots q_c^{s_c}\]
-    Since $p_1 \ | \ (q_1^{s_1}, \ldots, q_c^{s_c}) \implies \ \exists \ j, p_i \ | \ q_j \implies p_i = q_j$. 
-    By repeating this process, $k=c$, and $p_i$'s are just reordering of $q_j$'s and the 
-    powers agree.
-  \end{proof}
+\begin{theorem}
+    If $p$ is prime and $p|ab$, then $p|a$ or $p|b$ or both.
 \end{theorem}
 
-\subsection{Relations}
+\begin{proof}
+    If $p|a$, we're done. Assume $p \nmid a$. Let $t = \text{gcd}(p, b)$. Since $p$ is prime, $t = 1$ or $p$. If it's $p$, we're done. But if $t = 1 = mp + nb$, then $a = mpa + nba$. But $p|ab$, so $p$ divides both terms on the right, and thus $p|a$, as desired.
+\end{proof}
 
-\begin{definition}[Relation]
-  Suppose $A, B \neq \emptyset$, define $R \subset A \times B$, so $R$ is a \vocab{relation} between
-  $A$ and $B$. If $A = B$, they say $R$ is a relation on $A \implies R \subset A \times A$. 
+\begin{theorem}[Fundamental Theorem of Arithmetic]
+    Any positive integer can be written as a product of primes. The decomposition is unique except for the order of the factors.
+\end{theorem}
+
+\begin{proof}
+    Let $a > 0$. The set of positive divisors of $a$ is either $\{1\}$, in which case $a = 1$, or else $S = \{d > 1 \ | \| d|a\}$ is nonempty. In this case, $S$ has a minimum by the well-ordering principle. This must be a prime; factor it and repeat, which gives a factorization into primes. To prove uniqueness, suppose $p_1 \cdots p_r = q_1 \cdots q_s$ with $p_j$, $q_k$ primes (repetitions allowed). So $p_1|q_1 \cdots q_s$, so by the a previous theorem, $p_1$ divides some $q_k$, hence $p_1 = q_k$. After re-indexing, we obtain $p_1 \cdots p_r = p_1q_1 \cdots q_s$. Cancel $p_1$ and repeat, finishing the proof.
+\end{proof}
+
+\begin{remark}
+    The convention we will use is that the produce of the empty set of primes is $1$. A slogan we will use if $\ZZ$ is a \vocab{unique factorization domain}.
+\end{remark}
+
+\section{August 30, 2024}
+Today, we will start discussing \vocab{sets}.
+
+\subsection{Sets}
+A set $S$ has objects $x$; we write $x$ is an element of $S$ as $x \in S$> A subset $A \subset S$ is a subcollection of $S$. Any set $S$ has a \vocab{cardinality} (``size"), often denoted by $|S|$. A finite set $S$ has cardinality in $\NN = \{0, 1, 2, 3, \ldots\}$. An infinite set can be characterized by a number of properties to follow.
+
+\begin{remark}
+    Not all integer sets have the same cardinality, but omost in this course will have cardinality $\mathcal{X}_0 = |\ZZ| = |\NN|$.
+\end{remark}
+
+\begin{remark}
+    Another way of denoting cardinality of a set is as follows: if $\mathcal{X}_0$ is a set, 
+\end{remark}
+
+\begin{fact}
+    Saying a set is infinite is the same way of saying that it has the same cardinality as some proper subset.
+\end{fact}
+
+\begin{definition}
+    A proper subset $A$ of a set $S$ is such that $A \subset S$ and $A \neq S$.
 \end{definition}
 
-\begin{note}[Functions are Relations]
-  Suppose $f: A \times B$, then $f \subset A \times B = \{(fa, f(a)): a \in A\}$. Similarly, for a $m \times n$ matrix 
-  that is a linear transformation, then $f: [m] \times [n] \to \RR, m = \{1, 2, \ldots, m\}$ and $n = \{1, 2, \ldots, n\}$.
-\end{note}
-
-\begin{definition}[Equivalence Relations]
-  Suppose $R \subset A \times A$ then it must satisfy three properties
-  \begin{enumerate}
-    \item $R$ is reflexive, which means that $(a,a) \in \RR \ \forall \ a \in A$.
-    \item $R$ is symmetric, which means $(a,b) \in \RR \implies (b, a) \in \RR \ \forall \ a, b \in \RR$
-    \item $R$ is transitive, which means $(a, b) \in R \ \land \ (a, c) \in R \implies (a,c) \in R$
-  \end{enumerate}
+\begin{definition}
+    A function has a \vocab{graph} which is a subset of $X \times Y$. Note that not every subset of $X \times Y$ is the graph of a function.
 \end{definition}
 
-\begin{note}
-  Instead of writing $(a, b) \in R$, let us write $aRb$. 
-\end{note}
+\begin{definition}
+    If $S \subseteq X \times Y = \{(x, y) : x \in X, y \in Y\}$, $S$ is the graph of a function $X \to Y$. This is the same as saying for every $x \in X$ there is a unique $y \in Y$ with $(x, y) \in s$
+\end{definition}
+
+\begin{definition}
+    Given a function $f : X \to Y$, $X$ is called the \vocab{domain} of the function and $Y$ is called the \vocab{codomain} of the function. The \vocab{range} of $f$ is the set of all $\{f(x) : x \in X\} \subseteq Y$.
+\end{definition}
+
+\begin{definition}
+    A function is called \vocab{one-to-one} or \vocab{injective} if whenever $x_1 \neq x_2$, $f(x_1) \neq f(x_2) \in Y$. A function is called \vocab{onto} or \vocab{surjective} if for every $y \in Y$, there is \textit{some} $x \in X$ with $f(x) = y$. A function is called \vocab{bijective} if it is both injective and surjective. This is equivalent to $f$ being invertible, i.e. to there existing $g : Y \to X$ such that $g \circ f = \text{id}_X$ and $f \circ g = \text{id}_Y$, where $g \circ f = g(f(x))$.
+\end{definition}
+
+\begin{remark}
+    Cantor defined cardinality by saying that $|S_1| = |S_2|$ if there is a bijective function $f : S_1 \to S_2$. He also defined a set $S$ to be \vocab{infinite} if there is an injective function $f : S \to S$ which is not surjective.
+\end{remark}
+
+We now present an example of the above.
 
 \begin{example}
-  Let $R \subset \RR \times \RR$, and so $a=a \ \forall \ a \in \RR$ and $a = b \implies b = a \ \forall \ a, b \in \RR$ and 
-  $(a = b \ \land \ b = c) \implies a = c \ \forall \ a, b \in \RR$ 
+    Consider $S = \NN = \{0, 1, 2, \ldots\}$. Take $f(x) = x+1$; this has range $\{1, 2, 3, \ldots\} \not\subset \NN$.
 \end{example}
 
-\begin{definition}[Equivalence Class]
-  Let $R \subset A \times A$ be an equivalence relation, then for any $x \in A$ we call 
-  $C_x := \{a \in A \ | \ xRa\}$ 
+For finite sets, the situation is different. On a  finite set $S$, every injective function $S \to S$ is surjective.
+
+\begin{fact}
+    If $S$ is finite and $f : S \to S$ is surjective, then $f$ is injective. Cantor also defined $|S_1| \leq |S_2|$ if there is an injective function $S_1 \to S_2$. 
+\end{fact}
+
+A non-obvious fact is that the above is equivalent to the existence of a surjective function $S_2 \to S_1$.
+
+\begin{theorem}[Pigeonhole Principle]
+    Suppose $S_1$ and $S_2$ are finite sets with $|S_1| < |S_2|$. Then for any function $f: S_2 \to S_1$, there exists $x \in S_1$ with $|\{y \in S_2 : f(y) = x\}| \geq 2|$, where $\{y \in S_2 : f(y) = x\} = f^{-1}(x)$. This is called the \vocab{Pigeonhole Principle}.
+\end{theorem}
+
+\subsection{Equivalence relations}
+
+Often we will have a set $S$ and want to \vocab{partition} it into pieces. A partition is a family of disjoint subsets of $S$ whose union is all of $S$. A partition is equivalent to defining $R \subset S \times S$ (where $R$ is the \vocab{relation}) with the following properties:
+    \begin{enumerate}
+        \item $\forall x \in S, (x, x) \in \RR$
+        \item $\forall x, y \in S, (x, y) \in \RR \iff (y, x) \in \RR$
+        \item $\forall x, y, z \in S$, $(x, y) \in \RR$ and $(y, z) \in \RR \implies (x, z) \in \RR$
+    \end{enumerate}
+
+The above three properties are called the \vocab{reflexive}, \vocab{symmetric}, and \vocab{transitive} properties; the relationship is called an \vocab{equivalence relation}. We will continue with an example of an equivalence relation next lecture.
+
+\section{September 4, 2024}
+
+\begin{example}
+    Fix $n > 0$ in $\NN$ and let $X = \ZZ$. Say that $x \sim y$ if $x-y$ is divisible by $n$ (this is often written as $x \equiv y \pmod n$). This is an equivalence relation since
+        \begin{enumerate}
+            \item $n|(x-x=0) \ \forall x$
+            \item If $n|(x-y)$, then $n|(y-x)$
+            \item If $n|(x-y)$ and $n|(y-z)$, then $x-z = (x-y) + (y-z)$, which is divisible by $n$
+        \end{enumerate}
+\end{example}
+
+The equivalence classes are denoted $\ZZ / n$. These equivalence classes can be labeled by $0, 1, \ldots, n-1$ because of the division algorithm: $\forall x \in \ZZ$, $x = nq + r$ with $ \in \{0, 1, \ldots, n-1\}$ and this decomposition is unique.
+
+\begin{fact}
+    The usual operations $+$, $\times$ on $\ZZ$ pass to equivalence classes, i.e. if $x \sim x'$, $y \sim y'$, $z \sim z'$, $x+y \sim x' + y'$, $x \times y \sim x' \times y'$. Why? Note that
+        \begin{align*}
+            x \times y - x' \times y' &= x \times y - x \times y' + x \times y' - x' \times y' \\
+            &= x \times (y-y') + (x-x') \cdot y'
+        \end{align*}
+    As $y-y'$ and $x-x'$ are both multiples, of $n$, we have that $x \times (y-y') + (x-x') \cdot y'$ is also a multiple of $n$.
+\end{fact}
+
+So $\ZZ / n$ with addition is a group, denoted by Gallian as $Z_n$ (Rosenberg prefers $\ZZ_n$). Note that $(\ZZ / n, x)$ is not a group, since $0$ has no multiplicative inverse. But the invertible elements of $\ZZ / n$ form a group $(\ZZ / n)^x$, which Gallian denotes $U(n)$. \\
+
+An equivalence relation $R$ on a set $X$ defines a partition of $X$ into \vocab{equivalence classes} $\{x \in X : xRy\}$ for some fixed $y$. \\
+
+The operations $+, \times$ on $\ZZ / n$ define \vocab{modular arithmetic} $\pmod n$. These satisfy all the usual rules of arithmetic (commutative, associate, distributive).
+
+\begin{example}
+    Prove that if $n$ is a positive integer, $n^3 + (n+1)^3 + (n+2)^3$ is a multiple of $9$.
+\end{example}
+
+\begin{proof}
+    We work $\pmod 9$. Note that this repeats in cycles of $3$, e.g. for $n \equiv \{0, 1, 2, 3, \ldots\} \pmod 9$, $n^3 \equiv \{0, 1, -1, 0, \ldots\} \pmod 9$. In all cases, the sum of $3$ consecutive numbers is $0$.
+\end{proof}
+
+\begin{example}[Symmetries of a polygon in $\RR^2$]
+    Consider a regular polygon in $\RR^2 = \CC$ with $n$ sides. If you don't like complex numbers, take the polygon $P$ with vertices $\left(\cos \frac{2\pi k}{n}, \sin\frac{2\pi k}{n}\right)$, where $k = 0, 1, \ldots, n-1$. What are the \vocab{symmetries} of $P$? A \vocab{symmetry} means a distance-preserving map $\RR^2 \to \RR^2$ sending $P$ to itself. The set of such is called $D_n$.
+\end{example}
+
+\begin{fact}
+    Each element of $D_N$ is a rotation $R_{\theta}$ by an angle $\theta$ (a multiple of $\frac{2\pi}{n}$) or a \vocab{reflection} across an axis. The set of rotations is $\left\{R_0 = I, R_{\frac{2\pi}{n}}, R_{\frac{4\pi}{n}}, \ldots, R_{\frac{(n-1)\pi}{n}}\right\}$. There are exactly $n$ of these.
+\end{fact}
+
+How many reflections are there in $D_n$? $n$. If $N$ is even we have the axes passing through $2$ opposite vertices and axes passing midway through a pair of opposite sides. If $n$ is odd, each reflection must have a fixed point. Again have $n$ axes of reflection and $N$ reflection operations. So $|D_n| = n + n = 2n$.
+
+\section{September 6, 2024}
+We start by going over an example of a group from last lecture.
+
+\begin{example}
+    Suppose we have a $P$ regular polynomial with $n$ sides $\{0, 1, \ldots, n-1\}$. The \vocab{dihedral group} $D_N$ preserves distances. So if two vertices are adjacent, they stay adjacent.
+\end{example}
+
+
+\subsection{Semigroups}
+\begin{definition}
+    A \vocab{semigroup} $S$ is a set with a multiplication operation $m : S \times S \to S$ satisfying the associative rule $m(m(a, b), c) = m(a, m(b, c))$. Usually we suppress the $M$ and just write $(ab)c = a(bc)$.
 \end{definition}
-  
-\begin{note}
-  Note that $x \in C_x$ by reflexivity and so $C_x \neq \emptyset$
-\end{note}
 
-\begin{note}
-  If $x, y \in A$ then $C_x = C_y$ or $C_x \cap C_y = \emptyset$ and this naturally leads to the 
-  ideas of partitions, since $A = \cup_{x \in A} C_x$ where all of the $C_x$'s are disjoint of equal.
-\end{note}
+Semigroups have very few good properties: usually cancellation fails, i.e. $ab = ab \not\to b = c$ and $ba = bc \not \to b = c$. If you fix an element $e$, $m(a, b) = e$ for all $a, b$ satisfies the associative rule.
 
-\begin{definition}[Modular Arithmetic]
-  Fix $m \in N$, usually $ m > 1$. Consider residues when dividing any integer by $m = 3$. 
-  \[\begin{pmatrix}
-    6 & 7 & 8\\
-    3 & 4 & 5\\
-    0 & 1 & 2\\
-    -3 & -2 & -1\\
-    \vdots & \vdots & \vdots
-  \end{pmatrix}\]
-  where the columns of this matrix are equivalence classes $C_0, C_1, C_2$. Denote 
-  $\{\overline{0}, \overline{1}, \ldots, \overline{n-1}\} = \{0, 1, \ldots, n-1\}$ where each of these are the equivalence classes corresponding to these 
-  integers. In this way (lol), $1 + 2 = 0$ where addition does not depend on the equivalence class; this just means we don't have 
-  to stay in the same row when performing the addition.
+\subsection{Monoids}
+
+\begin{definition}
+    Better than semigroups is what is called a \vocab{semigroup with identity} or a \vocab{monoid}. We add the axiom that there is an element $e$ such that $ae = ea = a$ for all $a \in S$.
 \end{definition}
 
-\begin{note}
-  Let $[n] = \{1, 2, \ldots, n\}$ and denote by $S_n$ the set of all bijective maps $[n] \to [n]$. If $f, g \in S_n$
-  then $f \circ g \in S_n$, and so $(S_n, \circ)$ is known as the \vocab{permutation group}. This composition of maps is the first algebraic operation that gives way to groups.
-\end{note}
+\begin{remark}
+    $e$ above is unique with this property, since if $e'$ has the same property then $e=e'e = e'$.
+\end{remark} 
 
+\begin{example}
+    Examples of monoids are the following:
+        \begin{enumerate}
+            \item $\NN$: the natural numbers with addition $+$, where the special identity element is $0$: $0 + n = n + 0 = n$
 
-\section{Groups}
+            \item $(\ZZ / n, \times)$; the identity element is $1$
+        \end{enumerate}
+\end{example}
+
+Now, we will start discussing groups, which we will stay on for half of the semester.
+
+\subsection{Groups}
+\begin{definition}
+    A \vocab{group} $G$ is a monoid with one more operation, $i : G \to T$ written $i(x) = x^{-1}$ with the property that for any $x \in G$, $x \cdot x^{-1} = x^{-1} \cdot x$.
+\end{definition}
+
+In fact, it's enough to just require one-sided inverses $l : G \to G$ and $r : G \to G$ with $l(x)x = e$ and $xr(x) = e$. The reason is that
+    \begin{align*}
+        er(x) = (l(x)x)r(x) = l(x)(xr(x)) = l(x)e
+    \end{align*}
+
+We now present examples of groups with inversion:
+
+\begin{example}
+    The below are examples of groups with inversion:
+    \begin{enumerate}
+        \item $(\ZZ / n, +)$. The identity element is $0$. Inversion sends $x$ to $-x$. If you identify $\ZZ / n $ with $\{0, 1, \ldots, n-1\}$, addition and inversion have to be computed $\pmod n$. For example for $n = 4$, we have $3 + 3 = 6 \equiv 2 \pmod 4$; thus, the ``states" of $i$ are as follows: $0$ always returns to $2$, $1$ and $3$ communicate, and $2$ always remains at $2$.
+
+        \item $((\ZZ / n)^x, x)$. The identity element is $1$. This group sits inside the monoid $(\ZZ(m, x))$. What equivalence classes lie in $(\ZZ / n)^x$? They are the equivalence classes of integers $x$ such that $\exists y, u$ with $yx = 1 + un$. This equation is equivalent to $yx-um = 1$, which is equivalent to saying $\text{gcd}(x, n) = 1$> If $n=p$ is prime, $(\ZZ / p)^x = \{1, 2, \ldots, p-1\}$.
+    \end{enumerate}
+\end{example}
+
+You can compute inverses in $(\ZZ / n)^x$ by using Euclid's algorithm:
+
+\begin{example}
+    Consider $n = 13$, which is prime. What is the inverse of $6 \pmod {13}$? You need to solve for $y$ so that $by = 1 + 13u$. But $6 \cdot 2 = 12 = 13 - 1$, so $6 \cdot -2 = -12 = 1 - 13$. But $\pmod {13}$, $-2 = 13 - 2 = 11$, so $11$ is the multiplicative inverse of $6 \pmod {13}$.
+\end{example}
+
+\begin{definition}
+    The \vocab{order} of a group $G$, denoted by $|G|$, is just its cardinality or number of elements.
+\end{definition}
+
+\begin{example}
+    The below are examples of the order of a group:
+    \begin{itemize}
+        \item $|(\ZZ \ n, +)| = n$
+        \item $|(\ZZ / n)^x, x)|$ is equal to the number of integers in $\{1, \ldots, n-1\}$ which have gcd $1$ with $n = \phi(n)$ (which is Euler's phi function). For $n$ prime, recall that $\phi(n) = n-1$.
+    \end{itemize}
+\end{example}
+
+If $n = 8$, $(\ZZ / 8)^x = \{1, 3, 5, 7\}$ so $|(\ZZ / 8)^x| = 4$. IF $n = 12$, $(\ZZ / 12)^x = \{1, 5, 7, 11\}$, so $|(\ZZ / x)^x| = 4$. Some more examples of computing the order of a group are below:
+
+\begin{example}
+    The below are more examples of computing the order of a group:
+    \begin{itemize}
+        \item Consider the group $D_n$, where the operation is composition of symmetries. $|D_n| = 2n$.
+
+        \item GL($2$, $\ZZ / p$) is the group of invertible $2 \times 2$ matrices with entries in $\ZZ / o$. The group operation is matrix multiplication; inversion is in the sense of matrices, e.g. 
+        $\begin{pmatrix}
+            a & b \\
+            c & d
+        \end{pmatrix} \in \text{GL}(2, \ZZ / p) \iff ad - bc != 0 \pmod p$. This is because the inverse of the matrix can be computed via 
+        
+        $\frac{1}{ad-bc} 
+        \begin{pmatrix}
+            d & -b \\
+            -c & a
+        \end{pmatrix}$ This is a noncommutative group. To find its order, note that $|\text{GL}(2, \ZZ / p)| = (p^2-1)(p^2-p) = p(p^2-1)(p-1)$. If $p = 2$, this is equal to $6$  
+    \end{itemize}
+\end{example}
+
+\section{September 9, 2024}
+Recall last class, where we started discussing groups and some examples of groups.
+
+\begin{remark}
+    In any group, inverses are unique. In fact, any one-sided inverse is automatically the two-sided inverse, i.e. if $xy=e$, then $yx = e$ comes for free. The reason for this is as follows: if $xy = e$, we can multiply by $y$ on the left, giving $(yx)y = y$, implying $yx$ must be the identity.
+\end{remark}
+
+\begin{remark}
+    The group $\text{GL}(2, \ZZ / 2)$ has the same multiplication table as $D_3$. A multiplication table is a table that describes the structure of a (finite) group by arranging all the possible products of the group's elements (Wikipedia).
+\end{remark}
+
+\begin{definition}
+    If $G$ is a group and $H \subseteq G$, $H$ is called a \vocab{subgroup} of $G$ if $H$ together with the group operations of $G$, is itself a group. This means $e \in H$ and $ab \in H$ for and $a, b, \in H$, and $a^{-1} \in H$ for all $a \in H$.
+\end{definition}
+
+\begin{remark}
+    If $G$ is a group and $a \in G$, we can form $\left<a\right> = \{e, a, a^2, \ldots, a^{-1}, (a^{-1})^2 = a^{-2}, \ldots\}$. This is the smallest subgroup of $G$ containing $a$; $|\left<a\right>| = |a|$, the order of $a$. A subgroup of the form $<a>$, $a \in G$, is called \vocab{cyclic}.
+\end{remark}
+
+\begin{example}
+    Another example of a subgroup is as follows: $G = \text{GL}(2, \ZZ / 3)$. This group has $(3^2-1)(3^2-3) = 48$ elements.
+\end{example}
+
+\section{September 11, 2024}
 
 \end{document}
-

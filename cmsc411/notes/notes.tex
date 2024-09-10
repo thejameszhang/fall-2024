@@ -92,7 +92,7 @@ These are my notes for UMD's MATH411: Computer Systems Architecture. These notes
 
 \newpage
 
-\section{Computer Architecture Landscape Changes}
+\section*{Computer Architecture Landscape Changes}
 
 Here are some of the following things we will cover in the course:
 \begin{itemize}
@@ -103,11 +103,94 @@ Here are some of the following things we will cover in the course:
   \item How programming style affects computer architecture
 \end{itemize}
 
+\section{Chapter 1}
 
+\begin{definition}[Dependability]
+  Infrastructure providers started to offer \vocab{service level agreements} to guarantee 
+  how dependable their service will be. Failure is a transition from working to not working, and 
+  restoration is a transitiion from not working to working.
+\end{definition}
 
+\begin{definition}
+  \vocab{Mean time to Failure (MTTF)} measures reliability, and \vocab{Failures in Time (FIT)} $ = \frac{1}{\text{MTTF}}$, 
+  reported as failures per billion hours. 
 
-\section{Intro to Set Architecture}
+  \vocab{Mean time to repair (MTTR)} measures service interruption
 
+  \vocab{Mean time between Failures (MTBF)} = MTTF + MTTR
+
+  \vocab{Module Availability } = MTTF / MTBF = MTTF / (MTTF + MTTR)
+\end{definition}
+
+\begin{note}
+  If modules have exponentially distributed lifetimes, the age of the module does not affect 
+  its probability of failure, the overall failure rate (FIT) is the sum of failure rates of the modules. 
+\end{note}
+
+\begin{example}
+  See slide 8 in lecture 3 
+\end{example}
+
+\begin{definition}[Performance]
+  Performance is the inverse of execution time 
+  \[\text{Performance} = \frac{1}{\text{Execution Time}}\]
+\end{definition}
+
+\begin{center}
+  \begin{example}
+    \includegraphics[width=10cm]{time.png}
+  \end{example}
+\end{center}
+
+\begin{note}
+  To make computers faster, make common cases faster - make addition faster, instead of optimizing the square root. 
+\end{note}
+
+\begin{definition}[Amdahl's Law]
+  \vocab{Speedup} as the time the task took originally divided by the time
+  the task takes after improvement
+
+  Suppose the original task takes $1$ second, $f$ seconds in the critical piece and $1-f$ in the non-critical. 
+  Then the improved task will only take $f/s$ in the critical piece, but still $1-f$ in the noncritical. Therefore, the 
+  \[\text{Speedup} = \frac{\text{Old Time}}{\text{New Time}} = \frac{1}{(1-f) +\frac{f}{s}}\]
+  Here $s$ is the speedup factor, note that we want to target operations that have large $f$ to maximize speedup.
+\end{definition}
+
+\begin{example}
+  Suppose we get a speedup of $2$ after we replace the GPU card. If the new card can process GPU instructions $5$ times faster, 
+  what is the percentage of instructions affected by the new GPU?
+
+  \begin{proof}[Solution]
+    We want to find $f$ and $s =5$ 
+    \[2 = \frac{1}{(1-f) + \frac{f}{5}} \implies 2 - 2f + \frac{2f}{5} = 1 \implies \frac{-8f}{5} = -1 \implies f = \frac{5}{8} = 0.625 \]
+  \end{proof}
+\end{example}
+
+\section{Appendix A}
+
+\begin{definition}[Instruction Sets]
+  Instruction sets sit in between software and hardware, and a good ISA defines how the software controls the CPU
+  in a computer. Some properties of a good abstraction are 
+  \begin{itemize}
+    \item Lasts through many generations (portability)
+    \item Generality
+    \item Convenient functionality to higher levels
+    \item Efficient lower level implementations
+  \end{itemize}
+  There are a few types of ISA classes.
+  \begin{itemize}
+    \item Stack - a block of memory in RAM, LIFO structure, pushing and popping
+    \item Accumulator - places one operand in the accumulator (implicit) and one in memory (explicit memory address). 
+    The operand in the accumulator is loaded from memory using LOAD and the result is stored in memory from the accumulator using STORE.
+    \item Register (register-memory)
+    \item Regsiter (load-store) - this is what MIPS uses, this ISA divides instructions into two categories: memory access and 
+    (load and store between memory and registers) and ALU operations which only occur between registers. 
+  \end{itemize}
+\end{definition}
+
+\begin{note}[Addressing Modes]
+  See slide 57 in lecture 2.
+\end{note}
 
 
 

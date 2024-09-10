@@ -1,0 +1,196 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength {\marginparwidth}{2cm}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{AMSC460: Homework 1}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\maketitle
+
+\includegraphics[width=14cm]{3a.png}
+
+\begin{proof}[Solution]
+  In general, a floating point number can be expressed in the representation 
+  \[fl(x) = \pm \left( \frac{\overset{\sim}{d}_0}{\beta^0} + \frac{\overset{\sim}{d}_1}{\beta^1} + \cdots 
+  + \frac{\overset{\sim}{d}_{t-1}}{\beta^{t-1}}\right) \times \beta^e\]
+  The problem statement specifies that we are looking for positive integers, $t = 2$, $\beta = 10$, and 
+  $e$ is bounded by $-9$ and $10$. Applying this information, we now have the more specific representation 
+  \[fl(x) = + \left( \overset{\sim}{d}_0 + \frac{\overset{\sim}{d}_1}{10}\right) \times 10^e\]
+  Since we assume normalized fractions, $\overset{\sim}{d}_0 \neq 0$, so it can attain the digits $1-9$, or $9$ possibilties. 
+  $\overset{\sim}{d}_1$ can be any digit, so $10$ possibilities. Finally, $e$ can be any number from $-9$ to $10$, so $20$ possibilities. 
+  Multiplying these together yields 
+  \[9 \times 10 \times 20 = 1800 \text{ distinct positive integers }\]
+\end{proof}
+
+\newpage
+
+\includegraphics[width=14cm]{13a.png}
+
+\begin{proof}[Solution]
+  To solve this system, if the square matrix is invertble, we would invert the matrix 
+  and solve for the vector $\begin{pmatrix}
+    x & y
+  \end{pmatrix}^T$. By the Invertible Matrix Theorem, one of the conditioning for checking if a matrix is invertible is if 
+  its determinant is nonzero. Note that the determinant of the square matrix is 
+  \[\det\begin{pmatrix}
+    a & b\\
+    b & a
+  \end{pmatrix} = a^2 - b^2 = (a-b)(a+b)\]
+  If $a \approx b$, and specifically if we take the limit $a-b\to 0$, 
+  \[\lim_{a-b\to 0} \det\begin{pmatrix}
+    a & b\\ b & a
+  \end{pmatrix} = 0\]
+  because the $a-b$ approaches $0$. Therefore, the matrix is almost singular and so the system is very ill-condtioned, 
+  meaning the system output is sensititve to small changes in coefficients and that small errors in arithmetic will get quickly propagated 
+  throughout the calculations. 
+\end{proof}
+
+\newpage 
+
+\includegraphics[width=14cm]{1a.png}
+
+\includegraphics[width=14cm]{1b.png}
+
+\begin{proof}[Solution]
+  \hfill
+
+  \begin{enumerate}[(a)]
+    \item Let us apply the Bisection Method 
+    
+    \begin{lstlisting}[language=Matlab]
+      function [root, iter] = bisection_sqrt()
+        % Define the function
+        f = @(x) sqrt(x) - 1.1;
+        
+        % Set the tolerance and initial interval [a, b]
+        atol = 1e-8;
+        a = 0;
+        b = 2; % Initial guess for the root search range
+        
+        % Check if the interval is valid
+        if f(a) * f(b) > 0
+            error('f(a) and f(b) must have opposite signs');
+        end
+        
+        iter = 0; % Counter for number of iterations
+        
+        % Bisection method loop
+        while (b - a) / 2 > atol
+            iter = iter + 1;
+            c = (a + b) / 2; % Midpoint of interval
+            if f(c) == 0
+                break; % We've found the exact root
+            elseif f(a) * f(c) < 0
+                b = c; % Root lies in the left subinterval
+            else
+                a = c; % Root lies in the right subinterval
+            end
+        end
+      
+      root = (a + b) / 2; % Approximate root
+      
+      % Display the result
+      fprintf('Root found: %.10f\n', root);
+      fprintf('Number of iterations: %d\n', iter);
+      fprintf('Error: %.10f\n', sqrt(root) - 1.1)
+    end
+    \end{lstlisting}
+
+    \includegraphics[width=14cm]{root_found.png}
+
+    $27$ iterations were required, and this does not match the expectations based on our convergence analysis
+    \[\text{ceil}(\log_2(b - a) / atol) = 1 \implies 28 \text{ expected iterations }\]
+
+  \item The resulting absolute error is $0.0000000004 < atol$, and this could have been predicted using our convergence analysis.
+\end{enumerate}
+
+\end{proof}
+
+\newpage 
+
+\includegraphics[width=14cm]{2.png}
+
+\begin{proof}[Solution]
+
+\end{proof}
+
+\end{document}
+
