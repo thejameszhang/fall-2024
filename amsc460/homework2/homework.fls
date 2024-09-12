@@ -1674,6 +1674,16 @@ INPUT ./2.png
 INPUT 2.png
 INPUT ./2.png
 INPUT ./2.png
+INPUT ./method1.png
+INPUT ./method1.png
+INPUT method1.png
+INPUT ./method1.png
+INPUT ./method1.png
+INPUT ./method2.png
+INPUT ./method2.png
+INPUT method2.png
+INPUT ./method2.png
+INPUT ./method2.png
 INPUT homework.aux
 INPUT ./homework.out
 INPUT ./homework.out

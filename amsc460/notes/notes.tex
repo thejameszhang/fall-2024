@@ -484,13 +484,157 @@ Some good assessments of the quality of an algorithm are accuracy, efficiency, a
     The fixed point is not necessarily unique ie. imagine a curve that oscillates repeatedly around $g(x)$. 
     So $g'(x)$ is a good property to use to study the fixed point iteration. If $g(x) = c \longleftrightarrow g'(x) = 0$, 
     $x_1 = g(x_0)$ gives a fixed point $x^* = x_1$ with only one step.
+
+    If $g(x)$ changes a lot (ie. $|g'(x)|$) large, then fixed point iteration may be wrong. 
+    So, we conejcture that if $|g'(x)|$ is small, we can prove that $x_k \to x^*$
     
     \item Does $x_k \to x^*$?
+
+      Assume that $|g'(x) \leq \rho$ on $[a,b]$. Then we can prove uniqueness and convergence  
+
+      \begin{proof}
+        
+        Uniqueness: suppose we have two fixed points $x_1^*, x_2^*$ on $[a,b]$. The following 
+        first step is by definition of fixed points, then apply Taylor Series First Order Approximation
+        \[|x_1^* - x_2^*| = |g(x_1^*) - g(x_2^*)| = |g'(\xi)(x_1^* - x_2^*)| \leq \rho|x_1^* - x_2^*|\]
+        Note that we have shown that $|x_1^* - x_2^*| \leq \rho |x_1^* - x_2^*|$. If $\rho > 1$, then this doesn't show 
+        us anything useful. If $\rho < 1$, then this is only satisfied if $|x_1^* - x_2^*| = 0 \implies x_1^* = x_2^*$.
+
+        \hfill
+
+        Convergence: 
+        \[x_{k+1} - x^*| = |g(x_k) - g(x^*)| = |g'(\xi)(x_k - x^*) \leq \rho(x_k - x^*)|\]
+        and so 
+        \[|x_{k+1} - x^*| \leq \rho |x_k - x^*| \leq \rho^2 |x_{k-1} - x^*|| \leq \cdots \leq \rho^{k+1}|x_0 - x^*||\]
+        \[\lim_{k\to\infty} |x_{k+1} - x^*| = 0\]
+      \end{proof}
+    
     \item If yes, how fast does $x_k \to x^*$?
+    
+      This is a contraction by the faster $\rho$, the smaller $\rho$ is, the faster the convergence 
+      \[\text{rate} = -\log_{10}(\rho)\]
+
   \end{enumerate}
 \end{note}
 
+\subsection{Newton's Method}
 
+\begin{note}
+  
+  \hfill
+
+  \begin{center}
+    \includegraphics[width=10cm]{newtons.png}
+  \end{center}
+\end{note}
+
+\begin{definition}[Analytic Understanding of Newton's Method]
+  Consider the First Order Taylor Series expansion of $f(x)$ 
+  \[f(x) = f(x_k) + f'(x_k)(x-x_k) + \frac{f''(\xi(x))}{2}(x-x_k)^2\]
+  where $\xi$ is between $x$ and $x_k$. 
+  $f'(x_k) = \frac{f(x_k)}{x_k - x_{k+1}}$ is a linear equation in $x_{k+1}$
+  \[\Leftrightarrow (x_k - x_{k+1})f'(x_k) = f(x_k)\]
+  \[\Leftrightarrow f(x_k) + (x_{k+1} - x_k)f'(x_k) = 0\]
+  \[x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}\]
+  and this is the updating rule to get $x_{k+1}$ which is closer to $x^*$ than $x_k$. 
+  This is the Newton's Method to generate a sequence of $\{x_k\}$. 
+\end{definition}
+
+\begin{definition}[Newton's Method as an Algorithm]
+  \hfill
+
+  \begin{enumerate}
+    \item Start from an initial guess $x_0$.
+    \item FOr $k = 0, 1, 2, \ldots,$ set 
+    \[x_{k+1} = x_k - \frac{x_k}{f'(x_k)}\]
+    until $x_{k+1}$ satisfies the termination criteria.
+  \end{enumerate}
+\end{definition}
+
+\begin{note}[Local Convergence]
+  If you don't start with a sufficiently good $x_0$, you may not have $\underset{k\to\infty}{x_k} = x^*$
+\end{note}
+
+\begin{note}[Global Convergence]
+  To find $x_0$ good enough to ensure convergence, plot the graph and start in a neighborhood 
+  near-ish a root. (what?)
+\end{note}
+
+\begin{note}[How Fast is Convergence?]
+  \hfill
+
+  \begin{enumerate}
+    \item Recall that for fixed point iteration, convergence is dependent on $\rho$ 
+  \[|x_{k+1} - x^*| \leq p|x_k - x^*|\]
+  this is called \vocab{linear convergence} because the right hand side is a linear function of the error term $|x_k - x^*|$. 
+    \item On the other hand, Newton's Method has \vocab{quadratic convergence}
+    \[|x_{k+1} - x^*| \leq M|x_k - x^*|^2\]
+    Typically, we do'n't go above this (ie. to cubic convergence) due to the increase of computing resources
+    \item \vocab{Superlinear convergence}: if $\exists \ \{\rho_k\}, \rho_k \to 0$ such that 
+    \[|x_{k+1} - x^*| \leq \rho_k|x_k - x^*| \leq \rho|x_k - x^*|\]
+    Note that superlinear convergence implies linear convergence, and it may or may not be quadratic convergence,
+    but quadratic convergence is always superlinear convergence.
+  \end{enumerate}
+\end{note}
+
+\subsection{Secant Method - Variant of Newton's Method}
+
+\begin{definition}
+  Consider a First Order Taylor Series Expansion once more
+  \[f(x) \approx f(x_0) + f'(x_0)(x-x_0) \implies f'(x_0) \approx \frac{f(x) - f(x_0)}{x-x_0}\]
+  \[\implies f'(x_k) \approx \frac{f(x_k) - f(x_{k-1})}{x_k - x_{k-1}}\]
+  \[\implies x_{k+1} = x_k - \frac{f(x_k)}{\frac{f(x_k) - f(x_{k-1})}{x_k - x_{k-1}}} = x_k - \frac{f(x_k)(x_k - x_{k-1})}{f(x_k) - f(x_{k-1})}\]
+\end{definition}
+
+\begin{note}[Secant Method as an Algorithm]
+  \hfill
+
+  \begin{enumerate}
+    \item Start from an educated guess $x_0$
+    \item For $k = 0, 1, 2, \cdots$ set 
+    \[x_{k+1} = x_k - \frac{f(x_k)(x_k - x_{k-1})}{f(x_k) - f(x_{k-1})}\]
+    until $x_{k+1}$ satisfies the termination criteria. The Secant Method has the same convergence properties 
+    as Newton's Method.
+  \end{enumerate}
+\end{note}
+
+\subsection{Minimizing a Function in One Variable}
+
+\begin{note}
+  Note that the minimizer $x^*$ is a root of $f'(x)$, so we identify all the possible roots 
+  of $f'(x)$ using the root finding algorithms. To determine which root is the minimizer that we want 
+  \begin{itemize}
+    \item If $f''(x^*) > 0$, then $x^*$ is a local minimizer
+    \item If $f''(x^*) < 0$, then $x^*$ is a local maximizer
+    \item If $f''(x^*) = 0$, then undetermined. 
+  \end{itemize}
+  To determine which one is the global minimizer among all local minimizers, compare $f$ at all minimizers 
+  to determine the smallest one. 
+\end{note}
+
+\subsection{Linear Algebra Background}
+
+\textit{Omitted}.
+
+\subsection{Linear Systems: Direct Methods}
+
+\subsection{Gaussian Elimination}
+
+\begin{definition}
+  Given $Ax = b$, 
+  \[\begin{bmatrix}
+    A & | & b
+  \end{bmatrix} \overset{\text{Gaussian Elimination}}{\implies} \begin{bmatrix}
+    U & | & \overset{\sim}{b}
+  \end{bmatrix}\]
+  where $U$ is an upper triangular matrix. Use backward substitution to sovle $Ux = \overset{\sim}{b}$
+  very efficiently with operation count $\mathcal{O}(N^2)$ compared to $\mathcal{O}(N^3)$ to 
+  compute $A^{-1}$.  
+\end{definition}
+
+\begin{note}
+  This leads to the LU Decomposition which we will learn about next class. 
+\end{note}
 
 \end{document}
 

@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1725988315 "/Users/jameszhang/Desktop/fall2024/amsc460/notes/notes.tex" "notes.pdf" "notes" 1725988318 0
-  "/Users/jameszhang/Desktop/fall2024/amsc460/notes/notes.tex" 1725988312 18570 ebbf0321e4053d31c561dc89c84a7b22 ""
+["pdflatex"] 1726163195 "/Users/jameszhang/Desktop/fall2024/amsc460/notes/notes.tex" "notes.pdf" "notes" 1726163199 0
+  "/Users/jameszhang/Desktop/fall2024/amsc460/notes/notes.tex" 1726163193 24353 082477dbcbf53541d97c6f86e8ec685a ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/tcrm0700.tfm" 1136768653 1536 73da8e8f1d2a4c957d51ca133585586b ""
@@ -309,11 +309,12 @@
   "geo.png" 1725986779 92920 18209d13b761302e1666eed0b8eb94f5 ""
   "good.png" 1724950945 36085 29ac62060f279af4b776b48703015ade ""
   "james.sty" 1724778707 18101 de65a1703aa4c3a0572012f797b051a8 ""
-  "notes.aux" 1725988318 14147 0fc23d3d01da04958ec2f05fa225b29d "pdflatex"
-  "notes.out" 1725988317 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "notes.pre" 1725988316 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "notes.tex" 1725988312 18570 ebbf0321e4053d31c561dc89c84a7b22 ""
-  "notes.toc" 1725988318 1050 eefe8c87f6d32038e3086ffa05d9e22b "pdflatex"
+  "newtons.png" 1725990067 124792 f2029697029634c20b8e707016893c0f ""
+  "notes.aux" 1726163198 19348 fd841d45d40d8a84e956ca6c24c2ff59 "pdflatex"
+  "notes.out" 1726163197 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "notes.pre" 1726163196 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "notes.tex" 1726163193 24353 082477dbcbf53541d97c6f86e8ec685a ""
+  "notes.toc" 1726163198 1621 5487e8c5edd25a743abb7f04d8930d7c "pdflatex"
   "scientific_compute.png" 1724778707 223518 41afc5f4b3c707adda75822a47f7e091 ""
   (generated)
   "notes.aux"

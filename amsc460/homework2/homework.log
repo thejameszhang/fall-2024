@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.12.9)  9 SEP 2024 17:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.12.9)  10 SEP 2024 21:50
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1170,42 +1170,48 @@ Package pdftex.def Info: 1b.png  used on input line 130.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
-<root_found.png, id=41, 574.145pt x 59.22125pt>
+<root_found.png, id=41, 570.13pt x 52.195pt>
 File: root_found.png Graphic file (type png)
 <use root_found.png>
 Package pdftex.def Info: root_found.png  used on input line 177.
-(pdftex.def)             Requested size: 398.33858pt x 41.0886pt.
-
-Overfull \hbox (0.92186pt too wide) in paragraph at lines 177--178
-[][] 
- []
-
-[3 <./1a.png> <./1b.png>] [4 <./root_found.png>]
+(pdftex.def)             Requested size: 369.88582pt x 33.86263pt.
+ [3 <./1a.png> <./1b.png>] [4 <./root_found.png>]
 <2.png, id=93, 742.775pt x 458.71375pt>
 File: 2.png Graphic file (type png)
 <use 2.png>
-Package pdftex.def Info: 2.png  used on input line 189.
+Package pdftex.def Info: 2.png  used on input line 201.
 (pdftex.def)             Requested size: 398.33858pt x 246.00787pt.
- [5 <./2.png>] (./homework.aux)
+ [5 <./2.png>]
+<method1.png, id=128, 502.87875pt x 374.39874pt>
+File: method1.png Graphic file (type png)
+<use method1.png>
+Package pdftex.def Info: method1.png  used on input line 241.
+(pdftex.def)             Requested size: 192.05609pt x 142.9871pt.
+<method2.png, id=129, 502.87875pt x 375.4025pt>
+File: method2.png Graphic file (type png)
+<use method2.png>
+Package pdftex.def Info: method2.png  used on input line 242.
+(pdftex.def)             Requested size: 192.05609pt x 143.37045pt.
+ [6 <./method1.png> <./method2.png>] (./homework.aux)
 Package rerunfilecheck Info: File `homework.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 47720 strings out of 476025
- 1091937 string characters out of 5790017
+ 47790 strings out of 476025
+ 1092793 string characters out of 5790017
  1950388 words of memory out of 5000000
- 67315 multiletter control sequences out of 15000+600000
- 524732 words of font info for 110 fonts, out of 8000000 for 9000
+ 67336 multiletter control sequences out of 15000+600000
+ 525075 words of font info for 117 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,21n,127p,10680b,2034s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
 
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb>
-Output written on homework.pdf (5 pages, 851483 bytes).
+Output written on homework.pdf (6 pages, 911906 bytes).
 PDF statistics:
- 179 PDF objects out of 1000 (max. 8388607)
- 126 compressed objects within 2 object streams
- 46 named destinations out of 1000 (max. 500000)
- 31787 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 226 PDF objects out of 1000 (max. 8388607)
+ 168 compressed objects within 2 object streams
+ 79 named destinations out of 1000 (max. 500000)
+ 31797 words of extra memory for PDF output out of 35830 (max. 10000000)
 

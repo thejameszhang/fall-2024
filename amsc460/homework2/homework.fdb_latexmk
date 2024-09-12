@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1725918142 "/Users/jameszhang/Desktop/fall2024/amsc460/homework2/homework.tex" "homework.pdf" "homework" 1725918145 0
-  "/Users/jameszhang/Desktop/fall2024/amsc460/homework2/homework.tex" 1725918142 6561 5a01ea37ee2d846c00dd99ce0a01c6a2 ""
+["pdflatex"] 1726019403 "/Users/jameszhang/Desktop/fall2024/amsc460/homework2/homework.tex" "homework.pdf" "homework" 1726019406 0
+  "/Users/jameszhang/Desktop/fall2024/amsc460/homework2/homework.tex" 1726019400 9996 503099999f7edd5fd5ac266190a96435 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/tcrm0700.tfm" 1136768653 1536 73da8e8f1d2a4c957d51ca133585586b ""
@@ -294,12 +294,14 @@
   "1b.png" 1725907864 101690 b87e5345d81b90132aec933bad08adf6 ""
   "2.png" 1725907875 403861 3a001dca04334fa9b24ab88122072c85 ""
   "3a.png" 1725905504 109685 dd31461cf7a77d583a49394b80c8b0dc ""
-  "homework.aux" 1725918145 656 f4c91772e5ea4e4c13c2a4459197257e "pdflatex"
-  "homework.out" 1725918144 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "homework.pre" 1725918143 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "homework.tex" 1725918142 6561 5a01ea37ee2d846c00dd99ce0a01c6a2 ""
+  "homework.aux" 1726019406 656 419aac987709b7f53c90f61946822d94 "pdflatex"
+  "homework.out" 1726019405 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "homework.pre" 1726019404 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "homework.tex" 1726019400 9996 503099999f7edd5fd5ac266190a96435 ""
   "james.sty" 1725904521 18101 de65a1703aa4c3a0572012f797b051a8 ""
-  "root_found.png" 1725916824 20379 34044dc2d02e91fe3511869fe60d2a64 ""
+  "method1.png" 1725995434 59637 d436589ad2e779ec1dabdbf1837cb579 ""
+  "method2.png" 1725995446 52397 72dda0a0463414deabcf0afab72a1491 ""
+  "root_found.png" 1725998547 19542 48814df266295ce68ae2c304f89431d1 ""
   (generated)
   "homework.aux"
   "homework.log"
