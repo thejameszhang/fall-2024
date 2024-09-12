@@ -1,0 +1,18 @@
+\contentsline {section}{\numberline {1}Scientific Computing}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Numerical Algorithms and Errors}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Algorithm Properties}{5}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Binary Representation, Rounding Errors, Truncation Errors}{5}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Roundoff Errors}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Floating Point Systems}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Errors in Computation}{7}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Nonlinear Equations in One Variable}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Iterative Methods to Find Roots}{8}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Bisection Method}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Fixed Point Iteration}{9}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Newton's Method}{11}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Secant Method - Variant of Newton's Method}{12}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Minimizing a Function in One Variable}{13}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Linear Algebra Background}{13}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}Linear Systems: Direct Methods}{13}{subsection.3.8}%
+\contentsline {subsection}{\numberline {3.9}Gaussian Elimination}{13}{subsection.3.9}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

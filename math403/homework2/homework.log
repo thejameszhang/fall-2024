@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.12.9)  9 SEP 2024 20:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.12.9)  10 SEP 2024 21:14
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1148,58 +1148,63 @@ File: 12.png Graphic file (type png)
 <use 12.png>
 Package pdftex.def Info: 12.png  used on input line 88.
 (pdftex.def)             Requested size: 398.33858pt x 55.70609pt.
+<d4table.png, id=11, 438.63875pt x 163.61125pt>
+File: d4table.png Graphic file (type png)
+<use d4table.png>
+Package pdftex.def Info: d4table.png  used on input line 97.
+(pdftex.def)             Requested size: 284.52756pt x 106.12885pt.
  [1
 
-{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <./12.png>]
-<18.png, id=26, 435.6275pt x 99.37125pt>
+{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <./12.png> <./d4table.png>]
+<18.png, id=31, 435.6275pt x 99.37125pt>
 File: 18.png Graphic file (type png)
 <use 18.png>
-Package pdftex.def Info: 18.png  used on input line 96.
+Package pdftex.def Info: 18.png  used on input line 110.
 (pdftex.def)             Requested size: 398.33858pt x 90.86465pt.
  [2 <./18.png>]
-<24.png, id=33, 467.7475pt x 60.225pt>
+<24.png, id=43, 467.7475pt x 60.225pt>
 File: 24.png Graphic file (type png)
 <use 24.png>
-Package pdftex.def Info: 24.png  used on input line 104.
+Package pdftex.def Info: 24.png  used on input line 150.
 (pdftex.def)             Requested size: 398.33858pt x 51.29073pt.
  [3 <./24.png>]
-<6.png, id=39, 555.07375pt x 151.56625pt>
+<6.png, id=52, 555.07375pt x 151.56625pt>
 File: 6.png Graphic file (type png)
 <use 6.png>
-Package pdftex.def Info: 6.png  used on input line 112.
+Package pdftex.def Info: 6.png  used on input line 168.
 (pdftex.def)             Requested size: 398.33858pt x 108.76913pt.
  [4 <./6.png>]
-<10.png, id=45, 438.63875pt x 22.0825pt>
+<10.png, id=64, 438.63875pt x 22.0825pt>
 File: 10.png Graphic file (type png)
 <use 10.png>
-Package pdftex.def Info: 10.png  used on input line 120.
+Package pdftex.def Info: 10.png  used on input line 208.
 (pdftex.def)             Requested size: 398.33858pt x 20.05397pt.
  [5 <./10.png>]
-<36.png, id=51, 493.845pt x 38.1425pt>
+<36.png, id=71, 493.845pt x 38.1425pt>
 File: 36.png Graphic file (type png)
 <use 36.png>
-Package pdftex.def Info: 36.png  used on input line 128.
+Package pdftex.def Info: 36.png  used on input line 225.
 (pdftex.def)             Requested size: 398.33858pt x 30.76546pt.
  [6 <./36.png>] (./homework.aux)
 Package rerunfilecheck Info: File `homework.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 46831 strings out of 476025
- 1082617 string characters out of 5790017
- 1860388 words of memory out of 5000000
- 66476 multiletter control sequences out of 15000+600000
- 524319 words of font info for 104 fonts, out of 8000000 for 9000
+ 46898 strings out of 476025
+ 1083332 string characters out of 5790017
+ 1864388 words of memory out of 5000000
+ 66494 multiletter control sequences out of 15000+600000
+ 526154 words of font info for 124 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,20n,127p,10680b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
 
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb>
-Output written on homework.pdf (6 pages, 279760 bytes).
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on homework.pdf (6 pages, 413534 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
- 61 compressed objects within 1 object stream
- 8 named destinations out of 1000 (max. 500000)
- 31275 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 161 PDF objects out of 1000 (max. 8388607)
+ 101 compressed objects within 2 object streams
+ 19 named destinations out of 1000 (max. 500000)
+ 37424 words of extra memory for PDF output out of 42996 (max. 10000000)
 
