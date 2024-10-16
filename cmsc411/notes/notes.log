@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.12.9)  4 SEP 2024 14:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.12.9)  25 SEP 2024 00:05
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1151,7 +1151,7 @@ Package tocbasic Info: character protrusion at toc deactivated on input line 91.
  [1
 
 {/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 106.
+LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 95.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/base/ts1cmss.fd
 File: ts1cmss.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
@@ -1159,44 +1159,169 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: TS1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-Package hyperref Info: bookmark level for unknown definition defaults to 0 on input line 108.
-Package hyperref Info: bookmark level for unknown note defaults to 0 on input line 126.
+Package hyperref Info: bookmark level for unknown definition defaults to 0 on input line 97.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 131.
-Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 131.
+(mdframed)              on input line 129.
+Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 129.
+ [2]
+Package hyperref Info: bookmark level for unknown remark defaults to 0 on input line 166.
+Package hyperref Info: bookmark level for unknown note defaults to 0 on input line 173.
+ [3] [4]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 141.
-<time.png, id=28, 1017.8025pt x 619.31375pt>
+(mdframed)              on input line 302.
+<time.png, id=118, 1017.8025pt x 619.31375pt>
 File: time.png Graphic file (type png)
 <use time.png>
-Package pdftex.def Info: time.png  used on input line 141.
+Package pdftex.def Info: time.png  used on input line 302.
 (pdftex.def)             Requested size: 284.52756pt x 173.13261pt.
- [2]
+ [5 <./time.png>] [6]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 160.
- [3 <./time.png>] [4] (./notes.aux)
+(mdframed)              on input line 377.
+ [7]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 405.
+Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 405.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 418.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 436.
+ [8]
+Overfull \hbox (49.43579pt too wide) in paragraph at lines 452--455
+\OT1/cmr/m/n/12 (-20) Some other ex-am-ples of pseu-doin-stuc-tions are [][]\OT1/cmtt/m/n/12 b, beqz, bge, bgeu, bgt, bgtu, blt, bltu[]\OT1/cmr/m/n/12 (-20) . 
+ []
+
+[9]
+<unpipeline-data-path.png, id=204, 570.13pt x 382.42876pt>
+File: unpipeline-data-path.png Graphic file (type png)
+<use unpipeline-data-path.png>
+Package pdftex.def Info: unpipeline-data-path.png  used on input line 515.
+(pdftex.def)             Requested size: 284.52756pt x 190.8521pt.
+ [10 <./unpipeline-data-path.png>]
+<visual-pipelining.png, id=219, 574.145pt x 365.365pt>
+File: visual-pipelining.png Graphic file (type png)
+<use visual-pipelining.png>
+Package pdftex.def Info: visual-pipelining.png  used on input line 548.
+(pdftex.def)             Requested size: 284.52756pt x 181.06529pt.
+ [11 <./visual-pipelining.png>]
+<novsyes.png, id=233, 467.7475pt x 327.2225pt>
+File: novsyes.png Graphic file (type png)
+<use novsyes.png>
+Package pdftex.def Info: novsyes.png  used on input line 599.
+(pdftex.def)             Requested size: 284.52756pt x 199.0562pt.
+ [12]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 627.
+ [13 <./novsyes.png>] [14]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 719.
+ [15]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 728.
+<moving-around.png, id=287, 574.145pt x 272.01625pt>
+File: moving-around.png Graphic file (type png)
+<use moving-around.png>
+Package pdftex.def Info: moving-around.png  used on input line 754.
+(pdftex.def)             Requested size: 369.88582pt x 175.24782pt.
+ [16]
+<branch-penalty-mips.png, id=300, 438.63875pt x 288.07625pt>
+File: branch-penalty-mips.png Graphic file (type png)
+<use branch-penalty-mips.png>
+Package pdftex.def Info: branch-penalty-mips.png  used on input line 785.
+(pdftex.def)             Requested size: 369.88582pt x 242.92746pt.
+ [17 <./moving-around.png>] [18 <./branch-penalty-mips.png>]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 825.
+<1b.png, id=330, 462.72874pt x 47.17625pt>
+File: 1b.png Graphic file (type png)
+<use 1b.png>
+Package pdftex.def Info: 1b.png  used on input line 832.
+(pdftex.def)             Requested size: 398.33858pt x 40.61179pt.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 840.
+<2b.png, id=331, 454.69875pt x 45.16875pt>
+File: 2b.png Graphic file (type png)
+<use 2b.png>
+Package pdftex.def Info: 2b.png  used on input line 845.
+(pdftex.def)             Requested size: 398.33858pt x 39.57079pt.
+<3.png, id=332, 488.82625pt x 358.33875pt>
+File: 3.png Graphic file (type png)
+<use 3.png>
+Package pdftex.def Info: 3.png  used on input line 853.
+(pdftex.def)             Requested size: 398.33858pt x 292.00797pt.
+ [19 <./1b.png> <./2b.png>]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 857.
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 861.
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/base/ts1cmtt.fd
+File: ts1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: TS1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+<4.png, id=344, 569.12625pt x 545.03625pt>
+File: 4.png Graphic file (type png)
+<use 4.png>
+Package pdftex.def Info: 4.png  used on input line 878.
+(pdftex.def)             Requested size: 398.33858pt x 381.49783pt.
+ [20 <./3.png>]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 882.
+ [21 <./4.png>]
+<5.png, id=373, 656.4525pt x 337.26pt>
+File: 5.png Graphic file (type png)
+<use 5.png>
+Package pdftex.def Info: 5.png  used on input line 908.
+(pdftex.def)             Requested size: 398.33858pt x 204.65274pt.
+ [22 <./5.png>]
+<6.png, id=407, 665.48625pt x 94.3525pt>
+File: 6.png Graphic file (type png)
+<use 6.png>
+Package pdftex.def Info: 6.png  used on input line 941.
+(pdftex.def)             Requested size: 412.56496pt x 58.4936pt.
+<7.png, id=408, 662.475pt x 162.6075pt>
+File: 7.png Graphic file (type png)
+<use 7.png>
+Package pdftex.def Info: 7.png  used on input line 950.
+(pdftex.def)             Requested size: 412.56496pt x 101.2647pt.
+<8.png, id=409, 663.47874pt x 320.19624pt>
+File: 8.png Graphic file (type png)
+<use 8.png>
+Package pdftex.def Info: 8.png  used on input line 958.
+(pdftex.def)             Requested size: 412.56496pt x 199.1059pt.
+ [23 <./6.png> <./7.png>] [24 <./8.png>] (./notes.aux)
 Package rerunfilecheck Info: File `notes.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 47081 strings out of 476025
- 1088932 string characters out of 5790017
- 1866388 words of memory out of 5000000
- 66665 multiletter control sequences out of 15000+600000
- 526239 words of font info for 124 fonts, out of 8000000 for 9000
+ 48033 strings out of 476025
+ 1101178 string characters out of 5790017
+ 1927388 words of memory out of 5000000
+ 67241 multiletter control sequences out of 15000+600000
+ 530620 words of font info for 187 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 123i,20n,127p,10673b,1072s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 123i,21n,127p,10673b,2041s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
 
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb>
-Output written on notes.pdf (4 pages, 327888 bytes).
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfsx1440.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on notes.pdf (24 pages, 2347124 bytes).
 PDF statistics:
- 157 PDF objects out of 1000 (max. 8388607)
- 115 compressed objects within 2 object streams
- 32 named destinations out of 1000 (max. 500000)
- 37410 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 645 PDF objects out of 1000 (max. 8388607)
+ 539 compressed objects within 6 object streams
+ 273 named destinations out of 1000 (max. 500000)
+ 43243 words of extra memory for PDF output out of 51595 (max. 10000000)
 

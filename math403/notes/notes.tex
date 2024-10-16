@@ -78,381 +78,658 @@ These are my notes for UMD's MATH 403: \textit{Abstract Algebra}. They are taken
 \tableofcontents
 \newpage
 
-\section{August 26, 2024}
-We start today by reviewing the syllabus, what this course covers, the textbook (\textit{Contemporary Abstract Algebra} by Jonathan Gallian).
+\section{Preliminaries}
 
-\subsection{Structures in Abstract Algebra}
-There are two main algebraic objects: \vocab{groups} and \vocab{rings}. Within groups are \vocab{semigroups}; one more axiom gives a \vocab{monoid}, one more on top of that gives \vocab{groups}. We will primarily discuss groups.
-
-\begin{definition}
-    A \vocab{semigroup} is a set $S$ with a multiplication operation $x : S \times S \to S$, or $(x, y) \mapsto x \times y$.
-\end{definition}
-
-\begin{remark}
-    The associative law holds for the semigroup multiplication operator, e.g. $(x \times y) \times z = x \times (y \times z)$. Also, the $xyz$ for the triple product is unambiguous.
-\end{remark}
-
-\begin{definition}
-    A \vocab{monoid} is a semigroup with a special element $1$ (sometimes denoted by $0$, or $e$) such that for every $x \in S$, $1 \cdot x = x \cdot 1 = x$.
-\end{definition}
-
-\begin{definition}
-    A \vocab{group} is a monoid with an inversion operator $x \mapsto x^{-1}$ such that for every $x \in S$, $x \cdot x^{-1} = x^{-1} \cdot x = 1$.
-\end{definition}
-
-\begin{remark}
-    The inversion operator in groups makes it possible to do cancellation, so if $x \times y = x \times z$, then $x^{-1}(xy) = x^{-1}(xz)$ leads to $(x^{-1}x)y = (x^{-1}x)z \to y = z$.
-\end{remark}
-
-Groups arise in practice from \vocab{symmetries}. The usual symbol of the ordinary integers if $\ZZ$. A subset of the integers are the natural numbers $\NN$.
-
-\begin{remark}
-    $\ZZ$ has an \vocab{order}, i.e. for any $a, b \in \ZZ$, one of the following holds:
-        \begin{align*}
-            \begin{cases}
-                a < b \\
-                a > b \\
-                a = b
-            \end{cases}
-        \end{align*}
-    $\ZZ$ also has the \vocab{well-ordering property}: and nonempty subset of $\NN$ has a unique smallest element. This is what makes it possible to do mathematical induction.
-\end{remark}
-
-\begin{definition}
-    A \vocab{ring} is an algebraic system with two associative operations: addition and multiplication.
-\end{definition}
-
-\begin{remark}
-    The distributive law holds for rings, e.g. $a(b+c) = ab + ac$. 
-\end{remark}
-
-\begin{proposition}
-    Suppose $a, b \in \ZZ$ with $b > 0$. Then there is a unique way to divide $a$ by $b$ and get a remainder $r$, e.g. $a = qb + r$, where $ 0 \leq r \leq b-1$.
-\end{proposition}
-
-\begin{definition}
-    We say $a$ \vocab{divides} $b$ if $r = 0$.
-\end{definition}
-
-\section{August 28, 2024}
-Recall last class, where we introduced Proposition 1.9. We will now introduce the \vocab{Division algorithm}:
-
-\begin{theorem}[Division algorithm]
-    If $a, b \in \ZZ$, where $b > 0$, one can write $a = qb + r$, where $q, r$ are unique integers and $0 \leq r < b$. Here, $r$ is called the \vocab{remainder} and $q$ is called the \vocab{quotient}.
+\begin{theorem}
+  \vocab{Well Ordering Principle} states that every nonempty set of positive integers contains a
+  smallest number. 
 \end{theorem}
 
 \begin{definition}
-    We say (for $b \neq 0$) that $b|a$ (said $b$ divides $a$) if $a = qb$ for some $q \in \ZZ$.
-\end{definition}
-
-\begin{remark}
-    If $a > 0$, all (positive) divisors of $a$ are $\geq 1$, $\leq a$.
-\end{remark}
-
-\begin{definition}
-    We say that $a > 0$ is \vocab{prime} if $a \neq 1$ and its only positive divisors are $1$ and $a$.
+  A nonzero integer $t$ is a \vocab{divisor} of an integer $s$ if there is an integer $u$ such that 
+  $s = tu$ and we write $t | s$. A \vocab{prime} is a positive integer greater than $1$ whose only 
+  positive divisors are $1$ and itself. We say an integer $s$ is a \vocab{multiple} of an integer $t$ if there is an integer $u$ such that 
+  $s = tu$. 
 \end{definition}
 
 \begin{theorem}
-    Let $a, b \in \ZZ - \{a\}$. Then,
-        \begin{enumerate}
-            \item There exists a unique largest positive number that divides both $a$ and $b$. This is called the \vocab{greatest common divisor} of $a$ and $b$, denoted by gcd($a$, $b$).
-
-            \item gcd$(a, b) = \min\{t = ma + nb > 0 \ | \ m, n \in \ZZ\}$
-
-            \item Any common divisor of $a$ and $b$ divides $\text{gcd}(a, b)$.
-        \end{enumerate}
+  \vocab{Division Algorithm}: let $a$ and $b$ be integers with $b > 0$. Then there exist unique integers $q$ and $r$ with the property that 
+  $a = bq + r$, where $0 \leq r < b$. 
+  \begin{proof}
+    Omitted. 
+  \end{proof}
 \end{theorem}
 
-\begin{proof}
-    We will prove each part separately:
-        \begin{enumerate}
-            \item Note that the set of positive common divisors is nonempty (e.g. it contains $1$) but lies in $\{1, 2, \ldots, |a|\}$. So this set is finite and has a maximum, proving the existence of the greatest common divisor.
+\begin{definition}
+  The \vocab{greatest} common divisor of two integers is hte largest of all common divisors of $a$ and $b$. 
+  We denote this by $\gcd(a, b)$. When $\gcd(a, b) = 1$, we say $a$ and $b$ are \vocab{relatively prime}. 
+\end{definition}
 
-            \item We will prove 2. and 3. together. Let $S = \{t = ma + nb > 0 \ | \ m, n \in \ZZ\}$; note that $S$ is a subset of $\NN^+$. By the well-ordering principle, $S$ has a unique smallest element $t_0$. By the division algorithm, $a = qb + r$ with $0 \leq r < t_0$. Since $t_0 = ma + nb$ for some $m, n$, we see that $r = a-qt_0 = a-qma-qnb = (1-qm)a + (-qn)b$. Thus, either $r = 0$ or else $r \in S$; since $r < t_0$, we have $r \notin S$. By the same argument, $t_0 | b$, so $t_0$ is a common divisor of $a$ and $b$. Let $d$ be any common divisor of $a, b$. So, $a = du$, $b = dv$ for some $u, v \in \ZZ$. But $t_0 = ma + nb$ for some $m, n$, so $t_0 = mdu + ndr = d(mu + nv)$ is a multiple of $d$, i.e. $d|t_0$. So if $ d \leq t_0$, we have $t_0 = \text{gcd}(a, d)$ and any common divisor of $a, b$ divides $\text{gcd}(a, b)$, as desired.
-        \end{enumerate}
-\end{proof}
+\begin{theorem}
+  For any nonzero integers $a$ and $b$, there exist integers $s$ and $t$ such that $\gcd(a, b) = as + bt$. Moreover, 
+  $\gcd(a, b)$ is the smallest positive integer of the form $as + bt$. 
+  \begin{proof}
+    Omitted. 
+  \end{proof}
+\end{theorem}
 
 \begin{corollary}
-    If $a, b$ have no common divisors except $\pm 1$, then $1 = ma + nb$ for some $m, n \in \ZZ$.
+  Integers $a$ and $b$ are relatively prime if and only if there exist integers $s$ and $t$ 
+  such that $as + bt = 1$.  
 \end{corollary}
 
-There is an algorithm for finding teh $m, n$, called the \vocab{Euclidean algorithm}. We present an example below:
-
-\begin{example}
-    Find $m$, $n$ for $a = 13$ $b = 54$.
-\end{example}
-\begin{soln}
-    By the division algorithm, we have the following:
-            \begin{align*}
-                54 &= 4 \cdot 13 + 2 \\
-                13 &= 6 \cdot 2 + 1 \\
-            \end{align*}
-        Working backwards, we obtain the following:
-            \begin{align*}
-                1 &= 13 - 6 \cdot 2 \\
-                  &= 13 - 6 \cdot (54 - 4 \cdot 13) \\
-                  &= 25 \cdot 13 - 6 \cdot 54
-            \end{align*}
-        Thus, $m = 25$, $n = -6$.
-\end{soln}
-
-\begin{theorem}
-    If $p$ is prime and $p|ab$, then $p|a$ or $p|b$ or both.
-\end{theorem}
-
-\begin{proof}
-    If $p|a$, we're done. Assume $p \nmid a$. Let $t = \text{gcd}(p, b)$. Since $p$ is prime, $t = 1$ or $p$. If it's $p$, we're done. But if $t = 1 = mp + nb$, then $a = mpa + nba$. But $p|ab$, so $p$ divides both terms on the right, and thus $p|a$, as desired.
-\end{proof}
+\begin{lemma}[Euclid's Lemma]
+  If $p$ is a prime that divides $ab$, then $p$ divides $a$ or $p$ divides $b$. 
+  \begin{proof}
+    Omitted.
+  \end{proof}
+\end{lemma}
 
 \begin{theorem}[Fundamental Theorem of Arithmetic]
-    Any positive integer can be written as a product of primes. The decomposition is unique except for the order of the factors.
+  Every integer greater than $1$ is a prime or a product of primes. This product is unique, except for the 
+  order in which factors appear. 
 \end{theorem}
 
-\begin{proof}
-    Let $a > 0$. The set of positive divisors of $a$ is either $\{1\}$, in which case $a = 1$, or else $S = \{d > 1 \ | \| d|a\}$ is nonempty. In this case, $S$ has a minimum by the well-ordering principle. This must be a prime; factor it and repeat, which gives a factorization into primes. To prove uniqueness, suppose $p_1 \cdots p_r = q_1 \cdots q_s$ with $p_j$, $q_k$ primes (repetitions allowed). So $p_1|q_1 \cdots q_s$, so by the a previous theorem, $p_1$ divides some $q_k$, hence $p_1 = q_k$. After re-indexing, we obtain $p_1 \cdots p_r = p_1q_1 \cdots q_s$. Cancel $p_1$ and repeat, finishing the proof.
-\end{proof}
-
-\begin{remark}
-    The convention we will use is that the produce of the empty set of primes is $1$. A slogan we will use if $\ZZ$ is a \vocab{unique factorization domain}.
-\end{remark}
-
-\section{August 30, 2024}
-Today, we will start discussing \vocab{sets}.
-
-\subsection{Sets}
-A set $S$ has objects $x$; we write $x$ is an element of $S$ as $x \in S$> A subset $A \subset S$ is a subcollection of $S$. Any set $S$ has a \vocab{cardinality} (``size"), often denoted by $|S|$. A finite set $S$ has cardinality in $\NN = \{0, 1, 2, 3, \ldots\}$. An infinite set can be characterized by a number of properties to follow.
-
-\begin{remark}
-    Not all integer sets have the same cardinality, but omost in this course will have cardinality $\mathcal{X}_0 = |\ZZ| = |\NN|$.
-\end{remark}
-
-\begin{remark}
-    Another way of denoting cardinality of a set is as follows: if $\mathcal{X}_0$ is a set, 
-\end{remark}
-
-\begin{fact}
-    Saying a set is infinite is the same way of saying that it has the same cardinality as some proper subset.
-\end{fact}
-
 \begin{definition}
-    A proper subset $A$ of a set $S$ is such that $A \subset S$ and $A \neq S$.
+  The \vocab{least common multiple} of two nonzero integers $a$ and $b$ is the smallest postivie integer that is 
+  a multiple of both $a$ and $b$. We denote this as $lcm(a, b)$. 
+\end{definition}
+
+\begin{definition}[Modular Arithmetic]
+  When $a = qn + r$ where $q$ is the quotient and $r$ is the remainder upon dividing $a$ by $n$, 
+  we write $a \mod n = r$. 
+\end{definition}
+
+\begin{definition}[Equivalence Relation]
+  A \vocab{equivalence relation} on a set $S$ is a set $R$ of ordered pairs of elements of $S$ such that 
+  \begin{enumerate}
+    \item Reflexive: $(a, a) \in R$ for all $a \in S$
+    \item Symmetric: $(a, b) \in R \implies (b, a) \in R$
+    \item Transitive: $(a, b) \in R$ and $(b, c) \in R \implies (a,c) \in R$
+  \end{enumerate}
+  If $\sim$ is an equivalence relation on a set $S$ and $a \in S$, then the set $[a] = \{x \in S \ | \ x \sim a\}$ is called 
+  the \vocab{equivlalence class} of $S$ containing $a$. 
 \end{definition}
 
 \begin{definition}
-    A function has a \vocab{graph} which is a subset of $X \times Y$. Note that not every subset of $X \times Y$ is the graph of a function.
+  A \vocab{partition} of a set $S$ is a collection of nonempty disjoint subsets of $S$ whose union is $S$. 
 \end{definition}
 
-\begin{definition}
-    If $S \subseteq X \times Y = \{(x, y) : x \in X, y \in Y\}$, $S$ is the graph of a function $X \to Y$. This is the same as saying for every $x \in X$ there is a unique $y \in Y$ with $(x, y) \in s$
-\end{definition}
-
-\begin{definition}
-    Given a function $f : X \to Y$, $X$ is called the \vocab{domain} of the function and $Y$ is called the \vocab{codomain} of the function. The \vocab{range} of $f$ is the set of all $\{f(x) : x \in X\} \subseteq Y$.
-\end{definition}
-
-\begin{definition}
-    A function is called \vocab{one-to-one} or \vocab{injective} if whenever $x_1 \neq x_2$, $f(x_1) \neq f(x_2) \in Y$. A function is called \vocab{onto} or \vocab{surjective} if for every $y \in Y$, there is \textit{some} $x \in X$ with $f(x) = y$. A function is called \vocab{bijective} if it is both injective and surjective. This is equivalent to $f$ being invertible, i.e. to there existing $g : Y \to X$ such that $g \circ f = \text{id}_X$ and $f \circ g = \text{id}_Y$, where $g \circ f = g(f(x))$.
-\end{definition}
-
-\begin{remark}
-    Cantor defined cardinality by saying that $|S_1| = |S_2|$ if there is a bijective function $f : S_1 \to S_2$. He also defined a set $S$ to be \vocab{infinite} if there is an injective function $f : S \to S$ which is not surjective.
-\end{remark}
-
-We now present an example of the above.
-
-\begin{example}
-    Consider $S = \NN = \{0, 1, 2, \ldots\}$. Take $f(x) = x+1$; this has range $\{1, 2, 3, \ldots\} \not\subset \NN$.
-\end{example}
-
-For finite sets, the situation is different. On a  finite set $S$, every injective function $S \to S$ is surjective.
-
-\begin{fact}
-    If $S$ is finite and $f : S \to S$ is surjective, then $f$ is injective. Cantor also defined $|S_1| \leq |S_2|$ if there is an injective function $S_1 \to S_2$. 
-\end{fact}
-
-A non-obvious fact is that the above is equivalent to the existence of a surjective function $S_2 \to S_1$.
-
-\begin{theorem}[Pigeonhole Principle]
-    Suppose $S_1$ and $S_2$ are finite sets with $|S_1| < |S_2|$. Then for any function $f: S_2 \to S_1$, there exists $x \in S_1$ with $|\{y \in S_2 : f(y) = x\}| \geq 2|$, where $\{y \in S_2 : f(y) = x\} = f^{-1}(x)$. This is called the \vocab{Pigeonhole Principle}.
+\begin{theorem}
+  The equivalence classes of an equivalence relation on a set $S$ constitute a partition of $S$. 
+  Conversely, for any partition $P$ of $S$, there is an equivalence relation on $S$ whose 
+  equivalence classes are the elements of $P$. 
+  \begin{proof}
+    Omitted
+  \end{proof}
 \end{theorem}
 
-\subsection{Equivalence relations}
-
-Often we will have a set $S$ and want to \vocab{partition} it into pieces. A partition is a family of disjoint subsets of $S$ whose union is all of $S$. A partition is equivalent to defining $R \subset S \times S$ (where $R$ is the \vocab{relation}) with the following properties:
-    \begin{enumerate}
-        \item $\forall x \in S, (x, x) \in \RR$
-        \item $\forall x, y \in S, (x, y) \in \RR \iff (y, x) \in \RR$
-        \item $\forall x, y, z \in S$, $(x, y) \in \RR$ and $(y, z) \in \RR \implies (x, z) \in \RR$
-    \end{enumerate}
-
-The above three properties are called the \vocab{reflexive}, \vocab{symmetric}, and \vocab{transitive} properties; the relationship is called an \vocab{equivalence relation}. We will continue with an example of an equivalence relation next lecture.
-
-\section{September 4, 2024}
-
-\begin{example}
-    Fix $n > 0$ in $\NN$ and let $X = \ZZ$. Say that $x \sim y$ if $x-y$ is divisible by $n$ (this is often written as $x \equiv y \pmod n$). This is an equivalence relation since
-        \begin{enumerate}
-            \item $n|(x-x=0) \ \forall x$
-            \item If $n|(x-y)$, then $n|(y-x)$
-            \item If $n|(x-y)$ and $n|(y-z)$, then $x-z = (x-y) + (y-z)$, which is divisible by $n$
-        \end{enumerate}
-\end{example}
-
-The equivalence classes are denoted $\ZZ / n$. These equivalence classes can be labeled by $0, 1, \ldots, n-1$ because of the division algorithm: $\forall x \in \ZZ$, $x = nq + r$ with $ \in \{0, 1, \ldots, n-1\}$ and this decomposition is unique.
-
-\begin{fact}
-    The usual operations $+$, $\times$ on $\ZZ$ pass to equivalence classes, i.e. if $x \sim x'$, $y \sim y'$, $z \sim z'$, $x+y \sim x' + y'$, $x \times y \sim x' \times y'$. Why? Note that
-        \begin{align*}
-            x \times y - x' \times y' &= x \times y - x \times y' + x \times y' - x' \times y' \\
-            &= x \times (y-y') + (x-x') \cdot y'
-        \end{align*}
-    As $y-y'$ and $x-x'$ are both multiples, of $n$, we have that $x \times (y-y') + (x-x') \cdot y'$ is also a multiple of $n$.
-\end{fact}
-
-So $\ZZ / n$ with addition is a group, denoted by Gallian as $Z_n$ (Rosenberg prefers $\ZZ_n$). Note that $(\ZZ / n, x)$ is not a group, since $0$ has no multiplicative inverse. But the invertible elements of $\ZZ / n$ form a group $(\ZZ / n)^x$, which Gallian denotes $U(n)$. \\
-
-An equivalence relation $R$ on a set $X$ defines a partition of $X$ into \vocab{equivalence classes} $\{x \in X : xRy\}$ for some fixed $y$. \\
-
-The operations $+, \times$ on $\ZZ / n$ define \vocab{modular arithmetic} $\pmod n$. These satisfy all the usual rules of arithmetic (commutative, associate, distributive).
-
-\begin{example}
-    Prove that if $n$ is a positive integer, $n^3 + (n+1)^3 + (n+2)^3$ is a multiple of $9$.
-\end{example}
-
-\begin{proof}
-    We work $\pmod 9$. Note that this repeats in cycles of $3$, e.g. for $n \equiv \{0, 1, 2, 3, \ldots\} \pmod 9$, $n^3 \equiv \{0, 1, -1, 0, \ldots\} \pmod 9$. In all cases, the sum of $3$ consecutive numbers is $0$.
-\end{proof}
-
-\begin{example}[Symmetries of a polygon in $\RR^2$]
-    Consider a regular polygon in $\RR^2 = \CC$ with $n$ sides. If you don't like complex numbers, take the polygon $P$ with vertices $\left(\cos \frac{2\pi k}{n}, \sin\frac{2\pi k}{n}\right)$, where $k = 0, 1, \ldots, n-1$. What are the \vocab{symmetries} of $P$? A \vocab{symmetry} means a distance-preserving map $\RR^2 \to \RR^2$ sending $P$ to itself. The set of such is called $D_n$.
-\end{example}
-
-\begin{fact}
-    Each element of $D_N$ is a rotation $R_{\theta}$ by an angle $\theta$ (a multiple of $\frac{2\pi}{n}$) or a \vocab{reflection} across an axis. The set of rotations is $\left\{R_0 = I, R_{\frac{2\pi}{n}}, R_{\frac{4\pi}{n}}, \ldots, R_{\frac{(n-1)\pi}{n}}\right\}$. There are exactly $n$ of these.
-\end{fact}
-
-How many reflections are there in $D_n$? $n$. If $N$ is even we have the axes passing through $2$ opposite vertices and axes passing midway through a pair of opposite sides. If $n$ is odd, each reflection must have a fixed point. Again have $n$ axes of reflection and $N$ reflection operations. So $|D_n| = n + n = 2n$.
-
-\section{September 6, 2024}
-We start by going over an example of a group from last lecture.
-
-\begin{example}
-    Suppose we have a $P$ regular polynomial with $n$ sides $\{0, 1, \ldots, n-1\}$. The \vocab{dihedral group} $D_N$ preserves distances. So if two vertices are adjacent, they stay adjacent.
-\end{example}
-
-
-\subsection{Semigroups}
 \begin{definition}
-    A \vocab{semigroup} $S$ is a set with a multiplication operation $m : S \times S \to S$ satisfying the associative rule $m(m(a, b), c) = m(a, m(b, c))$. Usually we suppress the $M$ and just write $(ab)c = a(bc)$.
+  A function $\phi$ from a set $A$ to set $B$ is a rule that assigns to each element of $a$ of $A$ 
+  exactly one element $b$ of $B$. $A$ is the \vocab{domain}, $B$ is the \vocab{range}, and 
+  the subset of $B$ comprising all images of elements of $A$ is called the \vocab{image of A under $\phi$}. 
 \end{definition}
 
-Semigroups have very few good properties: usually cancellation fails, i.e. $ab = ab \not\to b = c$ and $ba = bc \not \to b = c$. If you fix an element $e$, $m(a, b) = e$ for all $a, b$ satisfies the associative rule.
-
-\subsection{Monoids}
-
 \begin{definition}
-    Better than semigroups is what is called a \vocab{semigroup with identity} or a \vocab{monoid}. We add the axiom that there is an element $e$ such that $ae = ea = a$ for all $a \in S$.
+    Let $\phi: A \to B$ and $\varphi: B \to C$. The \vocab{composition $\varphi \phi$} is the mapping from 
+    $A$ to $C$ defined by $\varphi(\phi(a))$ for all $a$ in $A$. 
 \end{definition}
 
-\begin{remark}
-    $e$ above is unique with this property, since if $e'$ has the same property then $e=e'e = e'$.
-\end{remark} 
-
-\begin{example}
-    Examples of monoids are the following:
-        \begin{enumerate}
-            \item $\NN$: the natural numbers with addition $+$, where the special identity element is $0$: $0 + n = n + 0 = n$
-
-            \item $(\ZZ / n, \times)$; the identity element is $1$
-        \end{enumerate}
-\end{example}
-
-Now, we will start discussing groups, which we will stay on for half of the semester.
-
-\subsection{Groups}
 \begin{definition}
-    A \vocab{group} $G$ is a monoid with one more operation, $i : G \to T$ written $i(x) = x^{-1}$ with the property that for any $x \in G$, $x \cdot x^{-1} = x^{-1} \cdot x$.
+  A function $\phi$ from a set $A$ is \vocab{one-to-one} if for every $a_1, a_2 \in A$ then 
+  \[\phi(a_1) = \phi(a_2) \implies a_1 = a_2\]
 \end{definition}
 
-In fact, it's enough to just require one-sided inverses $l : G \to G$ and $r : G \to G$ with $l(x)x = e$ and $xr(x) = e$. The reason is that
-    \begin{align*}
-        er(x) = (l(x)x)r(x) = l(x)(xr(x)) = l(x)e
-    \end{align*}
+\begin{definition}
+  A function $\phi: A \to B$ is \vocab{onto} if each element of $B$ is the image of at least one element of $A$. 
+  \[\forall b \in B, \ \exists a \in A \text{ s.t. } \phi(a) = b\]
+\end{definition}
 
-We now present examples of groups with inversion:
+\begin{theorem}
+  Given functions $\alpha: A \to B, \beta: B \to C, \gamma: C \to D$ then 
+  \begin{itemize}
+    \item Associativity: $\gamma(\beta \alpha) = (\gamma \beta)\alpha$
+    \item If $\alpha, \beta$ are both 1-1, then $\beta\alpha$ is 1-1
+    \item If $\alpha, \beta$ are onto, then $\beta, \alpha$ is onto
+    \item If $\alpha$ is 1-1 and onto, then there is a function $\alpha^{-1}$ from $B$ onto $A$ 
+    such that $(\alpha^{-1}\alpha)(a) = a \ \forall \ a \in A$ and $(\alpha\alpha^{-1})(b) = b \ \forall \ b \in B$
+  \end{itemize}
+\end{theorem}
 
-\begin{example}
-    The below are examples of groups with inversion:
-    \begin{enumerate}
-        \item $(\ZZ / n, +)$. The identity element is $0$. Inversion sends $x$ to $-x$. If you identify $\ZZ / n $ with $\{0, 1, \ldots, n-1\}$, addition and inversion have to be computed $\pmod n$. For example for $n = 4$, we have $3 + 3 = 6 \equiv 2 \pmod 4$; thus, the ``states" of $i$ are as follows: $0$ always returns to $2$, $1$ and $3$ communicate, and $2$ always remains at $2$.
+\section{Introduction to Groups Through Dihedral Groups}
 
-        \item $((\ZZ / n)^x, x)$. The identity element is $1$. This group sits inside the monoid $(\ZZ(m, x))$. What equivalence classes lie in $(\ZZ / n)^x$? They are the equivalence classes of integers $x$ such that $\exists y, u$ with $yx = 1 + un$. This equation is equivalent to $yx-um = 1$, which is equivalent to saying $\text{gcd}(x, n) = 1$> If $n=p$ is prime, $(\ZZ / p)^x = \{1, 2, \ldots, p-1\}$.
-    \end{enumerate}
-\end{example}
-
-You can compute inverses in $(\ZZ / n)^x$ by using Euclid's algorithm:
-
-\begin{example}
-    Consider $n = 13$, which is prime. What is the inverse of $6 \pmod {13}$? You need to solve for $y$ so that $by = 1 + 13u$. But $6 \cdot 2 = 12 = 13 - 1$, so $6 \cdot -2 = -12 = 1 - 13$. But $\pmod {13}$, $-2 = 13 - 2 = 11$, so $11$ is the multiplicative inverse of $6 \pmod {13}$.
-\end{example}
+A solid introduction to groups is considering the symmetries of a square
+\begin{center}
+  \includegraphics[width=13cm]{d4table.png}
+\end{center}
+The above is the Cayley table for the \vocab{dihedral group of order $8$}, which is denoted 
+by $D_4$. There are some key properties of this group that we will formalize later. 
 
 \begin{definition}
-    The \vocab{order} of a group $G$, denoted by $|G|$, is just its cardinality or number of elements.
+  The idea above for a square can be done for any regular $n$-gon ($n \geq 3$), and the 
+  corresponding group is denoted by $D_n$ and is called the \vocab{dihedral group of order $2n$}. 
+\end{definition}
+
+\begin{definition}
+  Let $G$ be a set. The \vocab{binary operation} on $G$ is a function that assigns each ordered pair of elements of $G$ an element of $G$. 
+  This condition is called \vocab{closure}. 
+\end{definition}
+
+\begin{definition}
+  Let $G$ be a set together with a binary operation that assigns to each ordered pair of elements of $G$ an 
+  element $G$ dentoed by $ab$. We say $G$ is a \vocab{group} under this operation of the following three properties 
+  are satisfied
+  \begin{enumerate}
+    \item Closure?
+    \item Associativity: $(ab)c = a(bc) \ \forall \ a, b, c \in G$
+    \item Identity: There is an element $e$ called the identity in $G$ such that $ae = ea = a \ \forall \ a \in G$
+    \item Inverses: for each element $a \in G$, there is an element $b$ in $G$ such that $ab = ba = e$. 
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}
+  If a group has the property that $ab = ba \ \forall a, b \in G$, then the group is \vocab{Abelian}. 
 \end{definition}
 
 \begin{example}
-    The below are examples of the order of a group:
-    \begin{itemize}
-        \item $|(\ZZ \ n, +)| = n$
-        \item $|(\ZZ / n)^x, x)|$ is equal to the number of integers in $\{1, \ldots, n-1\}$ which have gcd $1$ with $n = \phi(n)$ (which is Euler's phi function). For $n$ prime, recall that $\phi(n) = n-1$.
-    \end{itemize}
+  \begin{itemize}
+    \item $\ZZ$, $\QQ$, $\RR$ are all groups under ordinary addition. In each case, the identity is $0$ and the inverse of $a$ is $-a$. 
+    \item The set of integers under ordinary multiplication is not a group, it fails the inverse property check. 
+    \item The set $Z_n = \{0, 1, \ldots, n-1\}$ for $n \geq 1$ is a group under addition modulo $n$. 
+    \item The set $\textbf{R}^*$ of nozero real numbers is a group under ordinary multplication with identity $1$ and inverse $\frac{1}{a}$ for any $a$. 
+    \item The set 
+    \[GL(2, \RR) = \left\{ \begin{bmatrix}
+    a & b \\ c & d
+    \end{bmatrix} a, b, c , d \in \RR, ad - bc \neq 0\right\}\]
+    is a non-Abelian group under the operation of matrix multiplication. 
+  \end{itemize}
 \end{example}
 
-If $n = 8$, $(\ZZ / 8)^x = \{1, 3, 5, 7\}$ so $|(\ZZ / 8)^x| = 4$. IF $n = 12$, $(\ZZ / 12)^x = \{1, 5, 7, 11\}$, so $|(\ZZ / x)^x| = 4$. Some more examples of computing the order of a group are below:
+\begin{theorem}[Uniqueness of the Identity]
+  In a group $G$, there is only one identity element. 
+  \begin{proof}
+    Omitted.
+  \end{proof}
+\end{theorem}
 
-\begin{example}
-    The below are more examples of computing the order of a group:
-    \begin{itemize}
-        \item Consider the group $D_n$, where the operation is composition of symmetries. $|D_n| = 2n$.
+\begin{theorem}[Cancellation]
+  In a group $G$, the right and left cancellation laws hodl; that is, $ba = ca \implies b =c$ and 
+  $ab = ac \implies b = c$. 
+  \begin{proof}
+    Omitted.
+  \end{proof}
+\end{theorem}
 
-        \item GL($2$, $\ZZ / p$) is the group of invertible $2 \times 2$ matrices with entries in $\ZZ / o$. The group operation is matrix multiplication; inversion is in the sense of matrices, e.g. 
-        $\begin{pmatrix}
-            a & b \\
-            c & d
-        \end{pmatrix} \in \text{GL}(2, \ZZ / p) \iff ad - bc != 0 \pmod p$. This is because the inverse of the matrix can be computed via 
-        
-        $\frac{1}{ad-bc} 
-        \begin{pmatrix}
-            d & -b \\
-            -c & a
-        \end{pmatrix}$ This is a noncommutative group. To find its order, note that $|\text{GL}(2, \ZZ / p)| = (p^2-1)(p^2-p) = p(p^2-1)(p-1)$. If $p = 2$, this is equal to $6$  
-    \end{itemize}
-\end{example}
+\begin{theorem}[Uniqueness of Inverses]
+  For each element $a \in G$, there is a unique element $b \in G$ such that $ab = ba = e$. 
+  \begin{proof}
+    Omitted.
+  \end{proof}
+\end{theorem}
 
-\section{September 9, 2024}
-Recall last class, where we started discussing groups and some examples of groups.
+\begin{theorem}[Socks-Shoes Property]
+  For $a, b \in G, (ab)^{-1} = b^{-1}a^{-1}$
+  \begin{proof}
+    Omitted.
+  \end{proof}
+\end{theorem}
 
-\begin{remark}
-    In any group, inverses are unique. In fact, any one-sided inverse is automatically the two-sided inverse, i.e. if $xy=e$, then $yx = e$ comes for free. The reason for this is as follows: if $xy = e$, we can multiply by $y$ on the left, giving $(yx)y = y$, implying $yx$ must be the identity.
-\end{remark}
+\section{Finite Groups and Subgroups}
 
-\begin{remark}
-    The group $\text{GL}(2, \ZZ / 2)$ has the same multiplication table as $D_3$. A multiplication table is a table that describes the structure of a (finite) group by arranging all the possible products of the group's elements (Wikipedia).
-\end{remark}
+Groups with finitely many elements have interesting artihemtic properties. 
 
-\begin{definition}
-    If $G$ is a group and $H \subseteq G$, $H$ is called a \vocab{subgroup} of $G$ if $H$ together with the group operations of $G$, is itself a group. This means $e \in H$ and $ab \in H$ for and $a, b, \in H$, and $a^{-1} \in H$ for all $a \in H$.
+\begin{definition}[Order of a Group]
+  The number of elements in a group (finite or infinite) is called its \vocab{order}. We will use 
+  $|G|$ to denote the order of $G$.
 \end{definition}
 
-\begin{remark}
-    If $G$ is a group and $a \in G$, we can form $\left<a\right> = \{e, a, a^2, \ldots, a^{-1}, (a^{-1})^2 = a^{-2}, \ldots\}$. This is the smallest subgroup of $G$ containing $a$; $|\left<a\right>| = |a|$, the order of $a$. A subgroup of the form $<a>$, $a \in G$, is called \vocab{cyclic}.
-\end{remark}
-
 \begin{example}
-    Another example of a subgroup is as follows: $G = \text{GL}(2, \ZZ / 3)$. This group has $(3^2-1)(3^2-3) = 48$ elements.
+  The group $\ZZ$ under addition has infinite order, whereas the grop $U(1, 3, 7, 9)$ under multiplication module $10$ has order $4$. 
 \end{example}
 
-\section{September 11, 2024}
+\begin{definition}
+  The order $g$ in a group $G$ is the smallest positive integer $n$ such that $g^n = e$. 
+  In additive notation, this would be $ng = e$. If no such integer exists, we say that $g$ has infinite order. 
+  The order of an element $g$ is denoted by $|g|$. 
+\end{definition}
+
+\begin{note}
+The group $U(n)$ is the set of all positive integers less than and relatively prime to $n$. 
+\end{note}
+
+\begin{definition}[Subgroup]
+  If a subset $H$ of a group is itself a group under the operation of $G$, we say that $H$ is a subgroup of $G$. 
+  Subgroups still must have the same properties as groups (closure, associativity, identity, and inverses). 
+\end{definition}
+
+\subsection{Subgroup Tests}
+
+\begin{theorem}[One-Step Subgroup Test]
+  Let $G$ be a group and $H$ a nonempty subset of $G$. If $ab^{-1}$ is in $H$ wheneber $a, b \in H$, then $H$ is a subgroup 
+  of $G$. In additive notation, if $a - b \in H$ whenever $a, b \in H$, then $H$ is a subgroup of $G$. 
+  \begin{proof}
+    Omitted.
+  \end{proof} 
+  There are actually four steps involved in applying the theorem. 
+  \begin{enumerate}
+    \item Identity the property $P$ that distinguishes the elements of $H$; that is, identify a defining condition. 
+    \item Prove that the identity has property $P$; this verifies that $H$ is nonempty
+    \item Assume that two elements $a$ and $b$ have property $P$. 
+    \item Use the assumption that $a$ and $b$ have property $P$ to show that $ab^{-1}$ has property $P$. 
+  \end{enumerate} 
+\end{theorem}
+
+\begin{theorem}[Two-Step Subgroup Test]
+  Let $G$ be a group and let $H$ be a nonempty subset of $G$. If $ab \in H$ whenever $a, b \in H$
+  and $a \in H \implies a^{-1} \in H$, then $H$ is a subgroup of $G$. 
+  \begin{itemize}
+    \item $H$ is closed under the operation, $a, b \in H \implies ab \in H$
+    \item $H$ is closed under taking inverses, $a \in H \implies a^{-1} \in H$
+  \end{itemize} 
+  \begin{proof}
+    Omitted.
+  \end{proof}
+  Same process as above, but we use the assumption that $a$ and $b$ have property $P$ to prove that $ab$ has property $P$ and $a^{-1}$ has property $b$. 
+\end{theorem}
+
+\begin{note}
+How do you show that a subset of a group is \textit{not} a subgroup?
+\begin{enumerate}
+  \item Show that the identity is not in the set. 
+  \item Exhibit an element of the set whose inverse is not in the set.
+  \item Exhibit two elements of the set whose product is not in the set. 
+\end{enumerate}
+\end{note}
+
+\begin{theorem}[Finite Subgroup Test]
+  Let $H$ be a nonempty finite subset of a group $G$. If $H$ is closed under the operation of $G$, then $H$ is a subgroup of $G$. 
+\end{theorem}
+
+\begin{definition}
+  For any element $a \in G$, we let $\langle a \rangle = \{a^n \ | \ n \in \ZZ\}$. In particular, observe
+  that the exponents of $a$ include all negative integers as well as $0$ and the positive integers, 
+  $a^0$ is defined to be the identity
+\end{definition}
+
+\begin{theorem}[$\langle a \rangle$ is a Subgroup]
+  Let $G$ be a group, and let $a \in G$. Then $\langle a \rangle$ is a subgroup of $G$. 
+  \begin{proof}
+    Since $a \in \langle a \rangle$, $\langle a \rangle$ is not empty. Let $a^n, a^m \in \langle a \rangle$. Then 
+    $a^n (a^m)^{-1} = a^{n-m} \in \langle a \rangle$; so by the One-Step Subgrpup Test, $\langle a \rangle$ is a subgroup of $G$. 
+  \end{proof}
+\end{theorem}
+
+\begin{definition}[Center of a Group]
+  The \vocab{center}, $Z(G)$, of a group $G$ is the subset of elements in $G$ that commute with every lement of $G$. 
+  \[Z(G) = \{a \in G \ | \ ax = xa \ \forall \ x \in G\}\]
+\end{definition}
+
+\begin{theorem}[Center is a Subgroup]
+  The center of a group $G$ is a subgroup of $G$. 
+  \begin{proof}
+    Omitted.
+  \end{proof}
+\end{theorem}
+
+\begin{definition}[Centralizer of $a$ in $G$]
+  Let $a$ be a fixed element of $G$. The \vocab{centralizer} of $a$ in $G$, $C(a)$, is the set 
+  of all elements in $G$ that commute with $a$
+  \[C(a) = \{g \in G \ | \ ga = ag\}\]
+\end{definition}
+
+\begin{example}
+  In $D_4$, we have the following centralizers: 
+  \begin{itemize}
+    \item $C(R_0) = D_4 = C(R_{180})$
+    \item $\vdots$
+  \end{itemize}
+\end{example}
+
+\begin{theorem}[$C(a)$ is a Subgroup]
+  For each $a \in G$, the centralier of $a$ is a subgroup of $G$.
+  \begin{proof}
+    Omitted.
+  \end{proof}
+\end{theorem}
+
+\section{Cyclic Groups}
+
+\begin{definition}
+  A group $G$ is \vocab{cyclic} if there is an element $a \in G$ such that $G = \{a^n \ | \ n \in \ZZ\}$. Such an 
+  element is called a \vocab{generator} of G. From now on, we may indicate that $G$ is a cyclic group generated by $a$ 
+  by writing $G = \langle a \rangle$. 
+\end{definition}
+
+\begin{theorem}[Criterion for $a^i = a^j$]
+  Let $G$ be a group, and let $a \in G$.
+  \begin{itemize}
+    \item If $a$ has infinite order, then $a^i = a^j$ if and only if $i = j$
+    \item If $a$ has finite order, then $a^i = a^j$ if and only if $n$ divides $i - j$. 
+  \end{itemize}
+\end{theorem}
+
+\begin{corollary}
+  For any group element $a \in G$, $|a| = |\langle a \rangle|$. 
+\end{corollary}
+
+\begin{corollary}
+  For any group element $a$, $a^k = e$ if and only if $|a|$ divides $k$. 
+\end{corollary}
+
+\begin{corollary}
+  If $a, b$ belong to a finite group and $ab = ba$ then $|ab|$ divides $|a||b|$. 
+\end{corollary}
+
+\begin{theorem}
+  Let $a \in G$ be such that $|a| = n$, and let $k$ be a positive integer. Then $\langle a^k \rangle = \langle a^{\gcd(n, k)}\rangle$ and 
+  $|a^k| = \frac{n}{\gcd(n, k)}$. 
+\end{theorem}
+
+\begin{corollary}
+  In a finite cyclic group, the order of an element divdes the order of the group.
+\end{corollary}
+
+\begin{corollary}
+  Let $|a| = n$. Then $\langle a^i \rangle = \langle a^j \rangle$ if and only if $\gcd(n, i) = \gcd(n, j)$
+  and $|a^i| = |a^j|$ if and only if $\gcd(n, i) = \gcd(n, j)$. 
+\end{corollary}
+
+\begin{corollary}
+  Let $|a| = n$. Then $\langle a \rangle = \langle a^j\rangle$ if and oly if $\gcd(n, j) = 1$. 
+\end{corollary}
+
+\begin{corollary}
+  An integer $k \in Z_n$ is a generator of $Z_n$ if and only if $\gcd(n, k) = 1$.  
+\end{corollary}
+
+\begin{theorem}
+  Every subgroup of a cyclic group is cyclic. Moreover, if $|\langle a \rangle| = n$, 
+  then the order of any subgroup of $\langle a \rangle$ is a divisor of $n$; for each positive integer $k$ on $n$, the 
+  grouup $\langle a \rangle$ has exactly one subgroup of order $k$ --- $\langle a^{n/k} \rangle$ 
+\end{theorem}
+
+\begin{corollary}
+  For each divisor $k$ of $n$, the set $\langle n / k\rangle$ is the unique subgroup of $Z_n$ of order $k$; moreover, these 
+  are the only subgroups of $Z_n$. 
+  \begin{center}
+    \includegraphics[width=14cm]{help.png}
+  \end{center}
+\end{corollary}
+
+\begin{theorem}[Number of Elements of Each Order in a Cyclic Group]
+
+\end{theorem}
+
+\begin{corollary}[Number of Elements of Order $d$ in a Finite Group]
+  In a finite group, the number of elements of order $d$ is a multiple of $\phi(d)$, where $\phi$ is the 
+  \vocab{Euler Phi} function, which returns all of the positive integers less than $n$ and relatively prime to $n$, and 
+  $\phi(1) = 1$. 
+\end{corollary}
+
+\section{Permutation Groups}
+
+At this point, we kow two families of finite Abelian groups $Z_n = \{0, 1, \ldots, n-1\}$
+and $U(n)$ the set of all positive integers less than $n$ that are relatively prime with $n$. We also know two families 
+of infinite non-Abelian groups, dihedral groups and matrix groups. 
+
+\begin{definition}[Permutation of $A$, Permutation Group of $A$]
+  A \vocab{permutation} of a set $A$ is a function from $A$ to $A$ that is both 1-1 and onto. A \vocab{permutation group} of a set $A$ 
+  is a set of permutations of $A$ that forms a group under function composition. 
+\end{definition}
+
+\begin{definition}
+  \vocab{Cycle notation} has theoretical advantages in that certain important properties of the permutation can be readily determined 
+  when cycle notation is used. Consider the permutation 
+  \[\alpha = \begin{bmatrix}
+    1 & 2 & 3 & 4 & 5 & 6\\
+    2 & 1 & 4 & 6 & 5 & 3
+  \end{bmatrix}\]
+  Instead, we have $\alpha= (12)(346)(5)$, where for example, $(346)$ is a 3-cycle. 
+\end{definition}
+
+\begin{theorem}[Properties of Disjoint Cycles]
+  Every permutation of a finite set can be written as a cycle or as a product of disjoint cycles. 
+\end{theorem}
+
+\begin{theorem}[Disjoint Cycles Commute]
+  If hte pair of cycles $\alpha = (a_1, a_2, \ldots, a_m)$ and $\beta = (b_1, b_2, \ldots, b_n)$ have no entries in common, then 
+  $\alpha \beta = \beta \alpha$. 
+\end{theorem}
+
+\begin{theorem}[Order of a Permutation]
+  The order of a permutation of a finite set written in disjoint cycle form is the least common multiple of the lengths of the cycles. 
+\end{theorem}
+
+\begin{theorem}[Product of 2-Cycles]
+  Every permutation in $S_n, n > 1$ is a product of $2$-cycles. 
+\end{theorem}
+
+\begin{theorem}
+  If $e = \beta_1 \beta_2 \ldots \beta_r$ where the $\beta$'s are 2-cycles, then $r$ is even. 
+\end{theorem}
+
+\begin{theorem}[Always Even or Always Odd]
+  If a permutation $\alpha$ can be expressed as a product of an even (odd) number of 2-cycles, then every 
+  decomposition of $\alpha$ into a product of 2-cucles must have an even (odd) number of 2-cycles. 
+\end{theorem}
+
+\begin{definition}[Even and Odd Permutations]
+  A permutation that can be expressed as a product of an even (odd) number of 2-cycles is called an \vocab{even (odd)} permutation. 
+\end{definition}
+
+\begin{theorem}
+  The set of even permutations in $S_n$ forms a subgroup of $S_n$. 
+\end{theorem}
+
+\begin{definition}
+  The group of even permutations of $n$ symbols is denoted by $A_n$ and is called the \vocab{alternating group of degree $n$}.
+\end{definition}
+
+\begin{theorem}
+  For $n > 1, A_n $ has order $n! / 2$. 
+\end{theorem}
+
+\section{Isomorphisms}
+
+\begin{definition}
+  An \vocab{isomorphism $\phi$} from a group $G$ to a group $G'$ is a 1-1 and onto mapping from $G$ to $G'$ that 
+  preserves the group operation. That is,
+  \begin{align*}
+    \phi(ab) = \phi(a)\phi(b) \ \forall \ a, b \in G
+  \end{align*}
+  If there is an isomorphism from $G$ onto $G'$, then we say that $G$ and $G'$ are isomorphic and we write 
+  $G \approx G'$. 
+\end{definition}
+
+\begin{center}
+  \includegraphics[width=6cm]{ops-table.png}
+  \includegraphics[width=14cm]{ops-table2.png}
+\end{center}
+
+\begin{note}
+  To prove that a group $G$ is isomorphic to a group $G'$, 
+  \begin{enumerate}
+    \item Define a function $\phi: G \to G'$
+    \item 1-1: prove that $\phi$ is 1-1, so $\phi(a) = \phi(b) \implies a = b$
+    \item Onto: prove that $\phi$ is onto, so for any $g' \in G'$, find a $g \in G$ such that $\phi(g) = g'$
+    \item Prove that $\phi$ is operation-preserving; that is show that $\phi(ab) = \phi(a)\phi(v) \ \forall \ a, b \in G$. 
+  \end{enumerate}
+\end{note}
+
+\begin{theorem}[Properties of Isomorphisms Acting on Elements]
+  \hfill
+
+  \begin{enumerate}
+    \item $\phi$ carries the identity of $G$ to the identity of $G'$
+    \item For every integer $n$ and for every $a \in G$, then $\phi(a^n) = [\phi(a)]^n$, and the 
+    additive form is $\phi(na) = n\phi(a)$
+    \item For any $a, b \in G$, $a$ and $b$ commute if and only if $\phi(a)$ and $\phi(b)$ commute 
+    \item $G = \langle a \rangle$ iff $G' = \langle \phi(a) \rangle$
+    \item $|a| = |\phi(a)| \ \forall \ a \in G$ --- isomorphisms preserve orders 
+    \item If $G$ is finite, then $G$ and $G'$ have exactly the same number of ekements of every order.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Properties of Isomorphisms Acting on Groups]
+  \hfill
+
+  \begin{enumerate}
+    \item $\phi^{-1}$ is an isomorphism from $G'$ onto $G$
+    \item $G$ is Abelian if and only if $G'$ is Abelian
+    \item $G$ is cyclic if and only if $G'$ is cyclic 
+    \item If $K$ is a subgroup of $G$, then $\phi(K) = \{\phi(k) \ | \ k \in K\}$ is a subgroup of $G'$ 
+    \item If $K'$ is a subgroup of $G'$, then $\phi^{-1}(K') = \{g \in G \ | \ \phi(g) \in K'\}$ is a subgroup of $G$ 
+    \item $\phi(Z(G)) = Z(G')$
+  \end{enumerate}
+\end{theorem}
+
+\subsection{Automorphisms}
+
+\begin{definition}
+  An isomorphism from a group $G$ onto itself is called an \vocab{automorphism} of $G$ .
+\end{definition}
+
+\begin{definition}
+  Let $G$ be a group, and let $a \in G$. The function $\phi_a$ defined by $\phi_a(x) = axa^{-1}$ for all $x \in G$ is called the \vocab{inner automorphism of $G$ induced by a}.
+\end{definition}
+
+\begin{theorem}
+  The set of automorphisms of a group and the set of inner automorphisms of a group are both groups under the operation of function composition.
+\end{theorem}
+
+\begin{theorem}[Cayley's Theorem]
+  Every group is isomorphic to a group of permutations. 
+\end{theorem}
+
+\section{Cosets and Lagrange's Theorem}
+
+\begin{definition}
+  Let $G$ be a group and let $H$ be a nonempty subset of $G$. For any $a \in G$, the set 
+  \[aH = \{ah \ | \ h \ in H\} \ \ \ \ \ \ \{Ha = \{ha \ | \ h \in H\}\}\]
+  When $H$ is a subgroup of $G$, the set $aH$ is called the \vocab{left coset of H in G containing a}, and similarly for 
+  \vocab{right coset}. In this case, the element $a$ is the \vocab{coset representative}. 
+\end{definition}
+
+\begin{lemma}
+  Let $H$ be a subgroup of $G$, and let $a, b \in G$. Then 
+  \begin{enumerate}
+    \item $a \in aH$ 
+    \item $aH = H$ if and only if $a \in H$
+    \item $(ab)H = a(bH)$ if and only if $H(ab) = (Ha)b$
+    \item $aH = bH$ if and oly if $a \in bH$
+    \item $aH = bH$ or $aH \cap bH = \emptyset$
+    \item $aH = bH$ if and only if $a^{-1}b \in H$
+    \item $|aH| = |bH|$
+  \end{enumerate}
+\end{lemma}
+
+\begin{theorem}[Lagrange's Theorem]
+  If $G$ is a finite group and $H$ is a subgroup of $G$, then $|H|$ divides 
+  $|G|$. Moreover, the number of distinct left (right) cosets of $H$ in $G$ is 
+  $|G| / |H|$. 
+\end{theorem}
+
+\begin{corollary}
+  In a finite group, the order of each element of the group divides the order of the group. 
+\end{corollary}
+
+\begin{corollary}
+  Every group of prime order is isomorphic to $Z_p$. 
+\end{corollary}
+
+\begin{corollary}
+  Let $G$ be a finite group, and let $a \in G$. Then, $a^{G} = e$. 
+\end{corollary}
+
+\begin{corollary}
+  For every integer $a$ and every prime $p$, $a^p \mod p = a \mod p$. 
+\end{corollary}
+
+\begin{theorem}
+  For two finite subgroups $H$ and $K$ of a group, define the set $HK = \{hk \ | \ h \in H, k \in K\}$. Then
+  \[|HK| = |H||K| = |H||K| / |H \cap K|\]
+\end{theorem}
+
+\begin{theorem}
+  Let $G$ be a group of order $2p$, where $p$ is a prime greater than $2$. Then $G$ is isomorphic to $Z_{2p}$ or $D_p$. 
+\end{theorem}
+
+\section{External Direct Products}
+
+\begin{definition}[External Direct Product]
+  Let $G_1, \ldots, G_n$ be a finite collection of groups. The external direct product of such 
+  groups written as $G_1 \oplus G_2 \oplus \cdots \oplus G_n$ is the set of all $n$-tuples for which the $i$-th component is an element of $G_i$, and 
+  the operation is componentwise.
+\end{definition}
+
+\begin{example}
+  Indeed, $\RR^2 = \RR \oplus \RR$ and the operation is componentwise/vector addition. Another example is 
+  \[Z_2 \oplus Z_3 = \{(0, 0), (0, 1), (0, 2), (1, 0), (1,1), (1,2)\}\]
+\end{example}
+
+\begin{theorem}
+  The order of an element in a direct product of a finite number of finite groups is the LCM of the orders of the components of the element. 
+  \[|(g_1, g_2, \ldots, g_n)| = \text{lcm}(|g_1|, |g_2|, \ldots, |g_n|)\]
+\end{theorem}
+
+\begin{theorem}[Criterion for $G \oplus H$ to be Cyclic]
+  Let $G$ and $H$ be finite cyclic groups. Then $G \oplus H$ is cyclic if and only if $|G|$ and $|H|$ are relatively prime. 
+\end{theorem}
+
+\begin{corollary}[Criterion for $G_1 \oplus G_2 \oplus \ldots G_n$ to be cylic]
+  An external direct product $G_1 \oplus G_2 \oplus \cdots \oplus G_n$ of a finite number of finite 
+  cylic groups is clyclif if and only if $|G_1|$ and $|G_j|$ are relatively prime when $i \neq j$. 
+\end{corollary}
+
+\begin{corollary}
+  Let $m = n_1n_2\cdots n_k$. Then $Z_m$ is isomorphic to $Z_{n_1} \oplus Z_{n_2} \oplus \cdots \oplus Z_{n_k}$ if and only if 
+  $n_i$ and $n_j$ are relatively prime when $i \neq j$. 
+\end{corollary}
+
+\begin{example}
+  For example, we have 
+  \[Z_2 \oplus Z_2 \oplus Z_3 \oplus Z_5 \approx Z_2 \oplus Z_6 \oplus Z_5 \approx Z_2 \oplus Z_{30}\]
+  but note that $Z_2 \oplus Z_{30} \not\approx Z_{60}$
+\end{example}
+
+\begin{theorem}[$U(n)$ as an External Direct Product]
+  Suppose $s$ and $t$ are relatively prime. Then $U(st)$ is isomorphic to the external direct product of 
+  $U(s)$ and $U(t)$. In short, 
+  \[U(st) \approx U(s) \oplus U(t)\]
+  Moreover, $U_s(st)$ is isomorphic to $U(t)$ and $U_t(st)$ is isomorphic to $U(s)$. 
+\end{theorem}
+
+\begin{corollary}
+  Let $m = n_1n_2 \cdots n_k$ where $\gcd(n_i, n_j) = 1 \ \forall \ i \neq j$. Then 
+  \[U(m) \approx U(n_1) \oplus U(n_2) \oplus \cdots \oplus U(n_k)\]
+\end{corollary}
+
+\section{Normal Subgroups and Factor Groups}
+
+\begin{definition}[Normal Subgroup]
+  A subgroup $H$ of a group $G$ is called a \vocab{normal subgroup} of $G$ if $aH = Ha \ \forall \ a \in G$. We denote this 
+  by $H \lhd G$. 
+\end{definition}
+
+\begin{theorem}[Normal Subgroup Test]
+  A subgroup $H$ of $G$ is normal in $G$ if and only if $xHx^{-1} \subseteq H \ \forall \ x \in G$. 
+\end{theorem}
+
+\begin{theorem}[Factor Groups]
+  Let $G$ be a group and let $H$ be a normaml subgroup of $G$. The set $G \slash H = \{aH \ | \ a \in G\}$ is a group 
+  under the operation $(aH)(bH) = abH$.
+\end{theorem}
+
+\begin{theorem}[$G \slash Z$ Theorem]
+  Let $G$ be a group and let $Z(G)$ be the center of $G$. If $G \slash Z(G)$ is cyclic, then $G$ is Abelian.
+\end{theorem}
+
+\begin{theorem}[$G \slash Z(G) \approx Inn(G)$]
+  For any group $G$, $G \slash Z(G) \approx Inn(G)$
+\end{theorem}
+
+\begin{theorem}
+  
+\end{theorem}
 
 \end{document}

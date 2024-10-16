@@ -1,3 +1,20 @@
-\contentsline {section}{\numberline {1}Chapter 1}{2}{section.1}%
-\contentsline {section}{\numberline {2}Appendix A}{3}{section.2}%
+\contentsline {section}{\numberline {1}Computer Architecture: Introduction}{2}{section.1}%
+\contentsline {section}{\numberline {2}Instruction Set Architectures}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Operations in the Instruction Set}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Types and Sizes of Operands}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Addressing Modes}{4}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Addressing Memory}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Encoding and Instruction Formats}{5}{subsection.2.5}%
+\contentsline {section}{\numberline {3}Performance Metrics}{5}{section.3}%
+\contentsline {section}{\numberline {4}Summarizing Performance, Amdahl's Law, and Benchmarks}{7}{section.4}%
+\contentsline {section}{\numberline {5}Executution of a Complete Instruction}{9}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Datapath Implementation}{9}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Control Flow Implementation}{11}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Pipelining - MIPS Implementation}{11}{section.6}%
+\contentsline {section}{\numberline {7}Pipeline Hazards}{14}{section.7}%
+\contentsline {section}{\numberline {8}Handling Data Hazards}{16}{section.8}%
+\contentsline {section}{\numberline {9}Handling Control Hazards}{17}{section.9}%
+\contentsline {section}{\numberline {10}Midterm 1 Preparation}{19}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Practice Set 1}{19}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Practice Set 2}{24}{subsection.10.2}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

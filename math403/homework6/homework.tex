@@ -1,0 +1,212 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength {\marginparwidth}{2cm}
+\setcounter{MaxMatrixCols}{20}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{MATH403: Homework 6}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\maketitle
+
+\begin{center}
+  \includegraphics[width=14cm]{18.png}
+\end{center}
+\begin{proof}
+  By definition of factor group, 
+  \[Z_n \slash \langle k \rangle = \{a + \langle k \rangle \ | \ a \in Z_n\} = \{0 + \langle k \rangle, 1 + \langle k \rangle, \ldots, (n-1) + \langle k \rangle\}\]
+  where recall that $Z_n = \{0, 1, \ldots, n-1\}$ and the subgroup $\langle k \rangle = \{0, k, 2k, \ldots (m-1)k\}$
+  where $m = \frac{n}{k}$.
+  However, observe the last term $(n-1) + \langle k \rangle$. Since $k$ is a divisor of $n$, the multiples of $k$ will cycle through the elements of $Z_n$ every $k$ steps. Thus, the cosets in the factor group are 
+  \[Z_n \slash \langle k \rangle = \{0 + \langle k \rangle, \ldots, (k-1) + \langle k \rangle\}\]
+  Thus, the factor group contains exactly $k$ distinct cosets, which is the same order as $Z_k$. 
+  Thus, let us define the mapping $\phi: Z_n \slash \langle k \rangle \to Z_k$ where for all cosets $a + \langle k \rangle \in Z_n \slash \langle k \rangle$, 
+  $\phi(a + \langle k \rangle) = a \text{ mod } k$. Note that this mapping is clearly 1-1 and onto because each element in $Z_k$ corresponds to exactly one coset in 
+  $Z_n \slash \langle k \rangle$. Furthermore, $\phi$ is operation preserving because 
+  $\phi((a + b) + \langle k \rangle) = \phi(a + \langle k \rangle) + \phi(a + \langle k \rangle)$, and 
+  thus $Z_n \slash \langle k \rangle$ is isomorphic to $Z_k$.
+\end{proof}
+\newpage
+
+\begin{center}
+  \includegraphics[width=14cm]{24.png}
+\end{center}
+\begin{proof}
+  Note that the group $(Z_4 \oplus Z_{12}) \slash \langle (2, 2) \rangle$, by the definition of factor groups, is 
+  \[G \slash H = \{aH \ | \ a \in G\} \implies \{a \langle (2, 2) \rangle \ | \ a \in Z_4 \oplus Z_{12}\}\]
+  where $|Z_4 \oplus Z_{12}| = 48$ and $|\langle (2,2) \rangle| = \text{lcm}(2, 6) = 6 \implies |(Z_4 \oplus Z_{12}) \slash \langle (2,2)\rangle| = 8$. 
+  Specfically, $\langle (2, 2) \rangle = \{(0, 0), (2,2), (0, 4), (2, 6), (0, 8), (2, 10)\}$. Furthermore, 
+  the distinct cosets are the representatives $a \in G$ is 
+  \[a \in \{(0,0), (1, 0), (2, 0), (3, 0), (0, 1), (0, 2), (0, 3), (0, 4)\}\]
+  At this point, none of the choices are eliminated because all of the groups have 
+  order $8$; thus, let us analyze the structure of the quotient group. Note that the 
+  presence of elements of order $4$ and order $2$ suggest that the quotient group has structure 
+  similar to $Z_4 \oplus Z_2$. 
+
+  The quotient group is not isomorphic to $Z_8$ because the quotient group is not cyclic 
+  whereas $Z_8$ can be generated by $1$. The quotient group is not isomorphic to $Z_2 \oplus Z_2 \oplus Z_2$ because 
+  every non-identity element in this group has order $2$, and this does not correspond to the orders of the cosets in the quotient group. 
+\end{proof}
+\newpage
+
+\begin{center}
+  \includegraphics[width=14cm]{32.png}
+\end{center}
+\begin{proof}
+  Since the order of the quotient group $|G / N| = m \implies$ there are 
+  $m$ distinct cosets, and we can represent them as 
+  \[N, g_1 N, g_2, N, \ldots, g_{m-1}N\]
+  If $x = e \in G$, then trivially $x^m = e^m \in N$. However, if $x \in G$ and $x \neq e$, then $x \in xN = g_i N$, for 
+  some arbitrary coset representative denoted by $i$. Now consider raising both sides to the power of $m$, 
+  \[x^m \in (xN)^m = (g_i N)^m = g_i^m N\]
+  by the group operation of factor groups in \textbf{Theorem 9.2}. Now, to show that 
+  $x^m \in N$, we have to show that $g_i^m = e$. Recall that $|G \slash N|$ is finite, and $g_i \in G \slash N$.
+  Then by \textbf{Corollary 4}, 
+  \[g_i^{|G \slash N|} = g_i^{m} = g_i^{|g_i| k} = e^k = e\] for some $k \in \RR^+$,
+  and thus we have shown that $x^m \in N$, as desired. 
+\end{proof}
+\newpage
+
+\begin{center}
+  \includegraphics[width=14cm]{38.png}
+\end{center}
+\begin{proof}
+  Intuitively, $Z$ is a subset of $Q$. For $a, b \in Z$, in additive notation, note that 
+  $a - b \in Z$, so by the \textbf{One-Step Subgroup Test}, $Z$ is a subgroup of $Q$. 
+  Now let us show that the subgroup $Z$ of $Q$ is normal. Recall \textbf{Theorem 9.1}, which states that 
+  a subgroup $H$ of $G$ is normal in $G$ if and only if $x Hx^{-1} \subseteq H \ \forall \ x \in G$. 
+  Let $x = \frac{m}{n} \in Q$, and observe that in additive notation, $x H x^{-1} \implies x + H - x = \frac{m}{n} + H - \frac{m}{n} = H \implies xHx^{-1} \subseteq H$. 
+  Therefore, $Z$ is also normal in $G$. Now consider the factor group 
+  \[Q \slash Z = \{a + Z \ | \ a \in Q\}\]
+  We want to show that there exists an element in the quotient group of order $n$, where 
+  $n \in \mathbb{Z}^+$. Consider, the coset
+  $\frac{1}{n} + Z$ given by the representative $\frac{1}{n}$. We will show that this 
+  element has order $n$. 
+  \[n\left(\frac{1}{n} + Z\right) = 1 + Z = Z\]
+  the identity coset. Note that in $Q \slash Z$, two rational numbers $a$ and $b$ are considered 
+  equivalent if $a - b \in Z$ because they belong to the same equivalence class. Furthermore, $\frac{1}{n} * k$ for 
+  $k < n$ is not the identity because $\frac{k}{n}$ is not an integer, so $n$ is the smallest number such that $n(\frac{1}{n} + Z) = Z$, 
+  so this element has order $n$, as desired. 
+\end{proof}
+\newpage
+
+\begin{center}
+  \includegraphics[width=14cm]{60.png}
+\end{center}
+\begin{proof}
+  By \textbf{Theorem 9.6}, for any group $G$, $G \slash Z(G)$ is isomorphic to $\text{Inn}(G)$, so thus, it 
+  suffices to find $|G \slash Z(G)| = |G| \slash |Z(G)|$. When $n$ is odd, the only elements that commutes with every other element is the identity. 
+  When $n$ is even, both $R_{180}$ and $e$ commute with all other elements. Therefore, 
+  when $n$ is odd, there are $|G| / |Z(G)| = 2n$ inner automorphsisms, and when $n$ 
+  is even, there are $n$ inner automorphsisms. 
+\end{proof}
+\newpage
+
+
+\begin{center}
+  \includegraphics[width=14cm]{88.png}
+\end{center}
+\begin{proof}
+  Note that the group of integers under addition is an infinite, cyclic, Abelian group. 
+  We will show that there does not exist a group $G$ such that $G \slash Z(G)$ is isomorphic to the integers 
+  under addition. Recall two important properties of isomorphisms acting on groups: suppose 
+  $G$ is isomorphic to $G'$, then $G$ is Abelian if and only if $G'$ is Abelian 
+  and $G$ is cyclic if and only if $G'$ is cyclic. 
+
+  \hfill
+
+  We will proceed with contradiction. Assume on the contrary that $G \slash Z(G)$ is isomorphic to $Z$ under addition. 
+  This implies that $G \slash Z(G)$ is Abelian, but if $G$ is non-Abelian, then the 
+  quotient group to its center cannot be Abelian, and so we have reached a contradiction because a non-Abelian group cannot be 
+  isomorphic to an Abelian group. If $G$ is Abeilian, then $G \slash Z(G)$ would be 
+  be of order $1$ and isomorphic to the identity, which cannot be $Z$. Thus, there does not exist a group such that 
+  $G \slash Z(G) \approx Z$ under addition. 
+\end{proof}
+\newpage
+
+\begin{center}
+  \includegraphics[width=14cm]{90.png}
+\end{center}
+\begin{proof}
+  
+\end{proof}
+
+\end{document}
+

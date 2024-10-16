@@ -1,10 +1,10 @@
 \documentclass[12pt]{scrartcl}
 \usepackage[sexy]{james}
 \usepackage[noend]{algpseudocode}
-\setlength {\marginparwidth}{2cm}
 \usepackage{answers}
 \usepackage{array}
 \usepackage{tikz}
+\setlength {\marginparwidth }{2cm}
 \newenvironment{allintypewriter}{\ttfamily}{\par}
 \usepackage{listings}
 \usepackage{xcolor}
@@ -24,19 +24,15 @@
 \usepackage{sansmath}
 \usepackage{pgfplots}
 
+\newlength{\saveparindent}
+\AtBeginDocument{\setlength{\saveparindent}{\parindent}}
+\newcommand{\indentpar}{\par\hspace*{\saveparindent}\ignorespaces}
+
+
 \usetikzlibrary{automata}
 \usetikzlibrary{positioning}  %                 ...positioning nodes
 \usetikzlibrary{arrows}       %                 ...customizing arrows
 \newcommand{\eqdef}{=\vcentcolon}
-\newcommand{\tr}{{\rm tr\ }}
-\newcommand{\im}{{\rm Im\ }}
-\newcommand{\spann}{{\rm span\ }}
-\newcommand{\Col}{{\rm Col\ }}
-\newcommand{\Row}{{\rm Row\ }}
-\newcommand{\dint}{\displaystyle\int}
-\newcommand{\dt}{\ {\rm d }t}
-\newcommand{\PP}{\mathbb{P}}
-\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
 \usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
 \newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
 
@@ -55,10 +51,9 @@
 
 % Start of document.
 \newcommand{\sep}{\hspace*{.5em}}
-
 \pgfplotsset{compat=1.18}
 \begin{document}
-\title{CMSC451: Algorithms}
+\title{CMSC451 Algorithms Notes}
 \author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
 \date{\today}
 
@@ -83,34 +78,497 @@
   tabsize=3
 }
 
-
 \maketitle
-These are my notes for UMD's CMSC451: Algorithms. These notes are taken live in class 
-(``live-\TeX``-ed). This course is taught by Professor Clyde Kruskal.
+These are my notes for UMD's CMSC 451: \textit{Design and Analysis of Algorithms}. They are taken live during class. This course is taught by Dr. Andrew Childs.
 \tableofcontents
-
 \newpage
 
-\section*{Stable Marriage Problem}
-
-\begin{definition}[Stable Marriage Problem]
-  The Stable Marriage Problem states that given N men and N women, where each person 
-  has ranked all members of the opposite sex in order of preference, marry the men and 
-  women together such that there are no two people of opposite sex who would both rather
-  have each other than their current partners. If there are no such people, all the 
-  marriages are “stable.”
+\section{August 27, 2024}
+\subsection{Algorithms}
+\begin{definition}
+    An \vocab{algorithm} is a well-defined computational procedure for processing some input to obtain a desired output.
 \end{definition}
 
-\section{Graph Algorithms}
+This course will discuss how to 1. design algorithms and 2. analyze their performance. Why study algorithms? There are several reasons:
+    \begin{itemize}
+        \item Coding interviews
+        \item They arise in software; may want to make software efficient even on large inputs
+        \item Solve a ``one-off" problem
+        \item Algorithm ideas are useful in other areas of science/technology
+        \item Interesting math
+    \end{itemize}
 
-\begin{note}
-  The size of an adjacency list is $\Theta(m + n)$ whereas for adjacency matrix, the size is $\Theta(n^2)$. 
-\end{note}
+This course will be structured in four parts:
+    \begin{enumerate}
+        \item \textbf{Introduction}
+            \begin{itemize}
+                \item Example: stable matching problem
+                \item Mathematical background
+                \item Basic graph algorithms
+            \end{itemize}
+        \item \textbf{Algorithm design techniques}
+            \begin{itemize}
+                \item Greedy algorithms
+                \item Divide-and-conquer
+            \end{itemize}
+        \item \textbf{Intractability}
+            \begin{itemize}
+                \item NP-Completeness
+                \item Approximation algorithms
+            \end{itemize}
+        \item \textbf{Other models of computation}
+            \begin{itemize}
+                \item Randomized algorithms
+                \item Quantum algorithms
+            \end{itemize}
+    \end{enumerate}
 
-\begin{definition}[Depth-First Search]
-  
+    Algorithms are mathematical objects. Specifying an algorithm requires 1) pseudocode and 2) a plain language description (e.g. English).
+
+    \begin{example}
+        The following are good descriptions of algorithms:
+            \begin{itemize}
+                \item Let foo be a counter initialized to $0$. For every even value of $i$ from $0$ to $100$, if the $i$th entry of $x$ is nonzero, increment foo
+
+                \item Repeatedly find adjacent elements that are out of order and swap them until the list is sorted
+            \end{itemize}
+    \end{example}
+
+    We now go over a basic problem: the \vocab{Stable matching problem}.
+
+\subsection{Stable Matching Problem}
+The goal of the stable matching problem is to pair members of two sets according to their preferences. For example, students and employers for summer internships or men and women to be married. For simplicity, the two sets have the same size. We must match each member of the first set with exactly one member of the second set.
+
+\begin{definition}
+    Given two sets $S$, $T$, a \vocab{matching} is a set of pairs of the form $(s, t)$, $s \in S$, $t \in T$ such that every element of $S$ appears in at most one pair; and similarly for $T$. A matching is \vocab{perfect} if every element of $S$ and $T$ is in some pair.
 \end{definition}
+
+In the stable matching problem, each member ranks all elements of the other set (no ties; no omissions).
+
+\begin{definition}
+    A matching is \vocab{stable} if there is no pair $(s, t)$ \textbf{not} in the matching such that $s$ prefers $t$ over its assigned partner and $t$ prefers $s$ over its assigned partner.
+\end{definition}
+
+\section{August 29, 2024}
+We continue with an example of the stable matching problem.
+
+\begin{example}
+    Suppose we want to match students $A, B$ to companies $X, Y$. The preferences of each are as follows:
+        \begin{align*}
+            \text{\textbf{A}: X, Y} \ \text{\textbf{X}: A, B} \\
+            \text{\textbf{B}: Y, X} \ \text{\textbf{Y}: B, A}
+        \end{align*}
+    These preferences give the following stable matchings: $(A, X)$ and $(B, Y)$.
+\end{example}
+
+Now, consider the below example:
+    \begin{example}
+        \begin{align*}
+            \text{\textbf{A}: X, Y} \ \text{\textbf{X}: A, B} \\
+            \text{\textbf{B}: X, Y} \ \text{\textbf{Y}: A, B}
+        \end{align*}
+    These preferences give the following stable matching: $(A, X)$ and $(B, Y)$. If we have the matching $(B, X)$ and $(A, Y)$ $(A, X)$ is an instability.
+    \end{example}
+
+Consider now the below example with three students and three companies:
+\begin{example}
+\begin{align*}
+    \text{\textbf{A}: X, Y, Z} \ \text{\textbf{X}: B, C, A} \\
+    \text{\textbf{B}: X, Z, Y} \ \text{\textbf{Y}: C, A, B} \\
+    \text{\textbf{C}: Y, Z, X} \ \text{\textbf{Z}: A, C, B}
+\end{align*}
+Is the following matching stable? $(A, X)$, $(B, Z)$, $(C, Y)$. No, because $(B, X)$ would be better together.
+\end{example}
+
+We now discuss the \vocab{Gale-Shapely algorithm} to find stable matches.
+
+\subsection{Gale-Shapely Algorithm}
+The Gale-Shapely algorithm solves the stable matching problem as follows: suppose that first, all companies and students are unengaged. While there is a company $c$ that is unengaged and has not made an offer to every student, let $s$ be the highest-ranked student for $c$ to whom $c$ has not yet made an offer. If $s$ is unengaged, $(c, s)$ become engaged. Else, let $c'$ be the company to which $s$ is engaged. If $s$ prefers $c$ to $c'$, then $(c, s)$ becomes engaged and $c'$ becomes unengaged. The set of engaged pairs can be returned after the while look.
+
+\begin{lemma}
+    Once a student receives an offer, they remain engaged for the rest of the algorithm and the quality of their engagement (according to their preferences) can only increase.
+\end{lemma}
+
+\begin{proof}
+    An unengaged student who receives an offer always becomes engaged. An engaged student can only switch engagements; they can never become unengaged. A student only switches if they prefer the new company.
+\end{proof}
+
+\begin{lemma}
+    As the algorithm proceeds, the sequence of students engaged to a given company can only decrease in preference.
+\end{lemma}
+
+\begin{proof}
+    Companies make offers to students in order of decreasing preference.
+\end{proof}
+
+\begin{lemma}
+    If there are $n$ companies and $n$ students, then the algorithm terminates after at most $n^2$ iterations of the while loop.
+\end{lemma}
+
+\begin{proof}
+    Let $P(t)$ be the set of pairs $(c, s)$ such that $c$ has made an offer to $s$ by the $t$th iteration. There is a new offer in every iteration, so $|P(t+1)| = |P(t)| + 1$. Since there are $n^2$ possible pairs, $|P(0)| = 0$ and $|P(t)|$ increases by $1$ at each step, there can be at most $n^2$ steps.
+\end{proof}
+
+\section{September 3, 2024}
+Today, we will continue discussing stable matching. Assignment $\# 1$ is available on Canvas and is due on September 18. Also, it is recommended to review the mathematical backgroud for this calss: asymptote notation, running time analysis, and graphs.
+
+\begin{lemma}
+    The Gale-Shapely algorithm outputs a perfect matching.
+\end{lemma}
+
+\begin{proof}
+    New engagements are only created between parties that were not previously engaged or who broke a previous engagement to create a new one. Thus the set of engaged pairs is always a matching. \\
+
+    Suppose that at the end of the algorithm (which occurs by Lemma 2.6), there is some company $c$ and student $s$ who are not engaged. At some point, $c$ must have made an offer to $s$ (by the termination condition of the loop). By Lemma $1$, $s$ will be engaged at the end of the algorithm, a contradiction.
+\end{proof}
+
+\begin{theorem}
+    The matching output by the Gale-Shapely algorithm is stable.
+\end{theorem}
+
+\begin{proof}
+    Suppose there is some pair $(c, s)$ such that $c$ prefers $s$ to its intern $s'$ and $s$ prefers $c$ to their company $c'$. Then $c$ must have made an offer to $s$ before $s'$. But $c$ ended up with $s'$. What went wrong? Either:
+        \begin{itemize}
+            \item $s$ had an offer they preferred to $s$, so they rejected the offer
+            \item $s$ accepted the offer from $c$ but later switched to an even better company
+        \end{itemize}
+    But $s$ ends up with $c'$, which is lower on their preference list than $c$. This is a contradiction.
+\end{proof}
+
+We will now discuss \vocab{asymptotic notation}.
+
+\subsection{Asymptotic Notation}
+We're interested in asymptotic upper bounds on the worst-case running times of algorithms. We can express this using big-O notation.
+
+\begin{example}
+    The running time of $10n^2 + 2n + 5000$ is $\mathcal{O}(n^2)$.
+\end{example}
+
+\begin{definition}
+    We say $f(n) \in \mathcal{O}(g(n))$ is $\exists c > 0, n_0 \geq 0$ such that for all $n \geq n_0$, $f(n) \leq c \cdot g(n)$.
+\end{definition}
+
+We will think of algorithms as efficient if they run in true polynomial in the input size $n$, i.e. $\mathcal{O}(n^a)$ for some constant $a$.
+
+\begin{definition}
+    We say $f(n) \in \Omega(g(n))$ if $\exists c > 0$, $n_0 \geq 0$ such that for all $n \geq n_0$, $f(n) \geq c \cdot g(n)$.
+\end{definition}
+
+\begin{example}
+    $10n^2 \in \mathcal{O}(n^2)$, $\in \mathcal{O}(n^3)$, $\in \Omega(n^2)$, $\Omega(n)$.
+\end{example}
+
+\begin{definition}
+    We say $f(n) \in \Theta(g(n))$ if $f(n) \in \mathcal{O}(g(n))$ and $f(n) \in \Omega(g(n))$.
+\end{definition}
+
+\begin{example}
+    $10n^2 \in \Theta(n^2)$.
+\end{example}
+
+\begin{definition}
+    We say $f(n) \in o(g(n))$ if $\lim_{n \to \infty} \frac{f(n)}{g(n)} = 0$. We say $f(n) \in \omega(g(n))$ if $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$.
+\end{definition}
+
+\begin{example}
+    $n^2 \in o(n^3)$, $n^2 \in \mathcal{O}(n^3)$.
+\end{example}
+
+\subsection{Analyzing Running Times}
+We can analyze runtimes of algorithms in the following ways:
+    \begin{itemize}
+        \item Computing sums (for iterative algorithms)
+        \item Solving recurrences (recursive algorithms)
+    \end{itemize}
+
+Some common running times of algorithms are as follows:
+    \begin{itemize}
+        \item Logarithmic time: $\mathcal{O}(\log n)$
+        \item Linear time: $\mathcal{O}(n)$
+        \item Time $\mathcal{O}(n^k)$ for some constant $k$ (for example, $\binom{n}{k} \in \mathcal{O}(n^k)$
+        \item Exponential time: $\mathcal{O}(2^n)$
+    \end{itemize}
+
+We will now start discussing \vocab{graphs}.
+
+\subsection{Graphs}
+\begin{definition}
+    An \vocab{undirected} graph $G = (V, E)$ is a finite set $V$ of \vocab{vertices} and $E$ of \vocab{edges}, where edges are unordered pairs of vertices.
+\end{definition}
+
+\begin{definition}
+    A \vocab{directed} graph $G = (V, E)$ is a finite set of \vocab{vertices} and $E$ of \vocab{edges}, where edges are ordered pairs of vertices.
+\end{definition}
+
+\section{September 5, 2024}
+
+Today, we will discuss some math relating to graphs, as well as graph algorithms (connectivity, BFS, bipartiteness). We start by discussing terminology relating to graphs:
+
+\begin{itemize}
+    \item \vocab{Vertices} are sometimes called \vocab{nodes}
+    \item An edge $\{u, v\}$ \vocab{joins} $u$ and $v$, which are its \vocab{ends}; $u$ and $v$ are \vocab{adjacent} if there is an edge joining them; the edge is \vocab{incident} on $u$ and $v$
+    \item An edge $\{u, v\}$ has \vocab{tail} $u$ and \vocab{head} $v$
+    \item The \vocab{degree} of vertex $v$, $\deg (v)$ is the number of incident edges it has
+    \item In a digraph, $\text{indeg}(v)$ is the number of edges with $v$ as a head and $\text{outdeg}(V)$ is the number of edges with $v$ as a tail
+    \item We often write $|V| = n$, $|E| = m$
+    \item $\sum_{v \in V} \deg (v) = 2m$ and $\sum_{v \in V} \text{indeg}(v) = m = \sum_{v \in V} \text{outdeg}(v)$
+    \item $m \leq \binom{n}{2} = \mathcal{O}(n^2)$ in an undirected graph. $m \leq n^2$ in a directed graph
+    \item A \vocab{subgraph} of $G = (V, E)$ is a graph $G' = (V', E')$ with $V \subseteq V$ and $E \subseteq E$
+\end{itemize}
+
+We now discuss graph representations.
+
+\subsection{Graph Representations}
+There are two main ways to represent graphs:
+    \begin{itemize}
+        \item \vocab{Adjacency matrix}: $|V| \cdot |V|$ matrix indexed by vertices with $A_{uv} = \begin{cases}
+            1 & \text{if } (u, v) \in E \\
+            0 & \text{otherwise}
+        \end{cases}$
+
+        \item \vocab{Adjacency list}: for each $v \in V$, given a list $\text{Adj}_v$ of its $v$ neighbors outgoing
+    \end{itemize}
+
+\subsection{Paths and Cycles}
+
+\begin{definition}
+    A \vocab{path} is a sequence of vertices $(v_0, v_1, v_2, \ldots, v_k)$ such that $(v_i, v_{i+1}) \in E$ for all $i \in \{0, 1, \ldots, k-1\}$.
+\end{definition}
+
+\begin{definition}
+    A path is \vocab{simple} if all its vertices and edges are distinct. The \vocab{length} of a path is $k$, its number of edges.
+\end{definition}
+
+\begin{definition}
+    A \vocab{cycle} is a path with $v_0 = v_k$ and all other vertices distinct. The \vocab{distance} between $u, v \in V$ is the length of a shortest path from $u$ to $v$.
+\end{definition}
+
+\subsection{Connectivity}
+\begin{definition}
+    An undirected graph is \vocab{connected} if for all $u, v \in V$, there exists a path from $u$ to $v$.
+\end{definition}
+
+\begin{definition}
+    A \vocab{component} of a graph is a set of vertices such that all pairs of vertices in the set have a path between them and no superset has this property.
+\end{definition}
+
+\begin{remark}
+    We use the term \vocab{digraph} as a short form of directed graph. 
+\end{remark}
+
+\begin{definition}
+    A digraph is \vocab{strongly connected} if $\forall u, v \in V$, there exists a path from $u$ to $v$ and a path from $v$ to $u$. A \vocab{strongly connected component} is a maximal subgraph that is strongly connected.
+\end{definition}
+
+We now briefly discuss \vocab{trees}.
+
+\subsection{Trees}
+
+\begin{definition}
+    A \vocab{forest} is a graph with no cycles.
+\end{definition}
+
+\begin{definition}
+    A \vocab{tree} is a connected forest. A $n$-vertex tree has $n-1$ edges. If we designed one vertex of a tree as the \vocab{root}, then the (unique) neighbor of a vertex that is closer to the root is its \vocab{parent} and the neighbors that are further from the root are its \vocab{children}. Vertices of degree $1$ in a tree as called \vocab{leaves}.
+\end{definition}
+
+\begin{definition}
+    A digraph with no cycles is called a \vocab{directed acyclic graph}, DAG for short.
+\end{definition}
+
+An important question about connectivity is as follows: given a graph, is it connected? Given vertices $s$, $t$, is there a path between them? \\
+
+One approach to solving this is to find a \vocab{spanning tree}, a subgraph that includes all vertices and is a tree. We can specify a rooted tree by giving the parent $\text{pr}[v]$ of every vertex $v$, with $\text{pr}[\text{root}] \neq \emptyset$. We now present a generic spanning tree algorithm: \\
+
+Let $T$ be the graph with one vertex $s$, with $\text{pr}[s] \neq \emptyset$
+
+\hspace{2mm} While $\exists$ an edge $\{u, v\}$ joining a vertex $u$ of $T$ to a vertex $v$ not in $T$
+
+\hspace{4mm} Add vertex $v$ and edge $\{u, v\}$ to $T$ \\
+
+\hspace{4mm}
+Set $\text{pr}[v] = u$
+
+
+The resulting graph is always a tree. 
+
+\begin{lemma}
+The above algorithm produces a spanning tree for the component of $s$.    
+\end{lemma}
+
+\begin{proof}
+    Any vertex in the tree has a path to $s$: repeatedly take parents until you reach $s$. To find a path from $u$ to $v$ in $T$, join the paths from $u$ to $s$ and $v$ to $s$. On the other hand, if $u$ is not in $T$, then there is no path to $s$. If there were, we could follow the path and find an edge from a vertex not in $T$ for a vertex in $T$, but no such edge remains when the algorithm is done.
+\end{proof}
+
+\section{September 10, 2024}
+We will now discuss some graph algorithms.
+
+\begin{itemize}
+    \item Breadth-first search
+    \item Bipartiteness
+    \item Connectivity in directed graphs
+    \item Topological sorting
+\end{itemize}
+
+\subsection{Graph Algorithms}
+
+\subsubsection{Breadth-First Search}
+
+\vocab{Breadth-first search} explores a graph in order of increasing distance from the root. Say a vertex is \vocab{exhausted} if it is not adjacent to any vertex outside the tree. The BFS pseudocode is as follows: \\
+
+BFS($s$): \\
+\hspace{2mm} Let $T$ be the tree with one vertex, $s$, with $\text{pr}[s] \neq \emptyset$
+
+\hspace{2mm} Repeat until all vertices are exhausted
+
+\hspace{4mm}
+Let $u$ be the unexhausted vertex that joined the tree earliest (the ``active vertex")
+
+\hspace{4mm}
+Choose an edge $\{u, v\}$ where $v$ is not in $T$ \\
+
+\hspace{4mm}
+Add vertex $v$ and edge $\{u, v\}$ to $T$
+
+\hspace{4mm}
+Set $\text{pr}[v] = u$ \\
+
+
+We now move on to the problem of computing distances/shortest paths. BFS partitions the vertices into \vocab{layers} $L_j$, where $L_0$ is the starting vertex $\{s\}$ and $L_{j+1}$ is the set of neighbors of vertices in $L_j$ that are not also neighbors of vertices in $L_0 \cup L_1 \cup \cdots \cup L_{j-1}$.
+
+\begin{lemma}
+    A vertex in $L_j$ has distance $j$ from $s$.
+\end{lemma}
+
+\begin{proof}
+    We proceed by induction on $j$. Clearly $L_0 = \{s\}$ is the set of vertices at distance $0$ from $s$. If $L_0, L_1, \ldots, L_j$ satisfy the lemma, then the vertices in $L_{j+1}$ must have distance at least $j+1$ from $s$. But there exists a path of length $j+1$ from any vertex in $L_{j+1}$ to $s$ since there is an edge to a vertex in $L_j$, which has a path of length $j$ to $s$ (by the inductive hypothesis). Hence vertices in $L_{j+1}$ satisfy the lemma, so the lemma follows by induction.
+\end{proof}
+
+What is the running time of BFS (in terms of $n=|V|$, $m=|E|$)? The algorithm is looping over all $u \in V$ and for each, it does a $\mathcal{O}(\deg(u) + 1)$ operation for each. The total running time is therefore $\mathcal{O}\left(\sum_{u\in V}(\deg(u)+1)\right) = \mathcal{O}(m+n)$. \\
+
+We now discuss bipartiteness in a graph.
+
+\subsection{Bipartiteness}
+\begin{lemma}
+    Let $T$ be a BFS tree of graph $G$ and let $u, v$ be vertices of $T$ with $u \in L_i$ and $v \in L_j$. Suppose $\{u, v\}$ is an edge of $G$. Then $|i-j| \leq 1$.
+\end{lemma}
+
+\begin{proof}
+    WLOG suppose $u$ is added before $v$. Then $i \leq j$ and $u$ is active before $v$. We now have two cases:
+        \begin{enumerate}
+            \item $v$ is in the tree when $u$ becomes active. Then $\{u, v\}$ is a non-tree edge and $\text{pr}(v)$ joined the tree before $u$, so $j = \text{layer}(\text{pr}(v)) + 1 \leq i+1$.
+
+            \item $v$ is not in the tree when $n$ becomes active. Then $\{u, v\}$ is a tree edge and $j=i+1$.
+        \end{enumerate}
+\end{proof}
+\begin{definition}
+    A graph $G = (V, E)$ is \vocab{bipartite} if there is a partition $(A, B)$ of $V$ ($V = A \cup B$, $A \cap B = \emptyset$) such that for all $\{u, v\} \in E$, either $u \in A$ and $v \in B$ or $u \in B$ and $v \in A$.
+\end{definition}
+
+\begin{theorem}
+    A connected graph with BFS tree $T$ is bipartite iff there is no non-tree edge joining vertices in the same layer.
+\end{theorem}
+
+\begin{proof}
+    Suppose there is no non-tree edge joining vertices in the same layer. Let $A = L_0 \cup L_2 \cup \cdots L_{2k}$ (vertices in even layers) and $B = L_1 \cup L_3 \cup \cdots L_{2k+1}$ (vertices in odd layers). This is a bipartition since all non-tree edges join vertices whose layers differ by $1$. \\
+
+    Conversely, suppose $\{u, v\}$ is a non-tree edge between vertices in the same layer.  Suppose their nearest common ancestor is $j$ layers higher. Then the path in the tree between $u$ and $v$ has length $2j$. Adding $\{u, v\}$ gives a cycle of length $2j+1$. But a graph with an odd cycle cannot be bipartite.
+\end{proof}
+
+\section{September 12, 2024}
+
+Today, we will discuss more graph algorithms, specifically connectivity in directed graphs and topological sorting. We will also start discussing greedy algorithms.
+
+\subsection{Connectivity in Digraphs}
+
+How can we test if a graph if strongly connected? Run BFS from every vertex ($n$ runs of BFS); the digraph is strongly connected iff all runs reach all vertices. This is done in $\mathcal{O}((m+n)n)$ time.
+
+\begin{lemma}
+    If $u$ and $v$ are mutually reachable and $v$ and $w$ are mutually reachable, then $u$ and $w$ are mutually reachable.
+\end{lemma}
+
+\begin{proof}
+    Note that we can go from $u\to w$ by going from $u\to v\to w$ and that we can go from $w\to u$ by going from $w\to v \to u$.
+\end{proof}
+
+An algorithm to test if a graph is strongly connected is as follows: 
+
+\begin{itemize}
+    \item Run BFS starting from $s$
+    \item Run BFS starting from $s$, reversing the directions of all edges
+    \item If both searches find all vertices, the graph is strongly connected; otherwise not
+\end{itemize}
+
+The above runs in $\mathcal{O}(m+n)$ time. \\
+
+\subsection{Topological Sorting}
+We can use a digraph to capture a set of operations with constraints on which ones must be done before others. 
+
+\begin{definition}
+    A \vocab{topological ordering} is a possible sequence in which the actions can be performed, subject to the constraints on which other actions must have been completed.
+\end{definition}
+
+\begin{lemma}
+    If $G$ has a topological sorting, then $G$ is a DAG.
+\end{lemma}
+
+\begin{proof}
+    We will proceed by contradiction. Suppose $G$ has a topological ordering and a directed cycle $C$ $v_1, v_2, \ldots, v_n$. Let $v_i$ be the lowest-index vertex on $C$; let $v_j$ be the vertex before it on $C$. Then $(v_j, v_i)$ is an edge with $i < j$,, but we also must have $j < i$ for this to be a topological ordering. This is a contradiction.
+\end{proof}
+
+\begin{lemma}
+    Every DAG has a vertex with indegree $0$.
+\end{lemma}
+
+\begin{proof}
+    We will prove the contrapositive: if every vertex has positive indegree then the graph has a directed cycle. \\
+
+    Start at any vertex. Walk along some edge in the backwards direction (which is possible because every vertex has positive indegree). Repeat. After at most $n+1$ steps, we have visited some vertex twice, so we found a cycle.
+\end{proof}
+
+\begin{lemma}
+    Every DAG has a topological ordering.
+\end{lemma}
+
+\begin{proof}
+    We proceed by induction on $n=|V|$: the base case is $n=1$; a $1$-vertex graph trivially has a topological ordering. \\
+
+    The inductive hypothesis is as follows: suppose the lemma holds for any digraph with at most $n$ vertices. For an $(n+1)$-vertex graph, let $v$ be a vertex with indegree $0$. Put it first in the ordering. Follow it by a topological ordering of $G \ \{v\}$, which is a graph with $n$-vertices (note that deletion of a vertex and edge from a graph cannot create a cycle, so this graph is still a DAG).
+\end{proof}
+
+\begin{theorem}
+    A graph is a DAG if and only if it has a topological ordering.
+\end{theorem}
+
+We now present pseudocode for topological sort: \\
+
+\textbf{TopoSort}($G$):
+
+\hspace{2mm} Let $S$ be an empty set
+
+\hspace{4mm} For all vertices $v$ 
+
+\hspace{6mm} If $v$ has indegree $0$, add $v$ to $S$ 
+
+\hspace{6mm} Set $\text{count}[v] = \text{indeg}(v)$
+
+\hspace{4mm} While $S$ is nonempty do 
+
+\hspace{6mm} Remove a vertex $v$ from $S$
+
+\hspace{6mm} Output $v$
+
+\hspace{6mm} For each vertex $u$ that $v$ points to
+
+\hspace{8mm} Remove edge $(v, u)$ from the graph 
+
+\hspace{8mm} Decrement $\text{count}[u]$
+
+\hspace{8mm} If $\text{count}[u] = 0$ then add $u$ to $S$ \\
+
+To analyze the runtime of this algorithm, note that the algorithm runs in $\mathcal{O}(n)$ time for initialization; the while loo goes through all vertices, and the for loop for $v$ takes $\mathcal{O}(\text{outdeg}(v)+1)$ steps, giving a total runtime of $\mathcal{O}(n + \sum_{v \in V} (\text{outdeg}(v)+1)) = \mathcal{O}(m+n)$ time. \\
+
+\section{September 17, 2024}
 
 
 \end{document}
-

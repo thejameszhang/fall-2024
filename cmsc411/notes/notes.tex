@@ -92,48 +92,209 @@ These are my notes for UMD's MATH411: Computer Systems Architecture. These notes
 
 \newpage
 
-\section*{Computer Architecture Landscape Changes}
+\section{Computer Architecture: Introduction}
 
-Here are some of the following things we will cover in the course:
-\begin{itemize}
-  \item How processors exploit instruction/thread/data parallelism
-  \item How processors/memory work
-  \item A great deal of jargon in the system area
-  \item How computer architecture affects programming style
-  \item How programming style affects computer architecture
-\end{itemize}
+\begin{definition}[Computer]
+  A computer is a sophisticated electronic calculating machine 
+  that accpetsi nput information, processes the information
+  according to a list of stored instructions, and finally produces 
+  resulting output inforamtion. From a high level, the computer 
+  has the following components
+  \begin{itemize}
+    \item Input component that takes in information
+    \item Processing unit that processes the inforamtion
+    \item Memory unit that stores the information
+    \item Output unit that outputs the data
+  \end{itemize}
+\end{definition}
 
-\section{Chapter 1}
+\begin{definition}[Central Processing Unit]
+  Combined data path which is where your information flows and control path which coordinates the activities of the various units of the 
+  computer system. Together, these form the CPU.
+\end{definition}
 
-\begin{definition}[Dependability]
-  Infrastructure providers started to offer \vocab{service level agreements} to guarantee 
-  how dependable their service will be. Failure is a transition from working to not working, and 
-  restoration is a transitiion from not working to working.
+\begin{definition}[Instruction Set Architectures]
+  ISAs give a logical view of what a computer is capable of doing and when you look 
+  at computer organization, it talks about how ISAs are implemented. Together, ISA and computer 
+  organization comprise computer architecture. 
 \end{definition}
 
 \begin{definition}
-  \vocab{Mean time to Failure (MTTF)} measures reliability, and \vocab{Failures in Time (FIT)} $ = \frac{1}{\text{MTTF}}$, 
-  reported as failures per billion hours. 
-
-  \vocab{Mean time to repair (MTTR)} measures service interruption
-
-  \vocab{Mean time between Failures (MTBF)} = MTTF + MTTR
-
-  \vocab{Module Availability } = MTTF / MTBF = MTTF / (MTTF + MTTR)
+  Instructions are basic commands like transferring information from one 
+  register to another register. Instructions can control the flow of the program, think about 
+  jumping in MIPS. A sequence of instructions is called a program, which is stored in memory. 
 \end{definition}
 
-\begin{note}
-  If modules have exponentially distributed lifetimes, the age of the module does not affect 
-  its probability of failure, the overall failure rate (FIT) is the sum of failure rates of the modules. 
-\end{note}
-
 \begin{example}
-  See slide 8 in lecture 3 
+  Suppose you wanted to add two numbers, and those numbers are stored in memory. 
+
+  \begin{proof}[Process]
+    From memory, you have to bring the numbers to the adder unit and add. Need data transfer instructions 
+    to transfer the data from memory to the processor, and an add instruction to add. 
+  \end{proof}
 \end{example}
 
-\begin{definition}[Performance]
-  Performance is the inverse of execution time 
-  \[\text{Performance} = \frac{1}{\text{Execution Time}}\]
+\begin{definition}[Data]
+  These instructions operatore on decimal numbers, imaginary numbers, octal numbers, 
+  or encoded characters. The memory uniy stores instructions as well as data as a sequence of bits. 
+\end{definition}
+
+\begin{definition}[Memory Access]
+  The number of memory accesses depends on the machine, but each unique address is 
+  $10$ bits, and note that we have a hierarchal memory system. We have a small amount of RAM with 
+  multiple levels of caches, and then we have the main memory and secondary storage. 
+\end{definition}
+
+\begin{definition}[Bus]
+  A bus is an interconnection of wires, capable of carrying bits of wires to the different 
+  components of a digital computer. Functional units are connected by means of a group of 
+  parallel wires. When you talk about a processor with a word length of 64-bits, 
+  the processor operates on 64 bits of data, and so it is reasonable that the bus can transfer 
+  64 bits of data from one point of the computer to another point. 
+\end{definition}
+
+\begin{definition}[von Neumann Architecture]
+  The von Neumann Architecture, also known as a stored-program computer changed history - 
+  treating instructions in the same way as data $\implies$ programs can be simply
+  shipped as files of binary numbers that maintain binary compatibility and computers 
+  can inherit ready-made software that are compatibile with the existing ISA. 
+\end{definition}
+
+\section{Instruction Set Architectures}
+
+\begin{remark}
+  MIPS is an example ISA! Recall that computer architecture consists of instruction 
+  set architecture and the computer organization itself. The ISA specifies what the processor 
+  is capable of doing $\implies$ interface between the hardware and software, so the only way 
+  to interact with the hardware is through the ISA. 
+\end{remark}
+
+\begin{note}
+  Suppose you have a high-level program language written in C, this code needs 
+  to be translated to assembly language and its instructions, and then this has to be translated to 
+  binary code that the processor understands. The compiler and assembler are responsible 
+  for this translation. 
+\end{note}
+
+\begin{definition}[Taxonomy of ISAs]
+  ISAs differ based on the internal storage in a processor ie. where the operands are stored, and 
+  whether they are named explicitly or implicitly. 
+  \begin{itemize}
+    \item \vocab{Single accumulator organization} names one of the general purpose registers as 
+    as the accumulator, so one of the operands is the accumator and it is enough if the other operand 
+    is specified along with the instructions
+    \item \vocab{General register organization} specifies all operands explicitly, further classification 
+    depends on whether the operands are available in memory or registers. 
+    \begin{itemize}
+      \item \vocab{Register-register}, where registers are used for storing operands. These are also called \vocab{Load-store} architecture. 
+      \item \vocab{Register-memory}, where one operand is in register and the other is in memory
+      \item \vocab{Memory-memory}, where all operands are specified as memory operands
+    \end{itemize}
+    \item \vocab{Stack organization}, where the operands are in a stack, and operations 
+    are carried out on the top of stack, so this method is implicit. 
+  \end{itemize}
+\end{definition}
+
+Now, we will discuss the different features that must be considered when designing the ISA. 
+
+\subsection{Operations in the Instruction Set}
+
+\begin{note}
+  A computer must have the following types of instructions: data transfer, data manipulation, 
+  program sequencing, control, and IO instructions. 
+\end{note}
+
+\begin{definition}[Data Transfer Instructions]
+  Data transfer instructions perform data transfer between the various storage places in the 
+  computer system. Since both instructions and data are stored in memory, the processor needs 
+  to be able to read both from memory. Logically, we get the two following instructions 
+  \begin{itemize}
+    \item \vocab{Load} (or Read or Fetch) - transfers a copy of the data from the memory to the processor 
+    \item \vocab{Store} (or Write) - moves data from the processor to memory
+  \end{itemize}
+  Other instructions are needed to transfer data from one register to another or from 
+  other devices to the processor 
+\end{definition}
+
+\begin{definition}[Data Manipulation Instructions]
+  These instructions contain arithmetic operations, logical operations, or shift operations. 
+\end{definition}
+
+\begin{definition}[Program Sequencing and Control Instructions]
+  Since a progarm is a sequence of instructions, sometimes we want to use control instructions
+  to change the flow of the program $\implies$ \vocab{branch instructions}. The new address 
+  is called the \vocab{branch target}. The branch instruction can be 
+  conditional or unconditional. If the condition is not satisfied, then the
+  program counter is incremented in a normal way.
+\end{definition}
+
+\begin{definition}[Input and Output Instructions]
+  Used for transferring information between registers, memory and I/O devices. 
+\end{definition}
+
+
+\subsection{Types and Sizes of Operands}
+
+\begin{definition}[Data Types and Sizes]
+  Indicate the various data types supported by the processor and their lengths. 
+  Common operads types are: characters (8 bits), half words (16 bits), words (32 bits), single precision floating point (1 word), 
+  double precission floating point (2 words), integers
+
+  Two's complement binary numnbers, characterstics in ASCII, floating point numbers following the IEEE 
+  Standard 754 Packed and unpacked decimal numbers. 
+\end{definition}
+
+\subsection{Addressing Modes}
+
+\begin{definition}[Addressing Modes]
+  The way the operands are chosen during program execution is dependent on the 
+  \vocab{addressing mode} of the instruction. The addressing mode specifies a rule for 
+  interpreting or modifying the address field of the instruction before the operand is actually referenced. 
+  There is 
+  \begin{itemize}
+    \item Register mode
+    \item Absolute (direct) mode
+    \item Immediate mode
+    \item Indirect mode
+    \item Index mode
+    \item Relative mode
+  \end{itemize}
+\end{definition}
+
+\subsection{Addressing Memory}
+
+\begin{definition}[Autoincrement and Decrement Modes]
+  The following two does are useful for accessing data items in successive locations in the memory. 
+  There is autoincrement mode and autodecrement mode.  
+\end{definition}
+
+\subsection{Encoding and Instruction Formats}
+
+\begin{note}
+  We have discussed how the processor can execute different types of instructions and the different 
+  ways to specify operands --- now the information must be given to the processor in the form 
+  of an \vocab{instruction format}, where the number of bits in the instruction is divided into groups called
+  \vocab{fields}. 
+\end{note}
+
+\begin{definition}
+  The most common fields found in instruction formats are 
+  \begin{itemize}
+    \item An operation code field that specifies the operation to be performed
+    \item An address field that designates a memory address or processor register
+    \item A mode field that specifies the way the operand or effective address is handled
+  \end{itemize}
+\end{definition}
+
+\section{Performance Metrics}
+
+In this section, we will discuss the performance metrics for a processor and also discuss 
+the CPU performance equation. 
+
+\begin{definition}[Execution Time]
+  \vocab{Execution time} is the time between the start and the completion of a task that is 
+  important to individual users. This does not include the time waiting for IO or running other 
+  programs. 
 \end{definition}
 
 \begin{center}
@@ -142,19 +303,116 @@ Here are some of the following things we will cover in the course:
   \end{example}
 \end{center}
 
+\begin{definition}[Throughput]
+  Throughput is the total amount of work done in a given time is important to data center 
+  managers $\implies$ servers
+\end{definition}
+
+\begin{definition}[Dependability]
+  Infrastructure providers started to offer \vocab{service level agreements} to guarantee 
+  how dependable their service will be. Failure is a transition from working to not working, and 
+  restoration is a transitiion from not working to working.
+\end{definition}
+
+\begin{definition}[Dependability Metrics]
+  \hfill
+
+  \begin{itemize}
+    \item \vocab{Mean time to Failure (MTTF)} measures reliability, and \vocab{Failures in Time (FIT)} $ = \frac{1}{\text{MTTF}}$, 
+  reported as failures per billion hours. 
+    \item \vocab{Mean time to repair (MTTR)} measures service interruption
+    \item \vocab{Mean time between Failures (MTBF)} = MTTF + MTTR
+    \item \vocab{Module Availability } = MTTF / MTBF = MTTF / (MTTF + MTTR)
+  \end{itemize}
+\end{definition}
+
 \begin{note}
-  To make computers faster, make common cases faster - make addition faster, instead of optimizing the square root. 
+  If modules have exponentially distributed lifetimes, the age of the module does not affect 
+  its probability of failure, the overall failure rate (FIT) is the sum of failure rates of the modules. 
 \end{note}
 
-\begin{definition}[Amdahl's Law]
-  \vocab{Speedup} as the time the task took originally divided by the time
-  the task takes after improvement
+\begin{definition}[Performance]
+  Performance is the inverse of execution time
+  \[\text{Performance} = \frac{1}{\text{Execution Time}}\]
+\end{definition}
 
-  Suppose the original task takes $1$ second, $f$ seconds in the critical piece and $1-f$ in the non-critical. 
+\begin{note}
+  Decreasing response time almost aways improves throughput.
+\end{note}
+
+\begin{definition}[CPU Execution Time for a Program]
+  To determine the CPU execution time for a program, you can find out the total 
+  number of clock cycles that the program takes and multiply it by the clock cycle time
+  \[\text{Execution Time for Program} = \text{Clock Cycles for Program} \times \text{Clock Cycle Time}\]
+  \[\text{Clock Cycle Time} = \frac{1}{\text{Clock Rate}}\]
+  \[\text{Execution Time for Program} = \frac{\text{Clock Cycles for Program}}{\text{Clock Rate}}\]
+  To improve execution time for a program, you can improve performance by either reducing the length of clock cycle time 
+  or by the number of clock cycles required for a program. 
+\end{definition}
+
+\begin{note}
+  Not all instructions take the same number of clock cycles. 
+  \[\text{CPU Time} = \text{Instruction Count} \times \text{CPI} \times \text{Clock Cycle}\]
+  where \vocab{CPI} is cycles per instruction. 
+\end{note}
+
+\section{Summarizing Performance, Amdahl's Law, and Benchmarks}
+
+\begin{remark}
+  In the previous section, we learned that CPU Exectution Time is the most consistent measure of 
+  performance, but what happens when processors execute multiple programs. How do you summarize
+   performances and compare them?
+\end{remark}
+
+\begin{definition}[Summarizing Performance]
+  To get a single number which summarizes performance, we can take the arithmetic mean, 
+  or weighted arithmetic mean, but most people use a \vocab{geometric mean}. One of the most popular benchmarks 
+  is the \vocab{Standard Performance Evaluation Corporation (SPEC)} benchmarks. 
+
+  Rather than pick weights and get weird results, we could normalize execution times 
+  to a reference computer by dividing the time on the reference computer by the time on the computer being rated, yielding a ratio proportional to performance.
+\end{definition}
+
+\begin{example}
+  Suppose that the SPEC of computer A on a benchmark was $1.25$ times higher than 
+  computer $B$, then you would know 
+  \[1.25 = \frac{SPEC_A}{SPEC_B} = \frac{\text{ExecutionTime}_{Ref}}{\text{ExecutionTime}_A} / \frac{\text{ExecutionTime}_{Ref}}{\text{ExecutionTime}_B}\]
+  \[= \frac{\text{ExecutionTime}_B}{\text{ExecutionTime}_A} = \frac{\text{Performance}_{A}}{\text{Performance}_B}\]
+  Note that the SPECRatios are unitless. 
+\end{example}
+
+\begin{definition}[Geometric Mean]
+  Using the geoemtric mean ensures two important properties 
+  \begin{enumerate}
+    \item Geoemtric mean of the ratios is the same as the ratios of the geoemtric means 
+    \item The ratio of the geometric means is equal to the geoemtric mean of the performance ratios, 
+    which implies that the choice of the reference computer is irrelevant.  
+  \end{enumerate}
+  \[\text{GeoemtricMean} = \sqrt[N]{\prod_{i=1}^N \text{SPECRatio}_i}\]
+\end{definition}
+
+\begin{note}
+  Some important observations about designs of computer designs to optimize performance
+  \begin{itemize}
+    \item Take advantage of parallelism through multiple processors, having multiple threads of execution, exploiting ILP through pipelining
+    \item \vocab{The locality of reference} rule-of-thumb says that a program spends $90\%$ of its time in $10\%$ of its code, so we should put effort into taking advantaage of this through \vocab{memory hierarchy}.
+    \vocab{Temporal} locality states that recently accessed items are likely to be accessed in the near future. \vocab{Spatial} locality says that 
+    items whose addresses are near one another tend to be referenced close together in time. 
+    \item Focus on the common case $\implies$ make addition faster, instead of optimizing the square root.
+  \end{itemize}
+\end{note}
+
+\begin{theorem}[Amdahl's Law]
+  \vocab{Amdahl's Law} quantifies how much of a speedup one could get for a given enhancement. 
+
+  \hfill
+
+  \vocab{Speedup} is the time the task took originally divided by the time
+  the task takes after improvement. Suppose the original task takes $1$ second, $f$ seconds in the critical piece and $1-f$ in the non-critical. 
   Then the improved task will only take $f/s$ in the critical piece, but still $1-f$ in the noncritical. Therefore, the 
   \[\text{Speedup} = \frac{\text{Old Time}}{\text{New Time}} = \frac{1}{(1-f) +\frac{f}{s}}\]
   Here $s$ is the speedup factor, note that we want to target operations that have large $f$ to maximize speedup.
-\end{definition}
+\end{theorem}
 
 \begin{example}
   Suppose we get a speedup of $2$ after we replace the GPU card. If the new card can process GPU instructions $5$ times faster, 
@@ -166,35 +424,548 @@ Here are some of the following things we will cover in the course:
   \end{proof}
 \end{example}
 
-\section{Appendix A}
+\begin{note}
+  The performance of any system is constrained by the speed or capacity of the slowest point. 
+\end{note}
 
-\begin{definition}[Instruction Sets]
-  Instruction sets sit in between software and hardware, and a good ISA defines how the software controls the CPU
-  in a computer. Some properties of a good abstraction are 
+\begin{note}
+  The impact of an effort to improve the performance of a program is primarily constrained by the amount of time that the program spends in parts of the program not targeted by the effort
+\end{note}
+
+\begin{example}
+  Suppose that for the same cost, we can speed up integer arithmetic by a factor of $20$ or speed 
+  up floating point arithmetic by $2$. If our task spends $10\%$ of its time in 
+  integer arithmetic, and $40\%$ of its time in floating point arithmetic, what should we do?
+
+  \begin{proof}[Solution]
+    \[\text{Option 1 Speedup} = \frac{1}{0.9 + \frac{0.1}{20}} \approx 1.105\]
+    \[\text{Option 2 Speedup} = \frac{1}{0.6 + \frac{0.4}{2}} \approx 1.25\]
+    so we should choose option 2 and do the floating point arithmetic speedup. 
+  \end{proof}
+\end{example}
+
+\section{Executution of a Complete Instruction}
+
+\begin{definition}[Pseudoinstructions]
+  \vocab{Pseudoinstructions} do not have hardware implementations. Instead, they are mapped to mutliple basic instructions, and  these are 
+  conveniient for programmers. For example,
+  \[\verb|li R16, 10| \implies \verb|ori R16, R0, 10|\]
+  Some other examples of pseudoinstuctions are 
+  \verb|b, beqz, bge, bgeu, bgt, bgtu, blt, bltu|.
+\end{definition}
+
+\begin{note}[Data Path vs. Control]
+  \vocab{Data path} has storage functional units, and interconnections sufficient to perform the desired functions. 
+  Inputs are control points, and outputs are signals. On the other hand, \vocab{controller} has state machine to orchestrate operation on the 
+  data path based on desired function and signals. 
+\end{note}
+
+\subsection{Datapath Implementation}
+
+The objective of this section is to discuss how an instruction gets executed in a processor and the 
+datapath implementation, using the MIPS architecture as a case study. 
+
+\begin{note}[MIPS Characteristics]
+  Some details regarding the MIPS ISA
   \begin{itemize}
-    \item Lasts through many generations (portability)
-    \item Generality
-    \item Convenient functionality to higher levels
-    \item Efficient lower level implementations
+    \item Load/store only displacement addressing
+    \item 32 general purpose registers (GPRs) with register \verb|R0| always having $0$
+    \item 32 floating point registers (FPRs)
+    \item No floating point status register (FP status register)
+    \item No condition codes
+    \item Supported addressing modes are immediate, displacement, and register mode
+    \item $3$ fixed length formats are supported: $I$-type, $R$-type, and $J$-type.
   \end{itemize}
-  There are a few types of ISA classes.
+\end{note}
+
+We will examine the MIPS implementation for a simple subset that shows most aspects of 
+implementation
+\begin{itemize}
+  \item Memory-reference instructions: \verb|lw, sw|
+  \item Arithmetic-logical instructions: \verb|add, sub, and, or, slt|
+  \item Branch instructions: \verb|beq, j|
+\end{itemize}
+While we are missing many instructions, we will illustrate the key principlpes in creating a datapath and 
+designing the control.
+
+\begin{note}
+  When we look at the instruction cycle of any procesor, it should involve the following operations
+  \begin{enumerate}
+    \item Fetch instruction from memory
+    \item Decode the instructions
+    \item Fetch the operands from memory
+    \item Execute the instruction
+    \item Write or store the result
+  \end{enumerate}
+\end{note}
+
+\begin{note}
+  A lot of these steps for the subset of instructions is the same, independent of the exact class of the instruction. 
+  For every instruction, the first two steps of instruction (fetch, decode) are identical.
   \begin{itemize}
-    \item Stack - a block of memory in RAM, LIFO structure, pushing and popping
-    \item Accumulator - places one operand in the accumulator (implicit) and one in memory (explicit memory address). 
-    The operand in the accumulator is loaded from memory using LOAD and the result is stored in memory from the accumulator using STORE.
-    \item Register (register-memory)
-    \item Regsiter (load-store) - this is what MIPS uses, this ISA divides instructions into two categories: memory access and 
-    (load and store between memory and registers) and ALU operations which only occur between registers. 
+    \item Send PC to the program memory that contains the code and fetch the instruction
+    \item Read one or two registers. $\verb|lw|$ reads only one register, but most read two. Since MIPS 
+    uses fixed length format with register specifiers in the same place, the registers can be read, irrespective of the instruction
+  \end{itemize}
+  Next, most instructions use ALU. For example, load/store use it for effective memory address calculation. Then, access the memory. 
+  \verb|lw| will read and then write the data fetched from memory to a register. 
+\end{note}
+
+\begin{center}
+  \includegraphics[width=10cm]{unpipeline-data-path.png}
+\end{center}
+
+We also need to implement the necessary control signals. The third multiplexor 
+determines whether $PC + 4$ or the branch destination is written into the $PC$. 
+
+\subsection{Control Flow Implementation}
+
+\[\text{not sure if this section is needed}\]
+\[\vdots\]
+
+\begin{definition}[Single-Cycle Implementations]
+  \vocab{Single-Cycle Implementations} are sequential, no parallelism, and one (long) cycle for processing each instruction. 
+  It is not feasible to vary the period of different instructions. Furthermore since the clock cycle is equal to the worst case delay, 
+  this violates the design principle of making the common case fast. This implementation is inefficient in performance 
+  and hardware cost. 
+\end{definition}
+
+\begin{definition}[Multi-Cycle Implementations]
+  \vocab{Multi-cycle implementations} are sequential, no parallelism and processing instructions in multiple separate stages. 
+  1 cycle for each stage, and clock cycle time still has to be set to the time for the longest stage. 
+\end{definition}
+
+
+
+\section{Pipelining - MIPS Implementation}
+
+\begin{remark}
+  Pipelining is analagous to an apartment of college students doing laundry. If someone puts their load in 
+  when someone else moves their clothes from the washer to the dryer, they can significantly speed up washing time. 
+\end{remark}
+
+\begin{center}
+  \includegraphics[width=10cm]{visual-pipelining.png}
+\end{center}
+
+To apply the concept of instruction exectution in pipline, it is required to break the instruction execution into different
+tasks. Each task will be executing in different processing elements of the CPU. We can split 
+the process up into two: instruction fetch and instruction execution. 
+
+\begin{definition}[Cycle Time of an Instruction Pipeline]
+  Cycle time $\tau$ can be determined as 
+  \[\tau = \max[\tau_i] + d = \tau_m + d, \ i \in [1, k]\]
+  where $\tau_m$ is the maximum stage delay, $k = $ the number of stages in 
+  the instruction pipeline, and $d = $ the time delay needed to advance signals and 
+  data from one stage to the next. The non-pipelining example would take time 
+  \[T_k = [k + (n-1)]r\]
+  On the other hand, let instruction execution be divided into five stages: fetch, decode, 
+  execute, memory access, and write back which we will denote as 
+  \vocab{Fi, Di, Ei, Mi, and Wi}. When the pipeline is filled, there are five different 
+  activities taking place in parallel. 
+  \begin{itemize}
+    \item ie. when the first instruction's decode happens, the second instruction's fetch is done
+    \item 
+    $\implies$ 5 instructions are in progress at once $\implies$ 5 distinct hardware units are needed, and they must be able to perform their task independently
   \end{itemize}
 \end{definition}
 
-\begin{note}[Addressing Modes]
-  See slide 57 in lecture 2.
+\begin{note}[Pipelining Speedup]
+  The speedup from pipelining is due to increased throughput and the latency (time for each instruction) does not decrease. 
 \end{note}
 
+\begin{note}[Features of Pipelining]
+  The basic features of pipelining are
+  \begin{itemize}
+    \item Pipelining does not help latency of a single task, only helps increase throughput of entire workload
+    \item Pipeline rate is limited by the slowest pipeline stage
+    \item Multiple tasks operate simultaneously
+    \item Exploits parallelism among instructions in a sequential instruction stream
+    \item Unbalanced lengths of pipe stages reduces speedup
+    \item Time to "fill" pipline and "drain" it reduces speedup
+  \end{itemize}
+\end{note}
 
+\begin{note}[Five Stages MIPS Pipeline]
+  Consider the MIPS Pipeline with five stages, with one step per stage 
+  \begin{itemize}
+    \item \vocab{IF}: Instruction fetch from memory
+    \item \vocab{ID}: Instruction decode and register read 
+    \item \vocab{EX}: Execute operation or calculate address 
+    \item \vocab{MEM}: Access memory operand
+    \item \vocab{WB}: Write result back to register 
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=10cm]{novsyes.png}
+  \end{center}
+  Note that for a non-pipelined implementation, it takes $800ps$ for each instruction, 
+  and for the pipelined implementation, it takes $200ps$. 
+\end{note}
 
+\begin{note}
+  If all stages are balanced in pipelining ie. they all take the same time, 
+  then 
+  \[\text{Time Between Instructions}_{\text{Pipeline}} = \dfrac{\text{Time Between Instructions}_{\text{Nonpipelined}}}{\text{Number of Stages}}\]
+  and so the potential speedup is equal to the number of pipe stages.
+\end{note}
 
+\begin{definition}[Buffers in Pipelining]
+  \vocab{Buffers} are mandatory in pipelining --- each stages takes in data from that buffer, 
+  processes it, and writes it into the next buffer. 
+  \begin{itemize}
+    \item \vocab{Buffer IF/ID} holds fetched instruction I4
+    \item \vocab{Buffer ID/EX} holds decoded instructions and source operands for I3
+    \item \vocab{Buffer EX/MEM} holds the executed results of I2
+    \item \vocab{Buffer MEM/WB} holds data fetched from memory (for a load) for I1, and for the arithmetic and logical operations 
+  \end{itemize}
+  Since there are five stages, it makes sense that there are four buffers $\implies$ there need not be a buffer for the IF and WB stages to interact.
+\end{definition}
+
+\begin{note}
+  Note that the entire information of the instruction is written into each of the buffers.
+  \begin{example}
+    Consider the following example which illustrates this further
+    \begin{itemize}
+      \item If the PC fetches the instruction, it is written into the IF/ID buffer and the PC is incremented by $4$
+      \item Next, the instruction is decoded, the register file is read, and the operands are written into the ID/EX buffer
+      \item The base register's contents and sign are fed to the ALU, which calculates the memory address, and this is stored in the EX/MEM buffer. Also
+      the destination register info is moved from the ID/EX buffer to EX/MEM buffer. 
+      \item Next, the memory access happens and the read data is written into the MEM/WB buffer, and the destination register's info is passed from EX/MEM to MEM/WB, too. 
+    \end{itemize}
+  \end{example}
+\end{note}
+
+\section{Pipeline Hazards}
+
+\begin{definition}[Hazards]
+  Ideally, we expect a CPI value of $1$ when leveraging pipelining, but
+  there are some factors that limit this called \vocab{hazards}, which arise in the pipeline 
+  and prevent the next instruction from executing during its designated clock cycle. 
+  There are three types of hazards:
+  \begin{itemize}
+    \item \vocab{Structural hazards}: when two instructions require the same resource. 
+    \item \vocab{Data hazards}: Instruction depends on result of prior instruction that is still in the pipeline. 
+    \item \vocab{Control hazards}: caused by delay between fetching the instructions and decisions about changes in control flow (branches and jumps)
+  \end{itemize}
+\end{definition}
+
+\begin{note}[Resolving Structural Hazards]
+  To resolve structural hazards, one can wait or throw more hardware at the problem
+\end{note}
+
+\begin{note}
+  Example: If an instruction needs to access memory for an instruction fetch and 
+  another instruction is accessing memory for data/access (load/store), these two are conflicting 
+  and gives rise to a hazard. 
+
+  The solution is dual memory pipelines, as opposed to single memory. 
+\end{note}
+
+\begin{definition}[Types of Dependencies]
+  There are two types of data dependence: 
+  \begin{itemize}
+    \item \vocab{True data dependencies}: an instruction $j$ is \vocab{data dependent} on instruction $i$ if either of the following holds
+    \begin{itemize}
+      \item Instruction $i$ produces a result that may be used by instruction $j$
+      \item Instruction $j$ is data dependent on instruction $k$, and instruction $k$ is data dependent on instruction $i$
+    \end{itemize}
+    \item \vocab{Name dependence}: when two instructions use the same register or memory location, called a \vocab{name}, but there 
+    is no flow of data between instructions associated with that name 
+    \begin{itemize}
+      \item \vocab{Antidependence}: when instruction $j$ writes a register or memory lcoation that instruction $i$ reads. 
+      \item \vocab{Output dependence}: occurs when $i$ and $j$ write the same register or memory location $\implies$ register renaming can fix this and can be done either statically by the compiler or dynamically by the hardware. 
+    \end{itemize}
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Control Dependencies]
+  There are two general constraints imposed by control dependencies: 
+  \begin{itemize}
+    \item An instruction that is control dependent on the branch cannot be moved before the branch so that its 
+    execution is no longer controlled by the branch. 
+    \item An instruction that is not control dependent on the branch cannot be moved after the branch so that its execution 
+    is now controlled by the branch. 
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Read After Write (RAW)]
+  \vocab{RAW} corresponds to a true data dependence. Program order must be preserved, and this hazard 
+  results from an actual need for communication $\implies$ $j$ reads data before $i$ writes it. 
+\end{definition}
+
+\begin{definition}[Write After Write (WAW)]
+  \vocab{WAW} corresponds to an output dependence, specifically, it's the same same name that causes the issue. This occurs when there are 
+  multiple writes. $j$ should write after $i$ has written the data. 
+  
+  The solution is register renaming, or just using some other register. 
+\end{definition}
+
+\begin{definition}[Write After Read (WAR)]
+  \vocab{WAR} arises from anti-dependence, and occurs when there are early writes \textit{and} late reads, or when 
+  instructions are re-ordered. Again, no data transfer, it is the same name that causes the problem. $j$ should write after instruction $i$ has read the data. 
+
+  The solution is register renaming, similar to WAW. 
+\end{definition}
+
+\begin{note}
+  MIPS pipelines with a single memory face issues because load/store and instruction fetches both require data access $\implies$ 
+  pipelined datapaths require separate data memories. 
+\end{note}
+
+\begin{note}
+  RAW hazards can happen in any architecture, but WAR and WAR can't happen in MIPS 5 stage pipelines. 
+\end{note}
+
+\begin{theorem}[Speedup Equation with Stalls]
+  \[CPI_{\text{Pipeline}} = \text{Ideal CPI} + \text{Average Stall Cycles per Inst}\]
+  \[\text{Speedup} = \dfrac{\text{Ideal CPI} \times \text{Pipeline Depth}}{\text{Ideal CPI} + \text{Pipeline Stall CPI}} \times \dfrac{\text{Cycle Time}_{\text{Unpipelined}}}{\text{Cycle Time}_{\text{Pipelined}}}\]
+  \[\text{Speedup} = \dfrac{\text{Pipeline Depth}}{1+ \text{Pipeline Stall CPI}} \times \dfrac{\text{Cycle Time}_{\text{Unpipelined}}}{\text{Cycle Time}_{\text{Pipelined}}}\]
+  Assuming all stages are perfectly balanced and ignoring cycle time overhead, then
+  \[\text{Speedup} = \dfrac{\text{Pipeline Depth}}{1+ \text{Pipeline Stall CPI}}\] 
+\end{theorem}
+
+\begin{example}
+  Suppose Machine $A$ has dual ported memory and machine $B$ has single ported memory, but its pipelined 
+  implementation has a $1.05$ times faster clock rate. Note that the ideal $CPI = 1$ for both. 
+  Assume that loads are $20\%$ of instructions executed. 
+  \begin{proof}[Solution]
+    \[\text{Speedup}_A = \frac{\text{Pipeline Depth}}{1 + 0} \times \dfrac{\text{Cycle Time}_{\text{Unpipelined}}}{\text{Cycle Time}_{\text{Pipelined}}}\]
+    \[\text{Speedup}_B = \frac{\text{Pipeline Depth}}{1 + 0.2 \times 1} \times \dfrac{\text{Cycle Time}_{\text{Unpipelined}}}{\text{Cycle Time}_{\text{Pipelined}} / 1.05}\]
+    \[\frac{\text{Speedup}_A}{\text{Speedup}_B} = \frac{1.2}{1.05} = 1.14\]
+    so machine $A$ is $1.14$ times faster!
+  \end{proof}
+\end{example}
+
+\section{Handling Data Hazards}
+
+In this section, we will discuss how data hazards are handled in general and in the MIPS architecture. 
+
+\begin{definition}[Forwarding]
+  \vocab{Forwarding} is the concept of making data available to the input of the ALU f
+  for later instructions \textit{before} the generating instruction has gotten to WB in order to write the memory or registers. This 
+  allows other instructions to read the data before it's fully been written. This is also called 
+  \vocab{short circuiting} or \vocab{by passing}.
+\end{definition}
+
+\begin{note}
+  One way of avoiding/minimizing stalls due to true data dependencies is to reorder the code --- separate the dependent instructions. 
+  For example, 
+  \begin{center}
+    \includegraphics[width=13cm]{moving-around.png}
+  \end{center}
+\end{note}
+
+\begin{note}
+  There are instances where stalls may occur even with forwarding. 
+\end{note}
+
+\section{Handling Control Hazards}
+
+The objective of this section is to discuss how to handle control hazards, to differentiate 
+between static and dynamic branch prediction, and to study the concept of delayed branching. 
+
+\begin{definition}[Branch (Control) Hazard]
+ An instruction must be fetched every clock cycle to sustain the pipeline. However, 
+ the delay in determining the proper instruction to fetch the next instruction is called a 
+ \vocab{control hazard}. 
+\end{definition}
+
+\begin{note}
+  The two major issues to control dependencies are 
+  \begin{itemize}
+    \item \vocab{Exception Behavior}: 
+    \item \vocab{Handling and Preservation of Data Flow}: 
+  \end{itemize}
+\end{note}
+
+\begin{note}
+  In MIPS pipeline, the comparison of registers and target address calculation is usually known 
+  by the end of the decode stage, which causes a three clock cycle penalty.
+  \begin{center}
+    \includegraphics[width=13cm]{branch-penalty-mips.png}
+  \end{center}
+  Note that if we added hardware to resolve the braanch in the decoding stage, 
+  the penalty could be reduced. Rsolving the branch earlier requires two actions to occur: 
+  \begin{enumerate}
+    \item Computing branch target address 
+    \item Evaluating branch decision earlier
+  \end{enumerate}
+\end{note}
+
+\begin{note}
+  There are two ways of handling control hazards:
+  \begin{enumerate}
+    \item Stall until the branch outcome is knwon or perform the fetch again $\implies$ too much penalty. Not handling these brings down performance 
+    and we are violating the principal of making "common cases fast"
+    \item Predict the behavior of branches 
+    \begin{itemize}
+      \item Static prediction by the compiler
+      \item Dynamic prediction by the hardware 
+    \end{itemize}
+  \end{enumerate}
+\end{note}
+
+\begin{note}
+  There are primarily three methods adopted: 
+  \begin{enumerate}
+    \item \vocab{Predict not taken}: assume that the branch is not taken ie. the condition will not evaluate to true. 
+    Recall that the registers are read during ID. Load in the next instruction PC + 4 and continue. If we are wrong, 
+    the pipeline is cleared of any code taken from the "not-taken" path, and execution continues. 
+    \item \vocab{Predict taken approach}: assume that the branch is taken ie. the condition will evaluate to true, and assume 
+    that the branch is always taken. Doesn't work for a MIPS architecture with a 5-stage pipeline. 
+    \item \vocab{Delayed branching}: a more effective solution
+  \end{enumerate}
+\end{note}
+
+\section{Midterm 1 Preparation}
+
+\subsection{Practice Set 1}
+
+\begin{example}
+  What is the speedup with $N$ processors if $80\%$ of the application is parallelizable, ignoring the 
+  cost of communication?
+
+  \begin{proof}[Solution]
+    \[s = \frac{1}{0.2 + \frac{0.8}{N}}\]
+  \end{proof}
+  \begin{center}
+    \includegraphics[width=14cm]{1b.png}
+  \end{center}
+  \begin{proof}[Solution]
+    \[s = \frac{1}{0.2 + 8 * 0.005 + \frac{0.8}{N}}\]
+  \end{proof}
+\end{example}
+
+\begin{example}
+  Suppose that we have a single processor with an FIT of $150$. What is the MTTF for this processor in (hours)?
+  \begin{proof}[Solution]
+    \[FIT = \frac{10^9}{MTTF} \implies MTTF = \frac{10^9}{150} = 6,666,667 \text{ hours}\]
+  \end{proof}
+  \begin{center}
+    \includegraphics[width=14cm]{2b.png}
+  \end{center}
+  \begin{proof}[Solution]
+    \[\text{Availability} = \frac{MTTF}{MTTF + MTTR} = \frac{6,666,667}{6,666,667 + 24 * 30} \approx 0.99\]
+  \end{proof}
+\end{example}
+
+\begin{center}
+  \includegraphics[width=14cm]{3.png}
+\end{center}
+
+\begin{example}
+  Let's begin with the code. 
+  
+\begin{lstlisting}
+    # Load A.
+    LD $t1, 2000($0)
+    # Load B. 
+    LD $t2, 2008($0)
+    # Sets $t3 to 1 if B < A else 0. 
+    SLT $t3, $t2, $t1
+    # Branch: if $t3 == 0, then we are done because B > A
+    BEQ $t3, $t0, Label
+    # $t4 is C. 
+    DADD $t4, $t2, $11
+    DSUB $t4, $0, $t4
+    SD $t4, 2016($0)
+  Label:
+\end{lstlisting}
+4 instructions are executed dynamically, 2 memory-data references will be executed, and the code size in bytes is $7 * 4 = 28$. 
+\end{example}
+
+\begin{center}
+  \includegraphics[width=14cm]{4.png}
+\end{center}
+
+\begin{example}
+  Let's start with the code. 
+  
+  \begin{lstlisting}
+  LD $t1, 2000($0)
+  LD $t2, 2008($0)
+  SLT $t3, $t2, $t1
+  BEQ $t3, $0, ELSE
+  DSLR $t4, $t1, 16
+  DSUB $t4, $0, $t4
+  SD $t4, 2016($0)
+  J ENDIF
+ELSE:
+  DSLL $t4, $t1, 16
+  SD $t4, 2016($0)
+ENDIF:
+  \end{lstlisting}
+  I don't understand the dynamic instructions parts
+
+  There are 10 instructions so $10 * 4 = 40$ bytes. 
+
+  The hex value of memory address $2016$ after code execution is 
+  
+  $0x12340000FEDC0000$
+\end{example}
+
+\begin{center}
+  \includegraphics[width=14cm]{5.png}
+\end{center}
+\begin{lstlisting}
+  DADDI $t1, $0, 100 ; set i = 100
+  SD $t1, 7000($0) ; store i
+LOOP: 
+  LD $t3, 7000($0) ; load i
+  # Check exit condition
+  SLT $t4, $t3, $0 ; if i < 0 then 1 else 0
+  BEQ $t4, $0, ENDLOOP ; if i == 0 go to ENDLOOP
+  SLL $t4, $t4, 3 # Multiply by 8
+  DADDI $t5, $t4, 5000 ; Calculate address of B[i]
+  LD $t6, 0($t5) ; Load B[i]
+  LD $t1, 5000($0) ; Load C
+  DADD $t2, $t6, $t1 ; $t2 = $ B[i] + C
+  DADDI $t5, $t4, 1000 ; Calculate address of A[i]
+  SD $t2, 0($t5) ; Store B[i] + C at address of A[i]
+  DADDI $t3, $t3, -1 ; Decrement i
+  SD $t3, 7000($0) ; Store new i
+  J LOOP
+ENDIF:
+\end{lstlisting}
+
+\begin{enumerate}[(b)]
+  \item How many instructions are executed dynamically?
+  \[3 \times 101 + 10 \times 100 + 2 \times 1 = 1305\]
+  \item How many memory-data references will be executed?
+  \[1 + 101 + 4 \times 100 = 502\]
+  \item What is the code size in bytes?
+  \[15 \times 4 = 60 \text{ bytes}\]
+\end{enumerate}
+
+\begin{center}
+  \includegraphics[width=14.5cm]{6.png}
+\end{center}
+
+Note that if for one computer, if MTTF = 35 $\implies$ FIT = $\frac{1}{35}$. For 
+10,000 computers, this means $FIT = 10000 \times \frac{1}{35} = 10000 / 35$ which then implies that 
+MTTF = $35/10000$. This can be interpreted as 1 machine would fail every 0.00035 days. 
+The farm will crash every $10000 / 3 \times 35 / 10000 = 35 / 3 \approx 11.67$
+
+\begin{center}
+  \includegraphics[width=14.5cm]{7.png}
+\end{center}
+
+\[\text{Speedup} = 0.5n + 0.5 \times 10 \times n = 5.5n\]
+What percentage of the original execution time has been converted to fast mode?
+\[1-x = x/10 \implies x = \frac{10}{11}\]
+
+\begin{center}
+  \includegraphics[width=14.5cm]{8.png}
+\end{center}
+
+Note that R-type instructions are of the following form: opcode, rs, rt, rd, shamt, funct. In binary this is 
+\[000000 \ 00000 \ 00100 \ 01010 \ 10100 \ 000010\]
+Taking every 4 bits yields 
+\[0000 \ 0000 \ 0000 \ 0100 \ 0101 \ 0101 \ 0000 \ 0010\]
+And in Hex this is 
+\[0x00045502\]
+
+\subsection{Practice Set 2}
 
 \end{document}
 

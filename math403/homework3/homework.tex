@@ -1,0 +1,212 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength {\marginparwidth}{2cm}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{MATH403: Homework 3}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\maketitle
+
+\includegraphics[width=14cm]{10.png}
+
+\begin{proof}
+  \hfill
+
+  \begin{enumerate}[(i)]
+    \item Let's start with $aba^2$. Note that $aba^2 = a(ba)a$ by associativity of groups. We're given $ba = a^2b$. By direct substitution, 
+    \[aba^2 = a(a^2b)a = a^3ba\]
+    Since $|a| = 3 \implies a^3 = e$ by definition of order of an element. Thus,
+    \[a^3ba = eba = ba\]
+    Finally, by direct substitution once more 
+    \[ba = a^2b\]
+    \[\implies aba^2 = a^2b\]
+    \item Now consider $a^2bab$. Note that $ba = a^2b$ by the given. By substitution, therefore, we obtain 
+    \[a^2bab = a^2a^2bb = a^4b^2\]
+    Since $|a| = 3, |b| = 2 \implies a^4 = a, b^2 = e$ by proprties of orders of elements. Therefore, 
+    \[a^4b^2 = a\]
+    \[\implies a^2bab = a\]
+  \end{enumerate}
+  
+\end{proof}
+
+\newpage
+
+\includegraphics[width=14cm]{36.png}
+
+\begin{proof}
+  $H$ is a nonempty subset of $Z$ that immediately contains $0, 2^{50},$ and $3^{50}$. 
+  By the One-Step Subgroup Test, $H$ is a subgroup if $\forall \ a, b \in H, ab^{-1} \in H$. Additionally, 
+  by the Two-Step Subgroup Test, $H$ is a subgroup if $\forall \ a, b, c \in H, ab \in H$ and $c^{-1} \in H$.
+  Therefore, all linear combinations of $2^{50}$ and $3^{50}$ are also in $H$. To formalize this, 
+  \[H = \{x2^{50} + y3^{50} \ | \ x, y \in \ZZ\}\]
+  Considering the trivial prime factor decomposition of $2^{50}$ and $3^{50}$, it is 
+  easy to see that they share no prime factors, so their GCD is 1, and they are relatively prime. Therefore, $1$ must be in $H$, and as 
+  a consequence of Bezout's Identity,
+  for any integer $z \in \ZZ$, we can find $x, y \in \ZZ$ such that $z = x2^{50} + y3^{50}$. 
+  Therefore, $H$ must contain all integers, so $H$ is equal to $Z$. 
+\end{proof}
+
+\newpage
+
+\includegraphics[width=14cm]{60.png}
+
+\begin{proof}
+  Let $a = 2, b = -\frac{1}{2}$. Note that $a$ and $b$ both have \textit{infinite order} because there does not exist 
+  a natural number such that $a^n = e = 1$ or $b^n = e = 1$. Thus, $|a| = \infty, |b| = \infty$. Now consider the element 
+  $ab$.
+  \[ab = (2)(-\frac{1}{2}) = -1 \implies (ab)^2 = 1 \implies |ab| = 2\]
+  as desired. To generalize this, let $a \neq 1$ be in $R^*$. If $b = -\frac{1}{a} \in R^*$ such that $ab = -1$, then $a, b$ satisfy 
+  $|a| = \infty, |b| = \infty$, and $|ab| = 2$.
+\end{proof}
+
+\newpage
+
+\includegraphics[width=14cm]{80.png}
+
+\begin{proof}
+  
+  First let us prove that the set $\langle a, b\rangle$ is a subgroup of $H$. We can prove 
+  this by satisfying the conditions for either the One-Step Subgroup Test or the Two-Step Subgroup Test
+  \begin{enumerate}
+    \item For any $a, b \in H$, since $a^ib^j$ is also in $H$ for all $i, j \in \ZZ$, if we set $i = 1, b = -1$, then $ab^{-1}$ must be in $H$, 
+    and so $H$ must be a subgroup of $G$.
+    \item For any $a, b \in H$, since $a^ib^j$ is also in $H$ for all $i, j \in \ZZ$, $ab$ must also be in $H$ by setting $i = 1, j = 1$ 
+    and $a^{-1}$ must also be in $H$ by setting $i = -1, b = 0$. Therefore, $H$ is a subgroup of $G$.
+  \end{enumerate}
+  Now let us describe $|\langle a, b \rangle|$ in terms of $|a|$ and $|b|$. Suppose $|a| = x, |b| = y$ and $x, y \in \NN + \{0\}$. 
+  We're trying to find the minimum $n \in \NN + \{0\}$ such that 
+  \[|\langle a, b \rangle| = |a^i b^j| = (a^ib^j)^n = a^{in}b^{jn} = e\] 
+  For $a^{in} b^{jn} = 1$, we need $in$ to be a multiple of $x$ and $jn$ to be a multiple of $y$ so that $a^{in} = e$ and $b^{ij} = e$. Therefore, let 
+  \begin{align*}
+    n_1 = \frac{LCM(i, x)}{i} && n_2 = \frac{LCM(j, y)}{j}\\
+  \end{align*}
+  Thus we've found $n_1$ and $n_2$ such that $a^{in_1} = e$ and $b^{jn_2} = e$. To find the minimum $n$ such that both of these are true, simultaneously, let
+  \[n = LCM(n_1, n_2) = LCM\left( \frac{LCM(i, |a|)}{i}, \frac{LCM(j, |b|)}{j}\right)\]
+  and so we've expressed $|\langle a, b\rangle|$ in terms of $|a|$ and $|b|$, as desired.
+\end{proof}
+
+\newpage
+
+\includegraphics[width=14cm]{30.png}
+
+\begin{proof}
+  Since this group has order $3$, denote $G = \{a, b, c\}$. All groups must have exactly one identity element. Without loss of generality, 
+  let element $c = e$, so we have $G = \{a, b, e\}$
+  and now only have $2$ unknown elements. Observe that in groups, for each element, there must exist an inverse. 
+  Therefore, $ab = ba = e \implies a^{-1} = b$. Finally, observe that $ab = aa^{-1} = a^0 = e$. Therefore, we can represent $G$ as 
+  \[G = \{a, b, c\} = \{a^1, a^{-1}, a^0\} = \langle a \rangle\]
+  so $a$ is a generator and $G$ is cyclic, as desired.
+\end{proof}
+
+\newpage
+
+\includegraphics[width=14cm]{58.png}
+
+\begin{proof}
+  Let $G$ be an infinite group, and let $a$ be any element in $G$. We will show that $\langle a \rangle$ is a subgroup of $G$, 
+  and therefore, since there are an infinite number of elements in $G$, this will show that there are an infinite number of subgroups of $G$. 
+  Since $a \in \langle a \rangle, \langle a \rangle$ is not empty. Let $a^n, a^m \in \langle a \rangle, n, m \in \ZZ$. Then,
+  \[a^n(a^m)^{-1} = a^{n-m} = a^na^{-m} \in \langle a \rangle\]
+  Therefore, by the One-Step Subgroup Test, $\langle a \rangle$ is a subgroup of $G$. Therefore, 
+  there are an infinite number of subgroups of $G$, as desired.  
+\end{proof}
+
+\newpage
+
+\includegraphics[width=14cm]{72.png}
+
+\begin{proof}
+  Let $a, b \in G$. $|a| = 12 \implies a^{12} = e$ and $|b| = 22 \implies b^{22} = e$. Since 
+  $\langle a \rangle \cap \langle b \rangle \neq \{e\}$, 
+  \[\exists \ x \in \langle a \rangle \cap \langle b \rangle \text{ s.t. } x = a^i = b^j\]
+  Note that the order of $x$ must divide $12$ and $22$. The divisors of $12$ and $22$ are $1$ and $2$. 
+  We do not seek $1$ because if the order of $x$ is $1$, then $x = e$, but we pre-specified that $x \neq e$. Therefore, 
+  the order of $x$ must be $2 \implies |x| = 2 \implies x^2 = e$. Therefore, 
+  since $x = a^i = b^j$, 
+  \[x^2 = a^{2i} = b^{2j} = e \implies i = 6, b = 11\]
+  because $a^{12} = e = b^{22}$. Thus,
+  \[(a^6)^2 = (b^{11})^2 \implies a^6 = b^{11}\]
+  as desired.
+\end{proof}
+
+\newpage
+\end{document}
+

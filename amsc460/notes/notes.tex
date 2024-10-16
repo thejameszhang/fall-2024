@@ -612,11 +612,11 @@ Some good assessments of the quality of an algorithm are accuracy, efficiency, a
   to determine the smallest one. 
 \end{note}
 
-\subsection{Linear Algebra Background}
+\section{Linear Algebra Background}
 
 \textit{Omitted}.
 
-\subsection{Linear Systems: Direct Methods}
+\section{Linear Systems: Direct Methods}
 
 \subsection{Gaussian Elimination}
 
@@ -632,9 +632,142 @@ Some good assessments of the quality of an algorithm are accuracy, efficiency, a
   compute $A^{-1}$.  
 \end{definition}
 
+\subsection{LU Decomposition and Forward/Backward Substitution}
+
+\begin{definition}
+  We prefer to solve some equations using \vocab{LU Decomposition}
+  \[Ax = b \Leftrightarrow \begin{cases}
+    Ly = b\\ Ux = y
+  \end{cases}\] 
+  instead of solving $x = A^{-1}b$. This is better for memory, efficiency, and robustness.
+  \begin{enumerate}
+    \item Use elementary row operations to reduce $A$ to $U \implies$ instead of solving $Ax = b$, we now want to solve $Ux = \overset{\sim}{b}$
+    
+    Observation: the solution of $Ax = b$ doesn't change up to some elementary row operations (transforms)
+    \begin{itemize}
+      \item Multiplication of a row by a constant
+      \item Substraction of a multiple of one row from another
+      \item Row interchanges
+    \end{itemize}
+    Eliminating one column at a time to make $A$ into $U$. To do this, we can first start with finding a \vocab{lower triangular matrix}
+    which can help us find the upper triangular matrix $U$. Find 
+    \[M^{(1)} = \begin{bmatrix}
+      1\\
+      -l_2 &  1\\
+      -l_3 & & \ddots\\
+      \vdots & & & \ddots\\
+      -l_n & & & & 1
+    \end{bmatrix}\]
+    and compute $M^{(1)}A = A^{(1)}$ and $M^{(1)}b = b^{(1)}$
+    \[M^{(1)} = \begin{bmatrix}
+      1 & 0 & \cdots & 0\\
+      0 & 1 & \cdots & 0\\
+      0 & -l_{32} & \cdots & 0\\
+      & & \ddots & \\
+      0 & -l_{n2} & \cdots & 1
+    \end{bmatrix}\]
+    For $k = 3: 1: n$
+    \[l_{k2} = -\frac{A_{k2}^{(1)}}{A^{(1)}_{{k, k}}} \overset{\text{General Case}}{\Longrightarrow} -l_{kt} = -\frac{A^{(t-1)}_{k, t}}{A^{(t-1)}_{t,t}}\]
+    In this way, we can generate $M^{(1)}, M^{(2)}, M^{(n-1)}$ such that all $M^{(t)}s$ are lower triangular and 
+    \[M^{(n-1)} \cdots M^{(1)} = U\]
+    This is the matrix computation representation of Gaussian Elimination in Step 1. Furthermore, note that 
+    $M^{(t)}$ is very special 
+    \[A = (M^{-(1)})^{-1} \cdots (M^{(n-1)})^{-1} U := LU\]
+    without any matrix inverse by just knowing how to compute $l_{ij}$. The above is a lower triangular matrix.
+    \item Use backwards substitution to solve $x = U^{-1}\overset{\sim}{b}$
+    
+    \[\begin{bmatrix}
+      a_{11} & \cdots & \cdots & a_{1n}\\
+      0  & a_{22} & \cdots & a_{2n}\\
+      0 & 0 & \cdots & \vdots\\
+      & & \ddots & \vdots\\
+      & & & 0
+    \end{bmatrix}\begin{bmatrix}
+      x_1\\ \vdots  \\ \vdots\\ x_n
+    \end{bmatrix} = \begin{bmatrix}
+      \overset{\sim}{b}_1 \\ \vdots \\ \vdots \\ \overset{\sim}{b}_n
+    \end{bmatrix}\]
+    Given an upper triangular matrix $A$ and a right-hand-side $b$,  for $k = n: -1: 1$, 
+    \[x_k = (b_k - \sum_{j=k+1}^n a_{kj}x_j) / a_{kk}\]
+    Operation count for $k$: $(n-k) = (n-k-1) + 1 + 1 = \mathcal{O}(n-k)$ and total cost: $\sum_{k=1}^n \mathcal{O}(n-k) \implies \mathcal{O}(n^2)$
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}[LU Facotorization]
+  \[M^{(t)} = \begin{bmatrix}
+    1\\
+    & \ddots \\
+    & -l_{t, t} & \ddots\\
+    & \vdots & & \ddots\\
+    & -l_{n, t} & & &  1
+  \end{bmatrix}\]
+  where 
+  \[-l_{kt} = -\frac{A^{(t-1)}(k, t)}{A^{(t-1)(t, t)}}\]
+  and using this we can compute 
+  \begin{align*}
+    L = (M^{(1)})^{-1} \cdots (M^{(n-1)})^{-1} && U = M^{(n-1)} \cdots M^{(1)}A && A^{(t)} = M^{(t)}A^{(t-1)}
+  \end{align*}
+  \begin{lstlisting}[language=Matlab]
+for k = t + 1: 1 : n
+  % l_{kt} = A^{(t-1)}(k, t) / A^{(t-1)}(t, t) is slow
+  l^{(t)} = A^{(t-1)}(t + 1: n, t) / A^{(t-1)}(t, t);
+  M^(t) = eye(n);
+  M^{(t)}(t+1; n, t) = l^{(t)}
+  L(t+1: n, t) = l^{(t)};
+end
+L^{(t)} = [l_{t+1, t}, ..., l_{nt}]^T;
+M^{(t)} = eye(n);
+M^{(t)}(t+1: n, t) = l^{(t)};
+  \end{lstlisting}
+\end{definition}
+
+\subsection{Pivoting Strategies}
+
+\begin{definition}[Pivoting]
+  The motivation for this section is when we encounter a singular matrix 
+  \[A = \begin{bmatrix}
+    0 & 1\\ 1 & 0
+  \end{bmatrix}\]
+  so we want to switch rows to avoid this issue. This is called \vocab{pivoting}.
+\end{definition}
+
 \begin{note}
-  This leads to the LU Decomposition which we will learn about next class. 
+  Note that pivoting is not unique. 
+  \begin{enumerate}
+    \item \vocab{Partial pivoting} is more efficient, use the largest entry in a column, but not quite stable
+    \item \vocab{Completet pivoting} is less efficient, use the largest entry in a submatrix, and this is usually stable
+  \end{enumerate}
 \end{note}
+
+\begin{definition}[Partial Pivoting]
+  At the stage $k$ of an LU Decomposition when we want to generate $M^{(k)}$ from $A^{(k-1)}$. Algorithmically, 
+  since $A^{(0)} = A \in \RR^{n \times n}$, 
+  \begin{itemize}
+    \item Generate $M^{(1)}$ according to $A^{(0)}$. 
+    \item Define $A^{(1)} = M^{(1)}A^{(0)}$
+    \item Generate $M^{(2)}$ according to $A^{(1)}$. 
+    \[\vdots\]
+    \item Generate $M^{(n-1)}$ according to $A^{(n-2)}$
+    \item Define $U = A^{(n-1)} = M^{{n-1}}A^{(n-2)}$
+  \end{itemize}
+  and we can also generate the lower triangular matrix $L = (M^{(1)})^{-1} \cdots (M^{(n-1)})^{-1}$
+\end{definition}
+
+\begin{definition}[Permutation Matrix]
+  A \vocab{permutation matrix} is a matrix such that there is only one 1 in every row and column, and 
+  all other elements in the matrix are $0$s. PA results in a new matrix by switching the $i$ nd $j$ row of $A$. 
+  \[PA = \begin{bmatrix}
+    0 & 0 & 1\\
+    0 & 1 & 0\\
+    1 & 0 & 0
+  \end{bmatrix}\begin{bmatrix}
+    a & b & c\\ d & e & f\\ g & h & i
+  \end{bmatrix} = \begin{bmatrix}
+    g & h & i\\
+    d & e & f\\
+    a & b & c
+  \end{bmatrix}\]
+\end{definition}
 
 \end{document}
 

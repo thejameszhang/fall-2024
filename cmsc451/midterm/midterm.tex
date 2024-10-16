@@ -1,0 +1,161 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength {\marginparwidth}{2cm}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{CMSC451 Midterm 1 Studying}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\maketitle
+
+\begin{enumerate}
+\item \textit{Short Answer Questions}
+
+\begin{enumerate}
+\item \textit{False}; in the situation that companies make offers to students, once a company makes an offer that is accepted, 
+the company is not guaranteed to remain engaged for the remainder of the algorithm. Suppose $c$ matches with $s$, but then $c'$ makes an offer 
+to $s$ and they match -- company $c$ is no longer matched. On the other hand, if companies are making offers to students, 
+if a student becomes matches, the \textit{student} is guaranteed to remain engaged for the remainder of the algorithm, and 
+the quality of the engagement for the student can only increase $\implies$ \vocab{Lemma 1} in Child's notes.
+
+\item \textit{iii}; the company's preference for the student to whom it is engaged \textit{may either decrease or stay the same from one iteration to the next}.
+
+\item \textit{True}; $(c, s)$ is an instability.
+
+\item A counterexample to show that the greedy algorithm does not output a stable matching is 
+\begin{align*}
+  A = \{X, Y\} && X = \{B, A\}\\
+  B = \{X, Y\} && Y = \{A, B\}
+\end{align*}
+$A$ will greedily choose $X$, forcing $B$ to choose $Y$, but $B$ and $X$ 
+would rather be together. 
+\item Running times of certain situations using the Gale-Shapley algorithm
+\begin{itemize}
+  \item All companies have the same preference $\implies \mathcal{O}(n^2)$
+  \item Each company's top choice is a different student $\implies \mathcal{O}(n)$
+\end{itemize}
+\item $\mathcal{O}(n)$; In the first iteration of the while loop, the for loop iterates $n$ times, then $n/2$, then $n/4, \cdots$ 
+\[\sum_{i=0}^\infty n(\frac{1}{2})^i = n\sum_{i=0}^\infty (\frac{1}{2})^i = 2n\]
+\item Time complexity of \textbf{ExploreTriangles}
+\begin{enumerate}[i.]
+  \item $\mathcal{O}(n * 100 * 100) = \mathcal{O}(n)$
+  \item $\mathcal{O}(n * \sqrt{n} * \sqrt{n}) = \mathcal{O}(n^2)$
+\end{enumerate}
+\item Little $o, \omega, \Theta$ 
+\item More asymptotic stuff
+\item More asymptotic stuff
+\item More asymptotic stuff
+\item More asymptotic stuff
+\item The maximum number of edges in an undirected graph with $n$ vertices, in which each vertex has degree at most $k$ is $\frac{n * k}{2}$.
+\item The number of edges in an $n$-vertex forest with $c$ components is $n - c$; each component has $c-1$ edges.
+\item Graph with $4n$ vertices, where each vertex has degree $n + 7 \implies$ the exact number 
+of edges is $\frac{4n(n+7)}{2} = \frac{4n^2 + 28}{2} = 2n^2 + 14 \implies \Theta(n^2)$
+\item Different BFS trees example: Consider a graph with $4$ edges and $3$ nodes. There are edges $12$, $13$, $34$, and $24$. 
+\item \textit{Not bipartite}; we can arrive at a contradiction at vertex $8$. 
+\item \textit{Not strongly connected}; no path from $11$ to any other vertex because its out-degree is $0$. 
+\item \textit{False}; every DAG has a topological ordering, but it need not be unique. Consider a graph with $3$ nodes, and $2$ edges $12, 13$. 
+Two valid topological orderings are $1, 2, 3$ and $1, 3, 2$. 
+\item $G_2$ does not have a valid topological ordering; since there is a cycle in $G_1$, simply reversing 
+the edges to obtain $G_2$ does not eliminate the cycle in $G_2$. 
+\item \textit{True}; I can't think of a counterexample?
+\item $\{4, 2, 5, 7, 3, 6, 1\}$?
+\item Maximum spanning tree?
+\item \textit{False}
+\end{enumerate}
+\end{enumerate}
+
+\begin{center}
+  \includegraphics[width=14cm]{2.png}
+\end{center}
+\begin{lstlisting}
+  Let degree be a vertex-indexed array where degree[v] is the degree of vertex v
+  Define a helper function called DFS(v)
+  Define a vertex-indexed array called seen representing if a vertex v has been explored yet or not
+  DFS(v):
+    if v not in seen:
+      return degree[v]
+    for neighbors in G[v]:
+      
+
+\end{lstlisting}
+
+
+\end{document}
+

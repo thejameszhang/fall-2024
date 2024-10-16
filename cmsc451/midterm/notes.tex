@@ -1,0 +1,763 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength {\marginparwidth}{2cm}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{CMSC451: Algorithms}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+\maketitle
+These are my notes for UMD's CMSC451: Algorithms. These notes are taken live in class 
+(``live-\TeX``-ed). This course is taught by Professor Andrew Childs. 
+\tableofcontents
+
+\newpage
+
+\begin{definition}[Algorithm]
+  An \vocab{algorithm} is a well-defined computational procedure for processing some input 
+  to obtain a desired output.
+\end{definition}
+
+\section{Introduction}
+
+\subsection{Stable Matching Problem}
+
+\begin{definition}[Stable Matching Problem]
+  The goal is to pair memebers of two sets according to their preferences, such as 
+  students and employees for summer internships. Given two sets $S, J$ a \vocab{matching} 
+  is a set of pairs of the form $(s,t). s \in S, t \in J$, such that every element of $S$ 
+  appears in at most one pair, and similarly for $J$. 
+\end{definition}
+
+\begin{note}
+For simplicity, the two sets have the same size, and we must match every member of the first set 
+with exactly one member of the second set. 
+\end{note}
+
+\begin{definition}
+  A matching is \vocab{perfect} if every element of $S$ and $J$ is in some pair. 
+\end{definition}
+
+\begin{definition}
+  A matching is \vocab{stable} if there is no pair $(s,t)$ not in the matching such that 
+  $s$ prefers $t$ over its assigned partner and $t$ prefers $s$ over its assigned partner. 
+\end{definition}
+
+\begin{example}
+  See August 29. notes for some examples. 
+\end{example}
+
+\begin{definition}
+  Gale-Shapley Algorithm
+
+\begin{lstlisting}
+All companies and students are unengaged
+While there is a company c that is unengaged and has not made an offer to every students
+  Let s be the highest-ranked student for c to whom c has not yet made an offer
+  If s is unengaged
+    (c, s) become engaged
+  Else
+    Let c` be the company to which s is engaged
+    if s prefers c to c` then 
+      (c,s) become engaged
+      c` becomes unengaged
+    endif
+  endif
+endwhile
+Return the set of engaged pairs
+\end{lstlisting}
+\end{definition}
+
+\begin{lemma}
+  Once a student receives an offer, they remain engaged for the rest of the algorithm, and the 
+  quality of their engagement (according to their preference) can only increase. 
+  \begin{proof}
+    Omitted.
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  As the algorithm proceeds, the sequence of students engaged to a given company can only decrease 
+  in performance. 
+  \begin{proof}
+    Omitted. 
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  If there are $n$ companies and $n$ students, then the algorithm terminates after at most 
+  $n^2$ iterations of the while loop. 
+  \begin{proof}
+    Omitted. 
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  The Gale-Shapley algorithm outputs a perfect matching. 
+  \begin{proof}
+    Omitted. 
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  The matching output by the G-S algorithm is stable. 
+  \begin{proof}
+    Omitted.
+  \end{proof}
+\end{theorem}
+
+\subsection{Asymptotic Notation}
+
+We're interested in asymptotic upper bounds on the worst-case running times of algorithms, 
+and we express this using \vocab{Big-O Notation}
+
+\begin{definition}
+  $f(n) = \mathcal{O}(g(n))$ if $\exists c > 0, n_0 \geq 0$ such that for all $n \geq n_0$, 
+  $f(n) \leq cg(n)$
+\end{definition}
+
+\begin{definition}
+  $f(n) \in \Omega(g(n))$ if $\exists \ c > 0, n_0 \geq 0$ such that for all $n \geq n_0$, $f(n) \geq cg(n)$. 
+\end{definition}
+
+\begin{example}
+  $10n^2 \in \mathcal{O}(n^2), \mathcal{O}(n^3), \Omega(n^2), \Omega(n), \cdots$
+\end{example}
+
+\begin{definition}
+  We say $f(n) \in \Theta(g(n))$ if $f(n) \in \mathcal{O(g(n))}$ and $f(n) \in \Omega(g(n))$
+\end{definition}
+
+\begin{definition}
+  We say $f(n) \in o(g(n))$ if $\underset{n\to\infty}{\lim}\frac{f(n)}{g(n)} = 0$ and 
+  $f(n) \in \omega(g(n))$ if $\underset{n\to\infty}{\lim}\frac{g(n)}{f(n)} = 0$
+\end{definition}
+
+\subsection{Basic Graph Algorithms}
+
+\begin{definition}
+  A \vocab{directed (undirected)} graph $G = (V, E)$ is a finite set $V$ of vertices and 
+  $E$ of edges, where edges are \vocab{ordered (unordered)} pairs of vertices. 
+\end{definition}
+
+\begin{definition}
+  Vertices are sometimes called \vocab{nodes}
+\end{definition}
+
+\begin{definition}
+  Edge $\{u, v\}$ joins $u$ and $v$, which are its \vocab{ends}. $u$ and $v$ are 
+  \vocab{adjacent}; the edge is \vocab{incident} in $u$ and $v$. Edge $\{u, v\}$ has 
+  tail $u$ and head $v$
+\end{definition}
+
+\begin{definition}
+  The \vocab{degree} of vertex $v$ is the number of incident edges, in a digraph, 
+  indeg(v) is the number of edges with $v$ as head, and vice versa for outdeg(v). 
+\end{definition}
+
+\begin{note}
+  We often write $|V| = n$ and $|E| = m$. Furthermore, note 
+  \begin{align*}
+    \sum_{v \in V} \deg(v) = 2m && \sum_{v \in V} indeg(V) = m = \sum_{v \in V} outdeg(v) && m \leq \binom{n}{2} = \mathcal{O}(n^2)
+  \end{align*}
+  in an unidrected graph. In a directed graph, $m \leq n^2$. 
+\end{note}
+
+\begin{definition}
+  A \vocab{subgraph} of $G = (V, E)$ is a graph $G' = (V', E')$ with $V' \subseteq V$ and 
+  $E' \subseteq E$ 
+\end{definition}
+
+\subsubsection{Graph Representations}
+
+\begin{definition}
+  An \vocab{adjacency matrix} is a $|V| \times |V|$ matrix indexed by vertices, with $A_{uv} = 1$ if $(u, v) \in E$ and $0$ otherwise. 
+\end{definition}
+
+\begin{definition}
+  A \vocab{adjacency list}: for each $v \in V$, given a list $Adj_v$ of its neighbors outgoing
+\end{definition}
+
+\subsubsection{Paths, Cycles, and Connectivity}
+
+\begin{definition}
+  A \vocab{path} is a sequence of vertices $(v_0, \cdots, v_k)$ such that 
+  $(v_i, v_{i+1}) \in E$ for all $i \in \{0, 1, \cdots, k-1\}$. 
+  A path is \vocab{simple} if all of its vertices and edges are distinct. The length is the its number 
+  of edges.
+\end{definition}
+
+\begin{definition}
+  A \vocab{cycle} is a path with $v_0 = v_k$ and all other vertices are distinct. 
+\end{definition}
+
+\begin{definition}
+  The \vocab{distance} between $u, v \in V$ is the length of the shortest path from $u$ to $v$. 
+\end{definition}
+
+\begin{definition}
+  An undirected graph is \vocab{connected} if for all $u, v \in V, \ \exists$ a path from $u$ to $v$. A 
+  \vocab{component} of a graph is a set of vertices such that pairs of vertices in the set 
+  have a path betwen them, and no superset has this property. 
+\end{definition}
+
+\begin{definition}
+  A digraph is \vocab{strongly connected} if $forall \ u, v \in V, \ \exists$ a path from $u$ to $v$ and a 
+  path from $v$ to $u$.
+\end{definition}
+
+\begin{definition}
+  A \vocab{strongly connected component} is a maximal subgraph that is strongly connected. 
+\end{definition}
+
+\subsubsection{Trees}
+
+\begin{definition}
+  A \vocab{forest} is a graph with no cycles, and a \vocab{tree} is a connected forest. Note that 
+  a \vocab{n-vertex} tree has $n-1$ edges. If we designate one vertex of the tree as a root, then the 
+  unique neighbor of a vertex that is closer to the root is the parent, and the neighbors that 
+  are further from the root are its chilcren. 
+
+  Vertices of degree $1$ in a tree are called \vocab{leaves}
+\end{definition}
+
+\begin{definition}
+  A digraph with no cycles is called a \vocab{Directed Acylic Graph} or \vocab{DAG}
+\end{definition}
+
+\subsubsection{More on Connectivity}
+
+Given a graph, we want to find is it connected? Given verticecs $s, t$ is there a path 
+between them $(s-t)$ connectivity?
+
+One approach is to find a \vocab{spanning tree}, a subgraph that includes all vertices 
+and is a tree. 
+
+\begin{proof}[Solution]
+  We can specify a rooted tree by giving the parent \verb|pr[v]| of every vertex with 
+  \verb|pr[root] = |$\emptyset$. Here is the pseudocode for generating a spanning tree for a tree rooted at $s$. 
+  \begin{lstlisting}
+    Let T be the graph with one vertes, s, with pr[s] = emptyset. 
+    While exists an egde {u, v} joining a vertex u of T to a vertex v not in T
+      Add vertex v and edge {u, v} to T
+      Set pr[v] = u
+  \end{lstlisting}
+\end{proof}
+
+The resulting graph is always a tree. 
+
+\begin{lemma}
+   The algorithm produces a spanning tree for the component of $s$. 
+
+   \begin{proof}
+    Any vertex in the tree has a path to $s$: repeatedly take parents until your reach $s$. 
+    To find a path from $u$ to $v$ in $T$, join the paths from $u$ to $s$ and $v$ to $s$. 
+    On the other hand, if $u$ is not in $T$, then there is no path to $s$. If there were, we could 
+    follow the path and find an edge from a vertex not in $T$ to a vertex in $T$, but no such 
+    edge remains when the algorithm is done. 
+   \end{proof}
+\end{lemma}
+
+\begin{definition}
+  \vocab{Breadth-First Search (BFS)}: explore the graph in order of increasing distance from the root.
+  \begin{lstlisting}
+    Let T be the tree with one vertes, s, with pr[s] = empty
+    Repeat:
+      Let u be the unexhausted vertex that joined the tree earliest, the "active vertex"
+      Choose an edge {u, v} where v is not in T
+      Add vertex v and edge {u, v} to T
+      Set pr[v] = u
+    Until all vertices are exhausted
+  \end{lstlisting}
+  The total running time of BFS is $\mathcal{O}(\sum_{u \in V} (\deg(u) + 1)) = \mathcal{O}(m + n)$
+\end{definition}
+
+\begin{lemma}
+  BFS partitions the vertices into layers $L_j$. A vertex in $L_j$ has distance $j$ from $s$. 
+  \begin{proof}
+    By induction on $j$. Clearly, $L_0 = \{s\}$ is the set of vertices at distance $0$ from $s$.
+    If $L_0, L_1, \cdots, L_j$ satisfies the lemma, then vertices in $L_{j+1}$ must have distance at leaast $j+1$ from $s$. 
+    But there exists a path of length $j+1$ from any vertex in $L_{j+1}$ to $s$ since there is an edge to a vertex in $L_j$, which has a path of length 
+    $j$ to $s$ by IJ. Hence, vertices in $L_{j+1}$ satisfies the lemma, so the lemma follows by induction. 
+  \end{proof}
+\end{lemma}
+
+\begin{definition}
+  A graph $G = (V, E)$ is \vocab{bipartite} if there is a partition $(A, B)$ of $V$ where
+  $V = A \cup B, A \cap B = \emptyset$, such that for all $\{u, v\} \in E$, either $u \in A$ and $v \in B$ 
+  or $u \in B$ and $v \in A$. 
+\end{definition}
+
+\begin{lemma}
+  Let $T$ be a BFS tree of graph $G$, and let $u, v$ be vertices of $T$ with $u \in L_i$ and 
+  $v \in L_j$. Suppose $\{u, v\}$ is an edge of $G$. Then $|i - j| \leq 1$. 
+  \begin{proof}
+    WLOG, suppose $u$ is added before $v$. Then $i \leq j$ and $u$ is active before $v$. There are two cases: 
+    \begin{enumerate}
+      \item $v$ is in the tree when $u$ becomes active. Then $\{u, v\}$ is a non-tree edge, and 
+      \verb|pr[v]| joined the tree before $u$, so $j = layer(pr(v)) + 1 \leq i + 1$. 
+      \item $v$ is not in the tree when $u$ becomes active. Then $\{u, v\}$ is a tree edge and $j = i + 1$. 
+    \end{enumerate}
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  A connected graph with BFS tree $T$ is bipartite if and only if there is no non-tree edge joining vertices in the same layer. 
+  \begin{proof}
+    Suppose there is no non-tree edge joining vertices in the same layer. 
+    Let $A = L_0 \cup L_2 \cup \cdots \cup L_{2k}$ and let $B = L_1 \cup L_3 \cup \cdots \cup L_{2k+1}$. 
+    This is a partition since all non-tree edges join vertices whose layers differ by $1$. 
+
+    Conversely, suppose $\{u, v\}$ is a non-tree edge between vertices in the same layer. Suppose their nearest common ancestor 
+    is $j$ layers higher, then the path in the tree betwee $u$ and $v$ has length $2j$. Adding $\{u, v\}$ 
+    gives a cycle of length $2j + 1$, but an odd cycle cannot be bipartite. 
+  \end{proof}
+\end{theorem}
+
+\subsubsection{Connectivity in Digraphs}
+
+We can use BFS to find the vertices that can be reached from a given starting vertex. The idea 
+is to run BFS fro mevery vertex, so there are $n$ runs of $BFS$. 
+
+\begin{note}
+  The digraph is \vocab{strongly connected} if and only if all runs reach all vertices, and the running time would be 
+  $\mathcal{O}((m + n)n)$
+\end{note}
+
+\begin{lemma}
+  If $u$ and $v$ are mutually reachable, and $v$ and $w$ are mutually reachable, then
+  $u$ and $w$ are mutually reachable. 
+  \begin{proof}
+    We can go from $u \to w$ by going from $u \to v \to w$ and we can go from $w \to u$ by going from 
+    $w \to v \to u$. 
+  \end{proof} 
+\end{lemma}
+
+The better idea is the following algorithm
+\begin{lstlisting}
+  Run a BFS starting from s
+  Run BFS starting from s, reversing the directions of all edges
+  If both searches find all vertices, the graph is strongly connected, otherwise not
+\end{lstlisting}
+The running time of this is $\mathcal{O}(2(m + n)) = \mathcal{O}(m + n)$
+
+\subsubsection{Topological Sorting}
+
+The idea here is that we can use a digraph to capture a set of operations with consraints on which ones must be done 
+before others. 
+
+\begin{definition}
+  A \vocab{topological ordering} is a possible sequence in which the actions can be performed, subject to the contraints on which other actions must have been 
+  completed. 
+\end{definition}
+
+\begin{lemma}
+  If $G$ has a topological ordering, then $G$ is a DAG.
+  \begin{proof}
+    For a contradiction, suppose $G$ has a topological ordering and a directed cycle $C$, 
+    $v_1, v_2, \cdots, v_n$. Let $v_i$ be the lowest-index vertex on $C$, and let $v_j$ be the 
+    vertex before it in $C$. Then $(v_j, v_i)$ is an edge with $i < j$, but we also must have $j < i$ for this to be a topological ordering. This 
+    is a contradiction. 
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  Every DAG has a vertex with indegree $0$. 
+  \begin{proof}
+    We proceed by proving the contrapositive: if every vertex has positive indegree, then the 
+    graph is a directed cycle. Start at any vertex. Walk along some edge in the backward direction, which must be possible because every vertex has positive indegree.
+    Repeat. After at most $n+1$ steps, we must have visited some vertex twice, so we found a cycle. 
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  Every DAG has a topological ordering. 
+  \begin{proof}
+    By induction on $n = |V|$. Base case, a 1-vertex graph has a topological ordering. Suppose the lemma holds for 
+    any digraph with at most $n$ vertices. For an $(n+1)$-vertex graph, let $v$ be a vertex with indegree $0$. 
+    Put it first in the ordering. Follow it by a topological oprdering $G \slash \{v\}$. This exists 
+    because $G \slash \{v\}$ . is obtained by deleting a vertex and edges from a DAG, and deletion cannot 
+    guarantee a cycle, and plus the IH, and we have shown a valid topogical ordering. 
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  Using the above Lemmas, we have shown that a graph is a DAG if and only if it has a 
+  topological ordering. 
+\begin{lstlisting}
+TopoSort(G):
+  Let S be an emptyset
+  For all vertices v
+    If v has indegree 0, add v to S
+    Set count[v] = indeg(v)
+  endfor
+  while S is nonempty do
+    remove a vertex v from S
+    output v
+    for each vertex u that v points to 
+      remove edge (v, u) from the graph
+      decrement count[u]
+      if count[u] = 0, then add u to s
+    endfor
+  endwhile
+\end{lstlisting}
+There is $\mathcal{O}(n)$ initialization, the while loop goes through all vertices; for loop for $v$ takes 
+$\mathcal{O}(outdeg(v) + 1)$ steps $\implies \mathcal{O}(n + \sum_v (outdeg(v) + 1)) = \mathcal{O}(m + n)$
+\end{theorem}
+
+\section{Algorithm Design Techniques}
+
+\subsection{Greedy Algorithms}
+
+A common problem for greedy algorithms is the coin change problem. Fix the coin denominations
+$c_1, c_2, \ldots, c_k$, and given a value $v$, find a way to make up $v$ using as few coins as possible. 
+\begin{lstlisting}
+Change(v):
+  If v = 0, return 0
+  Else
+    Let c be the largest coin of denomination at most v
+    Add c to the list of coins
+    Change(v-c)
+  endif
+\end{lstlisting}
+The question that we want to ask is, "does this find the maximum number of coins?"
+
+\begin{note}
+  If the coin denominations are $1, 2$ then yes. A counterexample $1, 7, 10$ and $v = 14$, as the 
+  greedy algorithm would say $10 + 1 + 1 + 1 + 1 = 14 \implies 5$ but the optimal is actually 
+  $7 + 7 = 14 \implies 2$
+\end{note}
+
+\subsubsection{Shortest Paths}
+
+Given weights $w_{uv} \geq $ for each edge $(u, v) \in E$, what is the length of a shortest path from 
+$s$ to $t$, for $s, t \in V$?
+
+\begin{definition}
+  \vocab{Dijkstra's Algorithm} finds the shortest path in a digraph with no negative edge weights. 
+\begin{lstlisting}
+  Let d[s] = 0 and pr[s] = empty
+  For all v in V\{s}, ket d[v] = infinity
+  Mark all vertices as unexplored
+  Repeat:
+    Let u be the unexplored vertex with smallest d[u]
+    For each neighbor v of u
+      If d[u] + w_{uv} < d[v] then 
+        Let d[v] = d[u] + w_{uv}
+        Let pr[v] = u
+      endif
+    endfor
+    Mark u as explored
+  Until all verticse are explored
+\end{lstlisting}
+\end{definition}
+
+\begin{lemma}
+  When $v$ is explored, $d[v]$ is the distance from $s$ to $v$. 
+  \begin{proof}
+    By induction on the number of explored vertices, base case, this clearly holds when $s$ is explored. 
+    IH: suppose this lemma holds when $k$ vertices are explored. Let $v$ be the $(k+1)$st explored vertex; let 
+    \verb|pr[v] = u|. By IH, the algorithm has already found the shortest path from $s \to u$. 
+    Syppose for a contradiction that the shortest path from $s$ to $v$ does not go through $u$. Let 
+    $x$ be the last explored vertex on the path and let $y$ be its unexplored neighbor on this path. Then 
+    \[dist(s, v) < d[v] \leq d[y] = \text{length of path from s to y found in alg} \leq dist(s, v)\]
+    which is a contradiction.  
+  \end{proof}
+\end{lemma}
+
+\subsubsection{Minimum Spanning Trees}
+
+Goal: given a graph $GG$ with edge weights, find a spanning tree $T$ that minimizes the total 
+weight of edges in $T$
+
+\begin{definition}
+  A \vocab{cut} in a graph is a bipartition of the vertices $(V = A \cup B, A \cap B = \emptyset)$. 
+  A cut is \vocab{nontrivial} if neither $A$ nor $B$ is empty. An edge \vocab{crosses} the cut 
+  if t has one vertex on each side.
+\end{definition}
+
+\begin{definition}
+  \vocab{Kruskal's Algorithm} adds the lowest-cost edge that doesn't create a cycle in order 
+  to construct a MST. 
+\end{definition}
+
+\begin{lemma}
+  Assume all edge weights are distinct. Let $(A, B)$ be a nontrivial cut; let $e$ be the minimum 
+  weight crossing this cut. Then any minimum spanning tree must contain $e$. 
+  \begin{proof}
+    Let $T'$ be a MST that does not contain $\{u, v\}$. Since $T'$ is spanning, there exists a unique path 
+    in $T'$ from $u$ to $v$. Since $u$ and $v$ are on opposite sides of the cut, then there must be an edge along this path
+    that crosses the cut; call it $e'$. Let $T$ be the graph obtained from $T'$ by deleting $T'$ and adding $e$. We 
+    can show that $T$ is a spanning tree. Since $e$ is the min-weight edge crossing the cut, $w_e < w_{e'}$, 
+    and since all other edges are unchanged, $T$ has lower total weight than $T'$. 
+  \end{proof}
+\end{lemma}
+  
+\begin{theorem}
+  Kruskal's algorithm outputs a MST.
+  \begin{proof}
+    Suppose the algorithm adds edge $e = \{u, v\}$ to the forest $F$. Consider the cut with $A$ = vertices in the component of $u$ in $F$. 
+    Vertex $v$ is on the other side of the cut since adding $e$ doesn't create a cycle. There are no edges in $F$ 
+    crossing the cut, so $e$ is in fact the min-weigtht edge crossing the cut, so $e$ is in fact the 
+    min-weight edge crossing the cut. So, by the lemma, every MST contains $e$. 
+  \end{proof}
+\end{theorem}
+
+\begin{definition}
+  The idea of \vocab{Prim's Algorithm} is to choose any root and grow a tree by repeatedly adding the non-tree
+  vertex with the lowest attachment cost. 
+\end{definition}
+
+\begin{theorem}
+  Prim's Algorithm outputs a MST.
+  \begin{proof}
+    Suppose the algorithm adds $e = \{u, v\}$ in the forest $F$. Consider the cut with $A = $ the component of the 
+    root in $F$. Clearly, $e$ crosses the cut, and it has the lowest weight of any such edge by the greedy rule, so by the 
+    lemma, every MST contains $e$. The algorithm outputs a spanning tree since as long as $F$ is not connected, 
+    we can add some edge and still have no cycles. 
+  \end{proof}
+\end{theorem}
+
+\begin{note}
+  Both of these algorithms can be implemented in $\mathcal{O}(m \log n)$ with appropriate 
+  data structures. 
+\end{note}
+
+\subsubsection{Interval Scheduling}
+In this course, we cover three greedy problems with respect to interval scheduling
+\begin{enumerate}
+  \item finding the largest possible compatible subsets
+  \item minimizing the resources used
+  \item minimizing lateness
+\end{enumerate}
+
+Given $n$ requests with starting times $s_i$ and finishing times $f_i$ for $i \in \{1, \ldots, n\}$. 
+A subset of requests is compatibile if no two overlap in time. Find the largest possible subset.
+
+\begin{note}
+  When we think about how we want to be greedy, we want to \textbf{choose the earliest-finishing activity first}!
+\begin{lstlisting}
+GreedyIntervalSchedule(s, f):
+  Sort tasks by increasing order of finish time
+  Let A be an empty set
+  Let f_prev = -inf
+  For i = 1 to n:
+    if s_i > f_prev 
+      Add task i to A
+      f_prev = f_i
+    endif
+  endfor
+\end{lstlisting}
+The running time of this algorithm is $\mathcal{O}(n \log n)$. Note that the scheduling contains 
+no conflicts because we only add intervals that start after the last finished interval. 
+\end{note}
+
+\begin{theorem}
+  GreedyIntervalSchedule outputs an optimal solution. 
+  \begin{proof}
+    Let $G = (g_1, \ldots, g_k)$ be the greedy schedule (with indices of intervals in order of increasing finishing time). 
+    Let $B = (b_1, \ldots, b_l)$ be an optimal schedule. Let $j$ be the first index where the schedules differ. Thus, 
+    \begin{align*}
+      G = (g_1, \ldots, g_{j-1}, g_j, \ldots, g_k) && B = (g_1, \ldots, g_{j-1}, b_j, \ldots, b_l)
+    \end{align*} 
+    By the greedy rule, $f_{g_j} \leq f_{b_j}$. So, let's switch $B$ to the valid schedule
+    \[B' = (g_1, \ldots, g_{j-1}, b_{j+1}, \ldots, b_l)\]
+    Repeating, we can get another valid schedule 
+    \[B'' = (g_1, \ldots, g_k, b_{k+1}, \ldots, b_k)\]
+    Since the greedy algorithm stopped with only $k$ jobs, there cannot be a job $b_{k+1}$ that it could have 
+    scheduled, so in fact $k = l$ and the greedy schedule is optimal. 
+  \end{proof}
+\end{theorem}
+
+\subsubsection{Interval Partitioning}
+
+2. Now suppose we need to schedule all the intervals and we want to minimize the resources used. 
+
+\begin{definition}
+  The \vocab{depth} of a set of intervals is 
+  \[\max_t |\{i \in \{1, \ldots, n\} : t \in [s_i, f_i) \}|\]
+  Clearly the number of resources is at least the depth. 
+
+\begin{lstlisting}
+GreedyIntervalPartition(s, f):
+  Sort the intervals by starting time
+  For i = 1 to n:
+    Let E = emptyset
+    For j = 1 to i - 1:
+      If [sj, fj] overlaps [si, fi] then add color[j] to E
+    endfor
+    Let color[i] be the smallest postiive integer that is not in E
+  endfor
+\end{lstlisting} 
+\end{definition}
+
+\begin{theorem}
+  Using GreedyIntervalPartition, each interval is assigned a color from 
+  
+  $\{1, 2, \ldots, depth\}$ and no two overlapping intervals are the same color. 
+  \begin{proof}
+    Whereever we assign a color, it is different from the colors of all overlapping intervals, so we never 
+    assign the same color to two overlapping intervals. Now we need to show that we don't exclude all 
+    colors from $\{1, 2, \ldots, depth\}$. Say that when considering interval $i$, it overlaps $t$ previous intervals. 
+    Then $\ \exists \ t + 1$ overlapping intervals, so depth $\geq t + 1 \implies t \leq \text{depth} - 1$, so therer 
+    is always a color available. . 
+  \end{proof}
+\end{theorem}
+
+\subsubsection{Scheduling to Minimize Lateness}
+
+3. Now consider the problem where we are scheduling to minimize lateness. Each task has a duration 
+$t_i$ and a deadline $d_i$. Define the \vocab{lateness} of task $i$, if scheduled in 
+$[s_i, f_i] = [s_i, s_i + t_i]$ as $l_i = \max\{0, f_i - d_i\}$ and our goal is to minimize
+\[\max_i l_i\]
+the worst-case lateness. 
+
+\begin{note}
+  Here, the strategy is to schedule in order of increasing deadline $d_i$. 
+\end{note}
+
+\begin{definition}
+   A schedule has an \vocab{inversion} if job $i$ comes before job $j$ but $d_i > d_j$. 
+\end{definition}
+
+\begin{lemma}
+  All schedules with no inversions and no idle time have the same max lateness.
+  \begin{proof}
+    The only flexibility in such a schedule is in the order of jobs with the same deadline. Any such 
+    jobs must be scheduled consecutively. The finishing time of the last of these jobs doesn't depend on the order. 
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  There is an optimal schedule with no inversions and no idle time. 
+  \begin{proof}
+    
+  \end{proof}
+\end{lemma}
+
+\subsection{Divide and Conquer}
+
+\begin{note}
+  First, recall mergesort: to sort a list of length $n$, we must divide the list into two halves and sort 
+  each of them recursively, and then merge the two lists in time $\mathcal{O}(n)$. The recurrence relation can be modeled as 
+  \[T(n) = 2T(\frac{n}{2}) + \mathcal{O}(n) \implies T(n) = \mathcal{O}(n \log n)\]
+  by the Master's Theorem
+\end{note}
+
+\subsubsection{Closest Points}
+
+Given $n$ points in the plane, find the closest pair. A simple approach finds such a pair in 
+$\mathcal{O}(n^2)$ time. 
+
+The main idea of the better algorithm is to recursively divide into left and right halves, find the closest pair 
+of points on each side, check whether there is a closer pair of poihnts with one on the left and one on the right. 
+As we recursive, maintain sorted lists by x and y coordinates. 
+
+Let us have input points $P = \{p_1, \ldots, p_n\}$ where each $p_i = (x_i, y_i)$. 
+\begin{align*}
+  Q = \text{pts in P w first n/2 coords} && R = \text{pts in P with last n/2 coods}
+\end{align*}
+Find the closest pair of points in $Q = (q_0^*, q_1^*)$ and $R = (r_0^*, r_1^*)$. Let 
+$\delta = \min(dist(q_0^*, q_1^*), dist(r_0^*, r_1^*))$ and let $x^*$ be the largest x coordinate of a point in 
+$Q$. Let $L$ be the line $x = x^*$. 
+
+\begin{lemma}
+  If $\exists \ q \in Q, r \in R$ with $dist(q, r) < \delta$, then both $q, r$ must be within distance $\delta$ of $L$. 
+\end{lemma}
+
+\begin{lemma}
+  If two points in $S$ have distance less than $\delta$ then they must be within $15$ positions of each other in the 
+  list of points sorted by $y$ coordinate. 
+  \begin{proof}
+    Divide the strip into sequences of side length $\frac{\delta}{2}$. 
+  \end{proof}
+\end{lemma}
+
+\subsubsection{Polynomial Multiplication and the Fast Fourier Transform}
+
+Problem: given polynomials $a(x) = a_0 + a_1x + a_2x^2 + \cdots a_{n-1}x^{n-1}$ and 
+$b(x) = b_0 + b_1x + b_2x^2 + \cdots b_{n-1}x^{n-1}$ compute their product 
+\[c(x) = \]
+
+
+
+\end{document}
+

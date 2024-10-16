@@ -1,14 +1,12 @@
-\contentsline {section}{\numberline {1}August 26, 2024}{2}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Structures in Abstract Algebra}{2}{subsection.1.1}%
-\contentsline {section}{\numberline {2}August 28, 2024}{3}{section.2}%
-\contentsline {section}{\numberline {3}August 30, 2024}{5}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Sets}{5}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Equivalence relations}{6}{subsection.3.2}%
-\contentsline {section}{\numberline {4}September 4, 2024}{6}{section.4}%
-\contentsline {section}{\numberline {5}September 6, 2024}{7}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Semigroups}{8}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Monoids}{8}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Groups}{8}{subsection.5.3}%
-\contentsline {section}{\numberline {6}September 9, 2024}{10}{section.6}%
-\contentsline {section}{\numberline {7}September 11, 2024}{10}{section.7}%
+\contentsline {section}{\numberline {1}Preliminaries}{2}{section.1}%
+\contentsline {section}{\numberline {2}Introduction to Groups Through Dihedral Groups}{4}{section.2}%
+\contentsline {section}{\numberline {3}Finite Groups and Subgroups}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Subgroup Tests}{6}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Cyclic Groups}{8}{section.4}%
+\contentsline {section}{\numberline {5}Permutation Groups}{10}{section.5}%
+\contentsline {section}{\numberline {6}Isomorphisms}{12}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Automorphisms}{13}{subsection.6.1}%
+\contentsline {section}{\numberline {7}Cosets and Lagrange's Theorem}{14}{section.7}%
+\contentsline {section}{\numberline {8}External Direct Products}{15}{section.8}%
+\contentsline {section}{\numberline {9}Normal Subgroups and Factor Groups}{16}{section.9}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
